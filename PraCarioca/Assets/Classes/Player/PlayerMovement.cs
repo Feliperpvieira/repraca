@@ -14,9 +14,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private CharacterController Controller;
     [Space]
     [SerializeField] private float Speed;
-    [SerializeField] private float Jumpforce;
     [SerializeField] private float Sensitivity;
-    [SerializeField] private float Gravity = -9.81f;
 
     void Update()
     {
@@ -31,22 +29,20 @@ public class PlayerMovement : MonoBehaviour
     {
         Vector3 MoveVector = transform.TransformDirection(PlayerMovementInput);
 
-        if (Controller.isGrounded)
+        if (Input.GetKey(KeyCode.Space))
+        {
+            Velocity.y = 1f;
+        }
+        
+        else if (Input.GetKey(KeyCode.LeftShift))
         {
             Velocity.y = -1f;
-
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                Velocity.y = Jumpforce;
-            }
-        }
-        else
-        {
-            Velocity.y -= Gravity * -2f * Time.deltaTime;
         }
 
         Controller.Move(MoveVector * Speed * Time.deltaTime);
-        Controller.Move(Velocity);
+        Controller.Move(Velocity * Speed * Time.deltaTime);
+
+        Velocity.y = 0f;
     }
     private void MovePlayerCamera()
     {
