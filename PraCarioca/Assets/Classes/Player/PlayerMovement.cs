@@ -47,10 +47,13 @@ public class PlayerMovement : MonoBehaviour
 
     private void MovePlayerCamera()
     {
-        xRot -= PlayerMouseInput.y * Sensitivity;
+        if (Input.GetMouseButton(1)) //só move a camera enquanto segura o botão direito do mouse
+        {
+            xRot -= PlayerMouseInput.y * Sensitivity;
 
-        transform.Rotate(0f, PlayerMouseInput.x * Sensitivity, 0f);
-        PlayerCamera.transform.localRotation = Quaternion.Euler(xRot, 0f, 0f);
+            transform.Rotate(0f, PlayerMouseInput.x * Sensitivity, 0f);
+            PlayerCamera.transform.localRotation = Quaternion.Euler(xRot, 0f, 0f);
+        }
     }
 
 }
