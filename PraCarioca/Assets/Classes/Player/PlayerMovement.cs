@@ -44,6 +44,7 @@ public class PlayerMovement : MonoBehaviour
 
         Velocity.y = 0f;
     }
+
     private void MovePlayerCamera()
     {
         xRot -= PlayerMouseInput.y * Sensitivity;
