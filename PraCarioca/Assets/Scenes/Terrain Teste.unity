@@ -454,25 +454,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 232563253}
   m_CullTransparentMesh: 1
---- !u!1 &249745619 stripped
+--- !u!1 &250072978 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: -5568371526223589888, guid: 289cdf8abe06d43e89a4ffd4d3d8e97c, type: 3}
+  m_CorrespondingSourceObject: {fileID: 1812299610027767340, guid: 289cdf8abe06d43e89a4ffd4d3d8e97c, type: 3}
   m_PrefabInstance: {fileID: 987662082}
   m_PrefabAsset: {fileID: 0}
---- !u!64 &249745623
+--- !u!64 &250072980
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 249745619}
+  m_GameObject: {fileID: 250072978}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 2534964839176971238, guid: 289cdf8abe06d43e89a4ffd4d3d8e97c, type: 3}
+  m_Mesh: {fileID: -8643135062377466549, guid: 289cdf8abe06d43e89a4ffd4d3d8e97c, type: 3}
 --- !u!1 &264403158
 GameObject:
   m_ObjectHideFlags: 0
@@ -667,24 +667,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 392115490}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &410970008 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8513859187771203891, guid: 289cdf8abe06d43e89a4ffd4d3d8e97c, type: 3}
-  m_PrefabInstance: {fileID: 987662082}
-  m_PrefabAsset: {fileID: 0}
---- !u!65 &410970012
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 410970008}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 20.000002, y: 20.000002, z: 0.5}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &532028466
 GameObject:
   m_ObjectHideFlags: 0
@@ -1091,9 +1073,25 @@ PrefabInstance:
       propertyPath: m_TagString
       value: CantPlace
       objectReference: {fileID: 0}
+    - target: {fileID: -4844206193920611574, guid: 289cdf8abe06d43e89a4ffd4d3d8e97c, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ed36492c0e4fd4d9f8646fc71101f07a, type: 2}
+    - target: {fileID: -223171405793649613, guid: 289cdf8abe06d43e89a4ffd4d3d8e97c, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 442a1f3e034074bb2a742adf0963a304, type: 2}
     - target: {fileID: 919132149155446097, guid: 289cdf8abe06d43e89a4ffd4d3d8e97c, type: 3}
       propertyPath: m_Name
       value: praca-barao-terrain-XL
+      objectReference: {fileID: 0}
+    - target: {fileID: 1761043887726428033, guid: 289cdf8abe06d43e89a4ffd4d3d8e97c, type: 3}
+      propertyPath: m_TagString
+      value: CanPlace
+      objectReference: {fileID: 0}
+    - target: {fileID: 1812299610027767340, guid: 289cdf8abe06d43e89a4ffd4d3d8e97c, type: 3}
+      propertyPath: m_TagString
+      value: CantPlace
       objectReference: {fileID: 0}
     - target: {fileID: 7071182760956848314, guid: 289cdf8abe06d43e89a4ffd4d3d8e97c, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -1666,7 +1664,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1590846727}
   m_LocalRotation: {x: 0, y: -0.5735764, z: 0, w: 0.8191521}
-  m_LocalPosition: {x: -160, y: 13.44, z: -35}
+  m_LocalPosition: {x: -160, y: 13.7, z: -35}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1892,6 +1890,25 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!1 &1758896899 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1761043887726428033, guid: 289cdf8abe06d43e89a4ffd4d3d8e97c, type: 3}
+  m_PrefabInstance: {fileID: 987662082}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &1758896901
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1758896899}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -3359030722580378581, guid: 289cdf8abe06d43e89a4ffd4d3d8e97c, type: 3}
 --- !u!1 &1791028548
 GameObject:
   m_ObjectHideFlags: 0
