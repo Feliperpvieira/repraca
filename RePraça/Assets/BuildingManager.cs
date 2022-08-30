@@ -14,16 +14,39 @@ public class BuildingManager : MonoBehaviour
 
     [SerializeField] private LayerMask layerMask;
 
+    public float rotateAmount;
+
+    public float gridSize;
+    bool gridOn = true;
+    [SerializeField] private Toggle gridToggle;
+
 
     void Update()
     {
         if(pendingObject != null) //checa se existe um objeto selecionado
         {
-            pendingObject.transform.position = pos; //movimenta o objeto
+            if (gridOn) //se a grid estiver ligada
+            {
+                //pega a posição de cada coord do mouse e arredonda elas
+                pendingObject.transform.position = new Vector3(
+                    RoundToNearestGrid(pos.x),
+                    RoundToNearestGrid(pos.y),
+                    RoundToNearestGrid(pos.z)
+                    );
+            }
+            else //se a grid estiver desligada move o objeto livremente 
+            {
+                pendingObject.transform.position = pos; //movimenta o objeto
+            }
 
             if (Input.GetMouseButtonDown(0)) //ao clicar
             {
                 PlaceObject(); //coloca
+            }
+
+            if (Input.GetKeyDown(KeyCode.R)) //se apertar a tecla R ele gira o objeto
+            {
+                RotateObject();
             }
         }
     }
@@ -31,6 +54,11 @@ public class BuildingManager : MonoBehaviour
     public void PlaceObject()
     {
         pendingObject = null; //o objeto que estava selecionado não tá selecionado mais
+    }
+
+    public void RotateObject()
+    {
+        pendingObject.transform.Rotate(Vector3.up, rotateAmount); //up -> gira no y, rotateAmount -> variavel definida lá em cima
     }
 
     private void FixedUpdate()
@@ -46,5 +74,31 @@ public class BuildingManager : MonoBehaviour
     public void SelectObject(int index) //seleciona o objeto pelo index dele no array objects
     {
         pendingObject = Instantiate(objects[index], pos, transform.rotation);
+    }
+
+    public void ToggleGrid() //liga desliga a grid
+    {
+        if (gridToggle.isOn)
+        {
+            gridOn = true;
+        }
+        else
+        {
+            gridOn = false;
+        }
+    }
+
+    float RoundToNearestGrid(float pos)
+    {
+        float xDiff = pos % gridSize; //calcula o resto da posição pelo grid size
+
+        //aí subtrai ou soma a posição pela diferença pra colocar a posição no grid mais próximo
+        pos -= xDiff; 
+
+        if(xDiff > (gridSize / 2))
+        {
+            pos += gridSize;
+        }
+        return pos;
     }
 }
