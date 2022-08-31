@@ -13,9 +13,9 @@ public class CheckPlacement : MonoBehaviour
         buildingManager = GameObject.Find("BuildingManager").GetComponent<BuildingManager>();
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
-        //tag que impede de se construir em cima, quando entrar em colisão com o trigger o canPlace vira false
+        //tag que impede de se construir em cima, quando entrar (ou se manter) em um collider com o trigger o canPlace vira false
         if (other.gameObject.CompareTag("CantPlace")) 
         {
             buildingManager.canPlace = false;
