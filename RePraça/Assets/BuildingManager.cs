@@ -7,7 +7,7 @@ public class BuildingManager : MonoBehaviour
 {
 
     public GameObject[] objects; //lista de objetos
-    private GameObject pendingObject; //objeto selecionado
+    public GameObject pendingObject; //objeto selecionado
     
     [SerializeField] private Material[] materialPlacement; //materiais pra indicar por cor se pode ou não colocar um novo objeto ali
 

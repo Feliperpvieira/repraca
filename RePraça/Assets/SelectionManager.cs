@@ -1,16 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class SelectionManager : MonoBehaviour
 {
 
     public GameObject selectedObject; //guarda o objeto que foi selecionado
+    public TextMeshProUGUI objNameText;
+    private BuildingManager buildingManager;
+
+    public GameObject objSelectUI; //pop-up que aparece ao selecionar objeto
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        //coloca o objeto building manager da scene na variavel do codigo
+        buildingManager = GameObject.Find("BuildingManager").GetComponent<BuildingManager>();
     }
 
     // Update is called once per frame
@@ -52,14 +58,29 @@ public class SelectionManager : MonoBehaviour
             outline.enabled = true; //se já tiver outline, muda enabled para true
         }
 
+        objNameText.text = obj.name; //coloca o nome do objeto selecionado no campo de texto do nome da interface
+        objSelectUI.SetActive(true); //faz o pop-up de seleção de objeto aparecer
+
         selectedObject = obj; //iguala a variavel de objeto selecionado ao obj da função select
     }
 
     private void Deselect()
     {
+        objSelectUI.SetActive(false); //faz o pop-up de seleção de objeto sumir
         selectedObject.GetComponent<Outline>().enabled = false; //desativa o outline
 
         selectedObject = null;
     }
 
+    public void Move()
+    {
+        buildingManager.pendingObject = selectedObject;
+    }
+
+    public void Delete()
+    {
+        GameObject objToDestroy = selectedObject;
+        Deselect(); //desseleciona o objeto antes de deletar
+        Destroy(objToDestroy);
+    }
 }
