@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 1534397091519605652}
   m_Layer: 0
   m_Name: Capsule
-  m_TagString: CantPlace
+  m_TagString: Objetos
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
