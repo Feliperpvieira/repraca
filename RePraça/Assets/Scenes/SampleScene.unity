@@ -290,11 +290,16 @@ MonoBehaviour:
   - {fileID: 4110605256858016467, guid: b77269f06e6cf46b388e6577d5ca366c, type: 3}
   - {fileID: 69564053286496953, guid: aa04ab1c3e52c49b88f295a979d589a5, type: 3}
   - {fileID: 3960904225823186338, guid: 82e720211cf4d4a9ba4ddf7275269f30, type: 3}
+  materialPlacement:
+  - {fileID: 2100000, guid: 245ec809b9ffc4279abc34588b9b9a21, type: 2}
+  - {fileID: 2100000, guid: c98669b8efdf2419f9b70484c290e262, type: 2}
+  - {fileID: 2100000, guid: a0afa62969efa438eb300e14d765b6e8, type: 2}
   layerMask:
     serializedVersion: 2
     m_Bits: 8
   rotateAmount: 45
   gridSize: 0.5
+  canPlace: 1
   gridToggle: {fileID: 1581478718}
 --- !u!4 &394526726
 Transform:

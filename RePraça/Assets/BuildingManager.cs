@@ -8,6 +8,8 @@ public class BuildingManager : MonoBehaviour
 
     public GameObject[] objects; //lista de objetos
     private GameObject pendingObject; //objeto selecionado
+    
+    [SerializeField] private Material[] materialPlacement; //materiais pra indicar por cor se pode ou não colocar um novo objeto ali
 
     private Vector3 pos; //posição do obj
     private RaycastHit hit;
@@ -18,6 +20,7 @@ public class BuildingManager : MonoBehaviour
 
     public float gridSize;
     bool gridOn = true;
+    public bool canPlace = true;
     [SerializeField] private Toggle gridToggle;
 
 
@@ -25,6 +28,8 @@ public class BuildingManager : MonoBehaviour
     {
         if(pendingObject != null) //checa se existe um objeto selecionado
         {
+            UpdateMaterials(); //atualiza a cor pra definir se pode ou nao colocar lá
+
             if (gridOn) //se a grid estiver ligada
             {
                 //pega a posição de cada coord do mouse e arredonda elas
@@ -39,7 +44,7 @@ public class BuildingManager : MonoBehaviour
                 pendingObject.transform.position = pos; //movimenta o objeto
             }
 
-            if (Input.GetMouseButtonDown(0)) //ao clicar
+            if (Input.GetMouseButtonDown(0) && canPlace) //se clicar com o botão esquerdo & canPlace for true
             {
                 PlaceObject(); //coloca
             }
@@ -53,6 +58,7 @@ public class BuildingManager : MonoBehaviour
 
     public void PlaceObject()
     {
+        pendingObject.GetComponent<MeshRenderer>().material = materialPlacement[2]; //define a cor final ao posicionar o objeto
         pendingObject = null; //o objeto que estava selecionado não tá selecionado mais
     }
 
@@ -68,6 +74,20 @@ public class BuildingManager : MonoBehaviour
         if(Physics.Raycast(ray, out hit, 1000, layerMask)) //esse 1000 é a distância que ele vai, pode trocar por uma variavel se quiser //layermask vai ser pra impedir que construa coisa sobre coisa
         {
             pos = hit.point; //o point pega o impact point no worldspace, basicamente diz pro jogo onde colocar o objeto
+        }
+    }
+    
+    void UpdateMaterials()
+    {
+        if (canPlace)
+        {
+            //se canPlace for true, coloca o material 0 do array
+            pendingObject.GetComponent<MeshRenderer>().material = materialPlacement[0];
+        }
+        if (!canPlace)
+        {
+            //se for false coloca o material 1
+            pendingObject.GetComponent<MeshRenderer>().material = materialPlacement[1];
         }
     }
 
