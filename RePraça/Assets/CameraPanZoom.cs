@@ -7,6 +7,9 @@ public class CameraPanZoom : MonoBehaviour
     //Esse código: https://kylewbanks.com/blog/unity3d-panning-and-pinch-to-zoom-camera-with-touch-and-mouse-input
     //Outra opção, com rotação: https://forum.unity.com/threads/mobile-touch-to-orbit-pan-and-zoom-camera-without-fix-target-in-one-script.522607/
 
+    //float offsetX;
+    //float offsetY;
+
     private static readonly float PanSpeed = 20f;
     private static readonly float ZoomSpeedTouch = 0.1f;
     private static readonly float ZoomSpeedMouse = 0.5f;
@@ -113,6 +116,30 @@ public class CameraPanZoom : MonoBehaviour
         Vector3 offset = cam.ScreenToViewportPoint(lastPanPosition - newPanPosition);
         Vector3 move = new Vector3(offset.x * PanSpeed, 0, offset.y * PanSpeed);
 
+        //Tentativa de fazer ele mover pra direita ao colocar dedo na direita, etc
+        //offsetX = 0;
+        //offsetY = 0;
+        
+        //if (newPanPosition.x > Screen.width * 0.8)
+        //{
+        //    offsetX = (Screen.width * 0.8f - newPanPosition.x) * -1 / 10000;
+        //}
+        //else if(newPanPosition.x < Screen.width * 0.2)
+        //{
+        //    offsetX = (Screen.width * 0.2f - newPanPosition.x) * -1 / 10000;
+        //}
+
+        //if (newPanPosition.y > Screen.height * 0.8)
+        //{
+        //    offsetY = .0003f;
+        //}
+        //else if (newPanPosition.y < Screen.height * 0.2)
+        //{
+        //    offsetY = -.0003f;
+        //}
+        //Vector3 move = new Vector3(offsetX, 0 , offsetY * PanSpeed);
+        //Debug.Log(move);
+        
         // Perform the movement
         transform.Translate(move, Space.World);
 
