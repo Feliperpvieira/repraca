@@ -12,7 +12,7 @@ public class CameraPanZoom : MonoBehaviour
     private static readonly float ZoomSpeedMouse = 0.5f;
 
     private static readonly float[] BoundsX = new float[] { -10f, 5f };
-    private static readonly float[] BoundsZ = new float[] { -18f, -4f };
+    private static readonly float[] BoundsZ = new float[] { -8f, 2f };
     private static readonly float[] ZoomBounds = new float[] { 10f, 85f };
 
     private Camera cam;
