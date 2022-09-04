@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.EventSystems;
 
 public class SelectionManager : MonoBehaviour
 {
@@ -31,7 +32,18 @@ public class SelectionManager : MonoBehaviour
             {
                 if (hit.collider.gameObject.CompareTag("Objetos")) //e o objeto tiver a tag objetos
                 {
-                    Select(hit.collider.gameObject); //seleciona o objeto
+                    if (Input.touchSupported && Application.platform != RuntimePlatform.WebGLPlayer) //se for uma plataforma com touch
+                    {
+                        if (!EventSystem.current.IsPointerOverGameObject(Input.touches[0].fingerId)) //se nao estiver touch em algo da UI sobre o objeto
+                        {
+                            Select(hit.collider.gameObject); //seleciona o objeto
+                        }
+                    }
+                    else if (!EventSystem.current.IsPointerOverGameObject()) //plataformas de mouse, se nao estiver com o mouse sobre a UI
+                    {
+                        Select(hit.collider.gameObject); //seleciona o objeto
+                    }
+                    
                 }
             }
         }

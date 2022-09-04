@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class BuildingManager : MonoBehaviour
@@ -30,29 +31,45 @@ public class BuildingManager : MonoBehaviour
         {
             UpdateMaterials(); //atualiza a cor pra definir se pode ou nao colocar lá
 
-            if (gridOn) //se a grid estiver ligada
+            if (Input.touchSupported && Application.platform != RuntimePlatform.WebGLPlayer) //se for uma plataforma com touchscreen
             {
-                //pega a posição de cada coord do mouse e arredonda elas
-                pendingObject.transform.position = new Vector3(
-                    RoundToNearestGrid(pos.x),
-                    RoundToNearestGrid(pos.y),
-                    RoundToNearestGrid(pos.z)
-                    );
-            }
-            else //se a grid estiver desligada move o objeto livremente 
+                if (!EventSystem.current.IsPointerOverGameObject(Input.touches[0].fingerId)) //checa se o toque esta batendo em um botao
+                {
+                    MoveObjectOnMap(); //se NAO estiver tocando num botao atualiza a posicao do objeto no mapa
+                }
+            
+            }else if (!EventSystem.current.IsPointerOverGameObject()) //else se estiver no pc usa o ponteiro do mouse
             {
-                pendingObject.transform.position = pos; //movimenta o objeto
+                MoveObjectOnMap(); //se o ponteiro do mouse NAO estiver sobre um botao atualiza a posicao do objeto no mapa
             }
 
-            if (Input.GetMouseButtonDown(0) && canPlace) //se clicar com o botão esquerdo & canPlace for true
-            {
-                PlaceObject(); //coloca
-            }
+            //DESLIGADA pq a função passou de clicar com o mouse pra apertar um botão na tela
+            //if (Input.GetMouseButtonDown(0) && canPlace) //se clicar com o botão esquerdo & canPlace for true
+            //{
+            //    PlaceObject();
+            //}
 
             if (Input.GetKeyDown(KeyCode.R)) //se apertar a tecla R ele gira o objeto
             {
                 RotateObject();
             }
+        }
+    }
+
+    void MoveObjectOnMap()
+    {
+        if (gridOn) //se a grid estiver ligada
+        {
+            //pega a posição de cada coord do mouse e arredonda elas
+            pendingObject.transform.position = new Vector3(
+                RoundToNearestGrid(pos.x),
+                RoundToNearestGrid(pos.y),
+                RoundToNearestGrid(pos.z)
+                );
+        }
+        else //se a grid estiver desligada move o objeto livremente 
+        {
+            pendingObject.transform.position = pos; //movimenta o objeto
         }
     }
 
@@ -94,6 +111,7 @@ public class BuildingManager : MonoBehaviour
     public void SelectObject(int index) //seleciona o objeto pelo index dele no array objects
     {
         pendingObject = Instantiate(objects[index], pos, transform.rotation);
+        //materialPlacement[2] = pendingObject.GetComponent<MeshRenderer>().material; //coloca o material original do objeto como o usado pós posicionar
     }
 
     public void ToggleGrid() //liga desliga a grid
