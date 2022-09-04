@@ -111,6 +111,7 @@ public class BuildingManager : MonoBehaviour
     public void SelectObject(int index) //seleciona o objeto pelo index dele no array objects
     {
         pendingObject = Instantiate(objects[index], pos, transform.rotation);
+        pendingObject.name = objects[index].name;
         //materialPlacement[2] = pendingObject.GetComponent<MeshRenderer>().material; //coloca o material original do objeto como o usado pós posicionar
     }
 
