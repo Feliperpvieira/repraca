@@ -43,11 +43,10 @@ public class BuildingManager : MonoBehaviour
                 MoveObjectOnMap(); //se o ponteiro do mouse NAO estiver sobre um botao atualiza a posicao do objeto no mapa
             }
 
-            //DESLIGADA pq a função passou de clicar com o mouse pra apertar um botão na tela
-            //if (Input.GetMouseButtonDown(0) && canPlace) //se clicar com o botão esquerdo & canPlace for true
-            //{
-            //    PlaceObject();
-            //}
+            if (Input.GetKeyDown(KeyCode.P) && canPlace) //se apertar P & canPlace for true
+            {
+                PlaceObject();
+            }
 
             if (Input.GetKeyDown(KeyCode.R)) //se apertar a tecla R ele gira o objeto
             {
