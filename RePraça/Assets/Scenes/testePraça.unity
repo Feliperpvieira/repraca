@@ -442,7 +442,7 @@ MonoBehaviour:
   objects:
   - {fileID: 1612180851384974472, guid: 498064b2830694904909eefea96fe951, type: 3}
   - {fileID: 2000082659668512613, guid: 694a9413e2f8c46b0a4e34fd738b55a5, type: 3}
-  - {fileID: 4110605256858016467, guid: b77269f06e6cf46b388e6577d5ca366c, type: 3}
+  - {fileID: 2546098574035190404, guid: 54c69b750bbfc4a6bbc27544d9a463dd, type: 3}
   pendingObject: {fileID: 0}
   materialPlacement:
   - {fileID: 2100000, guid: 245ec809b9ffc4279abc34588b9b9a21, type: 2}
