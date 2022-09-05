@@ -112,7 +112,7 @@ public class BuildingManager : MonoBehaviour
     {
         pendingObject = Instantiate(objects[index], pos, transform.rotation);
         pendingObject.name = objects[index].name;
-        //materialPlacement[2] = pendingObject.GetComponent<MeshRenderer>().material; //coloca o material original do objeto como o usado pós posicionar
+        materialPlacement[2] = pendingObject.GetComponent<MeshRenderer>().material; //coloca o material original do objeto como o usado pós posicionar
     }
 
     public void ToggleGrid() //liga desliga a grid
