@@ -26,21 +26,35 @@ public class CameraPanZoom : MonoBehaviour
     private bool wasZoomingLastFrame; // Touch mode only
     private Vector2[] lastZoomPositions; // Touch mode only
 
+
+    private BuildingManager buildingManager;
+
     void Awake()
     {
         cam = GetComponent<Camera>();
     }
 
+    void Start()
+    {
+        //coloca o objeto building manager da scene na variavel do codigo
+        //vai servir pra pegar coisas do codigo do building manager pra cá
+        buildingManager = GameObject.Find("BuildingManager").GetComponent<BuildingManager>();
+    }
+
     void Update()
     {
-        if (Input.touchSupported && Application.platform != RuntimePlatform.WebGLPlayer)
+        if(buildingManager.pendingObject == null)
         {
-            HandleTouch();
+            if (Input.touchSupported && Application.platform != RuntimePlatform.WebGLPlayer)
+            {
+                HandleTouch();
+            }
+            else
+            {
+                HandleMouse();
+            }
         }
-        else
-        {
-            HandleMouse();
-        }
+        
     }
 
     void HandleTouch()
