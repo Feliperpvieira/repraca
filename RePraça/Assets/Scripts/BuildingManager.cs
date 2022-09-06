@@ -24,6 +24,13 @@ public class BuildingManager : MonoBehaviour
     public bool canPlace = true;
     [SerializeField] private Toggle gridToggle;
 
+    private SelectionManager selectionManager;
+
+    void Start()
+    {
+        //coloca o objeto SelectManager da scene na variavel do codigo
+        selectionManager = GameObject.Find("SelectManager").GetComponent<SelectionManager>();
+    }
 
     void Update()
     {
@@ -74,7 +81,8 @@ public class BuildingManager : MonoBehaviour
 
     public void PlaceObject()
     {
-        pendingObject.GetComponent<MeshRenderer>().material = materialPlacement[2]; //define a cor final ao posicionar o objeto
+        //pendingObject.GetComponent<MeshRenderer>().material = materialPlacement[2]; //define a cor final ao posicionar o objeto
+        selectionManager.Deselect();
         pendingObject = null; //o objeto que estava selecionado não tá selecionado mais
     }
 
@@ -95,15 +103,18 @@ public class BuildingManager : MonoBehaviour
     
     void UpdateMaterials()
     {
+        Outline outline = pendingObject.GetComponent<Outline>();
         if (canPlace)
         {
             //se canPlace for true, coloca o material 0 do array
-            pendingObject.GetComponent<MeshRenderer>().material = materialPlacement[0];
+            //pendingObject.GetComponent<MeshRenderer>().material = materialPlacement[0];
+            outline.OutlineColor = Color.green;
         }
         if (!canPlace)
         {
             //se for false coloca o material 1
-            pendingObject.GetComponent<MeshRenderer>().material = materialPlacement[1];
+            //pendingObject.GetComponent<MeshRenderer>().material = materialPlacement[1];
+            outline.OutlineColor = Color.red;
         }
     }
 
@@ -111,7 +122,14 @@ public class BuildingManager : MonoBehaviour
     {
         pendingObject = Instantiate(objects[index], pos, transform.rotation);
         pendingObject.name = objects[index].name;
-        materialPlacement[2] = pendingObject.GetComponent<MeshRenderer>().material; //coloca o material original do objeto como o usado pós posicionar
+
+        selectionManager.Select(pendingObject);
+        //pendingObject.AddComponent<Outline>(); //não precisa mais adicionar o outline pq ele é adicionado no Select()
+        Outline outline = pendingObject.GetComponent<Outline>();
+        outline.OutlineColor = Color.green;
+        outline.OutlineWidth = 5f;
+
+        //materialPlacement[2] = pendingObject.GetComponent<MeshRenderer>().material; //coloca o material original do objeto como o usado pós posicionar - foi substituido pelo outline
     }
 
     public void ToggleGrid() //liga desliga a grid

@@ -54,7 +54,7 @@ public class SelectionManager : MonoBehaviour
         }
     }
 
-    private void Select(GameObject obj)
+    public void Select(GameObject obj)
     {
         if (obj == selectedObject) return; //se o objeto selecionado for o que já ta selecionado ele retorna
         if (selectedObject != null) Deselect(); //se clicar em outro objeto ele vai desselecionar o que você tem atualmente
@@ -68,6 +68,7 @@ public class SelectionManager : MonoBehaviour
         else
         {
             outline.enabled = true; //se já tiver outline, muda enabled para true
+            outline.OutlineColor = Color.white;
         }
 
         objNameText.text = obj.name; //coloca o nome do objeto selecionado no campo de texto do nome da interface
@@ -76,7 +77,7 @@ public class SelectionManager : MonoBehaviour
         selectedObject = obj; //iguala a variavel de objeto selecionado ao obj da função select
     }
 
-    private void Deselect()
+    public void Deselect()
     {
         objSelectUI.SetActive(false); //faz o pop-up de seleção de objeto sumir
         selectedObject.GetComponent<Outline>().enabled = false; //desativa o outline
