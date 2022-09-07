@@ -12,6 +12,7 @@ public class SelectionManager : MonoBehaviour
     private BuildingManager buildingManager;
 
     public GameObject objSelectUI; //pop-up que aparece ao selecionar objeto
+    public GameObject editObjPanel;
 
     // Start is called before the first frame update
     void Start()
@@ -34,7 +35,7 @@ public class SelectionManager : MonoBehaviour
                 {
                     if (Input.touchSupported && Application.platform != RuntimePlatform.WebGLPlayer) //se for uma plataforma com touch
                     {
-                        if (Input.GetTouch(0).phase == TouchPhase.Began && !EventSystem.current.IsPointerOverGameObject(Input.touches[0].fingerId)) //se nao estiver touch em algo da UI sobre o objeto
+                        if (!EventSystem.current.IsPointerOverGameObject(Input.touches[0].fingerId)) //se nao estiver touch em algo da UI sobre o objeto
                         {
                             Select(hit.collider.gameObject); //seleciona o objeto
                         }
@@ -73,6 +74,7 @@ public class SelectionManager : MonoBehaviour
 
         objNameText.text = obj.name; //coloca o nome do objeto selecionado no campo de texto do nome da interface
         objSelectUI.SetActive(true); //faz o pop-up de seleção de objeto aparecer
+        //editObjPanel.SetActive(true);
 
         selectedObject = obj; //iguala a variavel de objeto selecionado ao obj da função select
     }
@@ -80,6 +82,7 @@ public class SelectionManager : MonoBehaviour
     public void Deselect()
     {
         objSelectUI.SetActive(false); //faz o pop-up de seleção de objeto sumir
+        //editObjPanel.SetActive(false);
         selectedObject.GetComponent<Outline>().enabled = false; //desativa o outline
 
         selectedObject = null;

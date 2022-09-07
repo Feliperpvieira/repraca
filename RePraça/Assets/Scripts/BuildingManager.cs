@@ -40,7 +40,7 @@ public class BuildingManager : MonoBehaviour
 
             if (Input.touchSupported && Application.platform != RuntimePlatform.WebGLPlayer) //se for uma plataforma com touchscreen
             {
-                if (Input.GetTouch(0).phase == TouchPhase.Began && !EventSystem.current.IsPointerOverGameObject(Input.touches[0].fingerId)) //checa se o toque esta batendo em um botao
+                if (!EventSystem.current.IsPointerOverGameObject(Input.touches[0].fingerId) && Input.GetTouch(0).phase != TouchPhase.Ended) //checa se o toque esta batendo em um botao
                 {
                     MoveObjectOnMap(); //se NAO estiver tocando num botao atualiza a posicao do objeto no mapa
                 }
@@ -79,14 +79,22 @@ public class BuildingManager : MonoBehaviour
         {
             pendingObject.transform.position = pos; //movimenta o objeto
         }
+        //selectionManager.editObjPanel.gameObject.transform.position = new Vector3(
+        //    pendingObject.transform.position.x + (pendingObject.GetComponent<Renderer>().bounds.size.x / 2),
+        //    0,
+        //    pendingObject.transform.position.z - (pendingObject.GetComponent<Renderer>().bounds.size.z / 2)
+        //    );
     }
 
     public void PlaceObject()
     {
         //pendingObject.GetComponent<MeshRenderer>().material = materialPlacement[2]; //define a cor final ao posicionar o objeto
+        if (canPlace)
+        {
+            pendingObject = null; //o objeto que estava selecionado não tá selecionado mais
+            selectionManager.Deselect();
+        }
         
-        pendingObject = null; //o objeto que estava selecionado não tá selecionado mais
-        selectionManager.Deselect();
     }
 
     public void RotateObject()
