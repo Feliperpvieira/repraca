@@ -80,10 +80,10 @@ public class SelectionManager : MonoBehaviour
 
         selectedObject = obj; //iguala a variavel de objeto selecionado ao obj da função select
 
-        if(buildingManager.pendingObject == null)
+        if(buildingManager.pendingObject == null) //ativa os botões pra mover e deselecionar quando o objeto não estiver sendo movido
         {
             botaoMoverObj.interactable = true;
-            deselectObj.interactable = true; //ativa o botão de deselecionar
+            deselectObj.interactable = true;
         }
         
     }
@@ -100,7 +100,7 @@ public class SelectionManager : MonoBehaviour
     {
         buildingManager.pendingObject = selectedObject;
 
-        //desativa os botões de mover e deselecionar quando vai mover o objeto
+        //desativa os botões de mover e deselecionar quando o objeto estiver se movendo
         botaoMoverObj.interactable = false;
         deselectObj.interactable = false;
     }
