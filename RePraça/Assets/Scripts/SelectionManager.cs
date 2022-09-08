@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class SelectionManager : MonoBehaviour
 {
@@ -12,7 +13,9 @@ public class SelectionManager : MonoBehaviour
     private BuildingManager buildingManager;
 
     public GameObject objSelectUI; //pop-up que aparece ao selecionar objeto
-    public GameObject editObjPanel;
+    public Button botaoMoverObj;
+    public CanvasGroup editObjSelect;
+    public Button deselectObj;
 
     // Start is called before the first frame update
     void Start()
@@ -74,15 +77,20 @@ public class SelectionManager : MonoBehaviour
 
         objNameText.text = obj.name; //coloca o nome do objeto selecionado no campo de texto do nome da interface
         objSelectUI.SetActive(true); //faz o pop-up de seleção de objeto aparecer
-        //editObjPanel.SetActive(true);
 
         selectedObject = obj; //iguala a variavel de objeto selecionado ao obj da função select
+
+        if(buildingManager.pendingObject == null)
+        {
+            botaoMoverObj.interactable = true;
+            deselectObj.interactable = true; //ativa o botão de deselecionar
+        }
+        
     }
 
     public void Deselect()
     {
         objSelectUI.SetActive(false); //faz o pop-up de seleção de objeto sumir
-        //editObjPanel.SetActive(false);
         selectedObject.GetComponent<Outline>().enabled = false; //desativa o outline
 
         selectedObject = null;
@@ -91,6 +99,10 @@ public class SelectionManager : MonoBehaviour
     public void Move()
     {
         buildingManager.pendingObject = selectedObject;
+
+        //desativa os botões de mover e deselecionar quando vai mover o objeto
+        botaoMoverObj.interactable = false;
+        deselectObj.interactable = false;
     }
 
     public void Delete()

@@ -38,6 +38,8 @@ public class BuildingManager : MonoBehaviour
         if(pendingObject != null) //checa se existe um objeto selecionado
         {
             painelBtnObjetos.interactable = false; //desativa os botões de adicionar objetos
+            selectionManager.editObjSelect.interactable = true; //desativa os botoes de girar e posicionar
+
             UpdateMaterials(); //atualiza a cor pra definir se pode ou nao colocar lá
 
             if (Input.touchSupported && Application.platform != RuntimePlatform.WebGLPlayer) //se for uma plataforma com touchscreen
@@ -65,6 +67,7 @@ public class BuildingManager : MonoBehaviour
         else if(pendingObject == null)
         {
             painelBtnObjetos.interactable = true; //reativa os botoes pra adicionar objetos
+            selectionManager.editObjSelect.interactable = false; //reativa os botoes de girar e posicionar
         }
     }
 
@@ -85,11 +88,6 @@ public class BuildingManager : MonoBehaviour
         {
             pendingObject.transform.position = pos; //movimenta o objeto
         }
-        //selectionManager.editObjPanel.gameObject.transform.position = new Vector3(
-        //    pendingObject.transform.position.x - (pendingObject.GetComponent<Renderer>().bounds.size.x / 2),
-        //    0,
-        //    pendingObject.transform.position.z + (pendingObject.GetComponent<Renderer>().bounds.size.z / 2)
-        //    );
     }
 
     public void PlaceObject()
