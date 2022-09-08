@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 7772229598687345955}
   - component: {fileID: 5492270510095583721}
   - component: {fileID: 8242443261884649718}
-  - component: {fileID: 3786076108369305517}
   - component: {fileID: 5848181851528521051}
+  - component: {fileID: 5024561761801153371}
   m_Layer: 0
   m_Name: Banco
   m_TagString: Objetos
@@ -103,19 +103,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &3786076108369305517
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6284925690302588988}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.013401608, y: 0.005016182, z: 0.0033442513}
-  m_Center: {x: 0.0000054491684, y: 0.002208091, z: 9.313226e-10}
 --- !u!114 &5848181851528521051
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -128,3 +115,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66f930315bdaa44758cc4e86574d0944, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!64 &5024561761801153371
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6284925690302588988}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -1550514412580984892, guid: 425e88c6d10c4479ab886bcba5240c83, type: 3}

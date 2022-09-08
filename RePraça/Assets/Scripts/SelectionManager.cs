@@ -52,9 +52,22 @@ public class SelectionManager : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButtonDown(1) && selectedObject != null)
+        if (Input.GetKeyDown(KeyCode.Escape) && selectedObject != null)
         {
             Deselect();
+        }
+
+        if (buildingManager.pendingObject == null) //ativa os botões pra mover e deselecionar quando o objeto não estiver sendo movido
+        {
+            botaoMoverObj.interactable = true;
+            deselectObj.interactable = true;
+            editObjSelect.interactable = false; //desativa os botoes de girar e posicionar
+        }
+        else if (buildingManager.pendingObject != null)
+        {
+            botaoMoverObj.interactable = false;
+            deselectObj.interactable = false;
+            editObjSelect.interactable = true; //reativa os botoes de girar e posicionar
         }
     }
 
@@ -78,14 +91,7 @@ public class SelectionManager : MonoBehaviour
         objNameText.text = obj.name; //coloca o nome do objeto selecionado no campo de texto do nome da interface
         objSelectUI.SetActive(true); //faz o pop-up de seleção de objeto aparecer
 
-        selectedObject = obj; //iguala a variavel de objeto selecionado ao obj da função select
-
-        if(buildingManager.pendingObject == null) //ativa os botões pra mover e deselecionar quando o objeto não estiver sendo movido
-        {
-            botaoMoverObj.interactable = true;
-            deselectObj.interactable = true;
-        }
-        
+        selectedObject = obj; //iguala a variavel de objeto selecionado ao obj da função select        
     }
 
     public void Deselect()
@@ -99,10 +105,6 @@ public class SelectionManager : MonoBehaviour
     public void Move()
     {
         buildingManager.pendingObject = selectedObject;
-
-        //desativa os botões de mover e deselecionar quando o objeto estiver se movendo
-        botaoMoverObj.interactable = false;
-        deselectObj.interactable = false;
     }
 
     public void Delete()

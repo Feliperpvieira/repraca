@@ -38,7 +38,6 @@ public class BuildingManager : MonoBehaviour
         if(pendingObject != null) //checa se existe um objeto selecionado
         {
             painelBtnObjetos.interactable = false; //desativa os botões de adicionar objetos
-            selectionManager.editObjSelect.interactable = true; //desativa os botoes de girar e posicionar
 
             UpdateMaterials(); //atualiza a cor pra definir se pode ou nao colocar lá
 
@@ -67,7 +66,6 @@ public class BuildingManager : MonoBehaviour
         else if(pendingObject == null)
         {
             painelBtnObjetos.interactable = true; //reativa os botoes pra adicionar objetos
-            selectionManager.editObjSelect.interactable = false; //reativa os botoes de girar e posicionar
         }
     }
 
