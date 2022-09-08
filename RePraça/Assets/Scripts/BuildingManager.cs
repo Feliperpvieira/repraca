@@ -86,9 +86,9 @@ public class BuildingManager : MonoBehaviour
             pendingObject.transform.position = pos; //movimenta o objeto
         }
         //selectionManager.editObjPanel.gameObject.transform.position = new Vector3(
-        //    pendingObject.transform.position.x + (pendingObject.GetComponent<Renderer>().bounds.size.x / 2),
+        //    pendingObject.transform.position.x - (pendingObject.GetComponent<Renderer>().bounds.size.x / 2),
         //    0,
-        //    pendingObject.transform.position.z - (pendingObject.GetComponent<Renderer>().bounds.size.z / 2)
+        //    pendingObject.transform.position.z + (pendingObject.GetComponent<Renderer>().bounds.size.z / 2)
         //    );
     }
 
