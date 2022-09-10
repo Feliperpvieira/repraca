@@ -78,7 +78,8 @@ public class BuildingManager : MonoBehaviour
             //pega a posição de cada coord do mouse e arredonda elas
             pendingObject.transform.position = new Vector3(
                 RoundToNearestGrid(pos.x),
-                RoundToNearestGrid(pos.y),
+                //RoundToNearestGrid(pos.y),
+                pos.y,
                 RoundToNearestGrid(pos.z)
                 );
         }
