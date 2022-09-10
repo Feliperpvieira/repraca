@@ -21,7 +21,7 @@ public class BuildingManager : MonoBehaviour
     public float rotateAmount;
 
     public float gridSize;
-    bool gridOn = true;
+    bool gridOn;
     public bool canPlace = true;
     [SerializeField] private Toggle gridToggle;
 
