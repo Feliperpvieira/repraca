@@ -7,8 +7,9 @@ public class CameraPanZoom : MonoBehaviour
     //Esse código: https://kylewbanks.com/blog/unity3d-panning-and-pinch-to-zoom-camera-with-touch-and-mouse-input
     //Outra opção, com rotação: https://forum.unity.com/threads/mobile-touch-to-orbit-pan-and-zoom-camera-without-fix-target-in-one-script.522607/
 
-    //float offsetX;
-    //float offsetY;
+    float offsetX;
+    float offsetY;
+    Vector3 move;
 
     private static readonly float PanSpeed = 20f;
     private static readonly float ZoomSpeedTouch = 0.1f;
@@ -43,17 +44,16 @@ public class CameraPanZoom : MonoBehaviour
 
     void Update()
     {
-        if(buildingManager.pendingObject == null)
+        
+        if (Input.touchSupported && Application.platform != RuntimePlatform.WebGLPlayer)
         {
-            if (Input.touchSupported && Application.platform != RuntimePlatform.WebGLPlayer)
-            {
-                HandleTouch();
-            }
-            else
-            {
-                HandleMouse();
-            }
+            HandleTouch();
         }
+        else
+        {
+            HandleMouse();
+        }
+       
         
     }
 
@@ -73,7 +73,7 @@ public class CameraPanZoom : MonoBehaviour
                     lastPanPosition = touch.position;
                     panFingerId = touch.fingerId;
                 }
-                else if (touch.fingerId == panFingerId && touch.phase == TouchPhase.Moved)
+                else if (touch.fingerId == panFingerId) //REMOVIDO: && touch.phase == TouchPhase.Moved
                 {
                     PanCamera(touch.position);
                 }
@@ -126,34 +126,61 @@ public class CameraPanZoom : MonoBehaviour
 
     void PanCamera(Vector3 newPanPosition)
     {
-        // Determine how much to move the camera
-        Vector3 offset = cam.ScreenToViewportPoint(lastPanPosition - newPanPosition);
-        Vector3 move = new Vector3(offset.x * PanSpeed, 0, offset.y * PanSpeed);
+        //Se NÃO estiver movendo nenhum objeto, move a câmera pelo arrastar de dedo normal na cena
+        if (buildingManager.pendingObject == null)
+        {
+            // Determine how much to move the camera
+            Vector3 offset = cam.ScreenToViewportPoint(lastPanPosition - newPanPosition);
+            move = new Vector3(offset.x * PanSpeed, 0, offset.y * PanSpeed);
 
-        //Tentativa de fazer ele mover pra direita ao colocar dedo na direita, etc
-        //offsetX = 0;
-        //offsetY = 0;
-        
-        //if (newPanPosition.x > Screen.width * 0.8)
-        //{
-        //    offsetX = (Screen.width * 0.8f - newPanPosition.x) * -1 / 10000;
-        //}
-        //else if(newPanPosition.x < Screen.width * 0.2)
-        //{
-        //    offsetX = (Screen.width * 0.2f - newPanPosition.x) * -1 / 10000;
-        //}
+        }
+        //se estiver movendo algum objeto, move a câmera pelo lado da tela que o dedo estiver 
+        else if(buildingManager.pendingObject != null)
+        {
+            //reseta pra 0 a movimentação de cada axis a cada frame
+            offsetX = 0;
+            offsetY = 0;
 
-        //if (newPanPosition.y > Screen.height * 0.8)
-        //{
-        //    offsetY = .0003f;
-        //}
-        //else if (newPanPosition.y < Screen.height * 0.2)
-        //{
-        //    offsetY = -.0003f;
-        //}
-        //Vector3 move = new Vector3(offsetX, 0 , offsetY * PanSpeed);
-        //Debug.Log(move);
-        
+            //Direita
+            if (newPanPosition.x > Screen.width * 0.9)
+            {
+                offsetX = 4f * Time.deltaTime;
+            }
+            else if (newPanPosition.x > Screen.width * 0.8)
+            {
+                offsetX = 2f * Time.deltaTime;
+            }
+            //Esquerda
+            if (newPanPosition.x < Screen.width * 0.1)
+            {
+                offsetX = -4f * Time.deltaTime;
+            }
+            else if (newPanPosition.x < Screen.width * 0.2)
+            {
+                offsetX = -2f * Time.deltaTime;
+            }
+            //Cima
+            if (newPanPosition.y > Screen.height * 0.85)
+            {
+                offsetY = 4f * Time.deltaTime;
+            }
+            else if (newPanPosition.y > Screen.height * 0.7)
+            {
+                offsetY = 2f * Time.deltaTime;
+            }
+            //Baixo
+            if (newPanPosition.y < Screen.height * 0.15)
+            {
+                offsetY = -4f * Time.deltaTime;
+            }
+            else if (newPanPosition.y < Screen.height * 0.3)
+            {
+                offsetY = -2f * Time.deltaTime;
+            }
+
+            move = new Vector3(offsetX, 0, offsetY);
+        }
+
         // Perform the movement
         transform.Translate(move, Space.World);
 
