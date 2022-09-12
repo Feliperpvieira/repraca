@@ -160,20 +160,20 @@ public class CameraPanZoom : MonoBehaviour
                 offsetX = -2f * Time.deltaTime;
             }
             //Cima
-            if (newPanPosition.y > Screen.height * 0.85)
+            if (newPanPosition.y > Screen.height * 0.9)
             {
                 offsetY = 4f * Time.deltaTime;
             }
-            else if (newPanPosition.y > Screen.height * 0.7)
+            else if (newPanPosition.y > Screen.height * 0.75)
             {
                 offsetY = 2f * Time.deltaTime;
             }
             //Baixo
-            if (newPanPosition.y < Screen.height * 0.15)
+            if (newPanPosition.y < Screen.height * 0.1)
             {
                 offsetY = -4f * Time.deltaTime;
             }
-            else if (newPanPosition.y < Screen.height * 0.3)
+            else if (newPanPosition.y < Screen.height * 0.25)
             {
                 offsetY = -2f * Time.deltaTime;
             }
