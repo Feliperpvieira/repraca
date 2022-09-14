@@ -110,6 +110,7 @@ public class SelectionManager : MonoBehaviour
     public void Delete()
     {
         GameObject objToDestroy = selectedObject;
+        buildingManager.objetosPosicionados.Remove(objToDestroy.name);
         Deselect(); //desseleciona o objeto antes de deletar
         Destroy(objToDestroy);
     }

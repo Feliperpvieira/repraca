@@ -27,6 +27,8 @@ public class BuildingManager : MonoBehaviour
 
     private SelectionManager selectionManager;
 
+    public List<string> objetosPosicionados = new List<string>();
+
     void Start()
     {
         //coloca o objeto SelectManager da scene na variavel do codigo
@@ -94,6 +96,8 @@ public class BuildingManager : MonoBehaviour
         //pendingObject.GetComponent<MeshRenderer>().material = materialPlacement[2]; //define a cor final ao posicionar o objeto
         if (canPlace)
         {
+            objetosPosicionados.Add(pendingObject.name);
+            
             pendingObject = null; //o objeto que estava selecionado não tá selecionado mais
             selectionManager.Deselect();
         }
@@ -136,7 +140,7 @@ public class BuildingManager : MonoBehaviour
     {
         pendingObject = Instantiate(objects[index], pos, transform.rotation);
         pendingObject.name = objects[index].name;
-
+        
         selectionManager.Select(pendingObject);
         //pendingObject.AddComponent<Outline>(); //não precisa mais adicionar o outline pq ele é adicionado no Select()
         Outline outline = pendingObject.GetComponent<Outline>();
