@@ -13,8 +13,8 @@ public class SelectionManager : MonoBehaviour
     private BuildingManager buildingManager;
 
     public GameObject objSelectUI; //pop-up que aparece ao selecionar objeto
-    public Button botaoMoverObj;
-    public CanvasGroup editObjSelect;
+    //public Button botaoMoverObj;
+    public GameObject editObjSelect;
     public Button deselectObj;
 
     // Start is called before the first frame update
@@ -59,15 +59,15 @@ public class SelectionManager : MonoBehaviour
 
         if (buildingManager.pendingObject == null) //ativa os botões pra mover e deselecionar quando o objeto não estiver sendo movido
         {
-            botaoMoverObj.interactable = true;
+            //botaoMoverObj.interactable = true;
             deselectObj.interactable = true;
-            editObjSelect.interactable = false; //desativa os botoes de girar e posicionar
+            editObjSelect.SetActive(false); //desativa os botoes de girar e posicionar
         }
         else if (buildingManager.pendingObject != null)
         {
-            botaoMoverObj.interactable = false;
+            //botaoMoverObj.interactable = false;
             deselectObj.interactable = false;
-            editObjSelect.interactable = true; //reativa os botoes de girar e posicionar
+            editObjSelect.SetActive(true); //reativa os botoes de girar e posicionar
         }
     }
 
@@ -89,7 +89,11 @@ public class SelectionManager : MonoBehaviour
         }
 
         objNameText.text = obj.name; //coloca o nome do objeto selecionado no campo de texto do nome da interface
-        objSelectUI.SetActive(true); //faz o pop-up de seleção de objeto aparecer
+
+       if(buildingManager.pendingObject == null)
+        {
+            objSelectUI.SetActive(true); //faz o pop-up de seleção de objeto aparecer
+        }
 
         selectedObject = obj; //iguala a variavel de objeto selecionado ao obj da função select        
     }
@@ -105,6 +109,7 @@ public class SelectionManager : MonoBehaviour
     public void Move()
     {
         buildingManager.pendingObject = selectedObject;
+        objSelectUI.SetActive(false);
     }
 
     public void Delete()
