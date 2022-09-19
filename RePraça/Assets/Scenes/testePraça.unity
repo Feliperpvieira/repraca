@@ -4307,7 +4307,7 @@ PrefabInstance:
     - target: {fileID: -223171405793649613, guid: a9dffcf701237428fac6d33d4cd6b70c, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: f680b06bdef2a4f64b753ba870ed77a6, type: 2}
+      objectReference: {fileID: -8218239305548441536, guid: a9dffcf701237428fac6d33d4cd6b70c, type: 3}
     - target: {fileID: 919132149155446097, guid: a9dffcf701237428fac6d33d4cd6b70c, type: 3}
       propertyPath: m_Name
       value: praca-barao-terrain-XL
@@ -4326,7 +4326,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1812299610027767340, guid: a9dffcf701237428fac6d33d4cd6b70c, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2883578680821507774, guid: a9dffcf701237428fac6d33d4cd6b70c, type: 3}
       propertyPath: m_Materials.Array.data[0]
