@@ -76,11 +76,21 @@ public class CameraPanZoom : MonoBehaviour
                 }
                 else if (touch.fingerId == panFingerId) //REMOVIDO: && touch.phase == TouchPhase.Moved
                 {
-                    if (!EventSystem.current.IsPointerOverGameObject(Input.touches[0].fingerId) && Input.GetTouch(0).phase != TouchPhase.Ended) //checa se o toque esta batendo em um botao
+                    //if (Input.GetTouch(0).phase == TouchPhase.Moved) //checa se o toque esta batendo em um botao
+                    //{
+                    //    PanCamera(touch.position);
+                    //}
+
+                    if(Input.GetTouch(0).phase == TouchPhase.Moved && buildingManager.pendingObject == null)
                     {
                         PanCamera(touch.position);
                     }
-                        
+                    //se estiver movendo algum objeto, move a câmera pelo lado da tela que o dedo estiver 
+                    else if (!EventSystem.current.IsPointerOverGameObject(Input.touches[0].fingerId) && Input.GetTouch(0).phase != TouchPhase.Ended && buildingManager.pendingObject != null)
+                    {
+                        PanCameraObject(touch.position);
+                    }
+
                 }
                 break;
 
@@ -131,73 +141,9 @@ public class CameraPanZoom : MonoBehaviour
 
     void PanCamera(Vector3 newPanPosition)
     {
-        //Se NÃO estiver movendo nenhum objeto, move a câmera pelo arrastar de dedo normal na cena
-        if (buildingManager.pendingObject == null) 
-        {
-            if (Input.touchSupported && Application.platform != RuntimePlatform.WebGLPlayer) //se for uma plataforma com touchscreen
-            {
-                if(Input.GetTouch(0).phase == TouchPhase.Moved) 
-                {
-                    //se o dedo estiver movendo na tela, isso estava la em cima mas mudou pra cá por causa do mover segurando objeto
-                    // Determine how much to move the camera
-                    Vector3 offset = cam.ScreenToViewportPoint(lastPanPosition - newPanPosition);
-                    move = new Vector3(offset.x * PanSpeed, 0, offset.y * PanSpeed);
-                }
-            }
-            else //se for no computador
-            {
-                // Determine how much to move the camera de forma normal
-                Vector3 offset = cam.ScreenToViewportPoint(lastPanPosition - newPanPosition);
-                move = new Vector3(offset.x * PanSpeed, 0, offset.y * PanSpeed);
-            }
-
-        }
-        //se estiver movendo algum objeto, move a câmera pelo lado da tela que o dedo estiver 
-        else if(buildingManager.pendingObject != null)
-        {
-            //reseta pra 0 a movimentação de cada axis a cada frame
-            offsetX = 0;
-            offsetY = 0;
-
-            //Direita
-            if (newPanPosition.x > Screen.width * 0.9)
-            {
-                offsetX = 4f * Time.deltaTime;
-            }
-            else if (newPanPosition.x > Screen.width * 0.8)
-            {
-                offsetX = 2f * Time.deltaTime;
-            }
-            //Esquerda
-            if (newPanPosition.x < Screen.width * 0.1)
-            {
-                offsetX = -4f * Time.deltaTime;
-            }
-            else if (newPanPosition.x < Screen.width * 0.2)
-            {
-                offsetX = -2f * Time.deltaTime;
-            }
-            //Cima
-            if (newPanPosition.y > Screen.height * 0.9)
-            {
-                offsetY = 4f * Time.deltaTime;
-            }
-            else if (newPanPosition.y > Screen.height * 0.75)
-            {
-                offsetY = 2f * Time.deltaTime;
-            }
-            //Baixo
-            if (newPanPosition.y < Screen.height * 0.1)
-            {
-                offsetY = -4f * Time.deltaTime;
-            }
-            else if (newPanPosition.y < Screen.height * 0.25)
-            {
-                offsetY = -2f * Time.deltaTime;
-            }
-
-            move = new Vector3(offsetX, 0, offsetY);
-        }
+        // Determine how much to move the camera
+        Vector3 offset = cam.ScreenToViewportPoint(lastPanPosition - newPanPosition);
+        move = new Vector3(offset.x * PanSpeed, 0, offset.y * PanSpeed);
 
         // Perform the movement
         transform.Translate(move, Space.World);
@@ -220,5 +166,64 @@ public class CameraPanZoom : MonoBehaviour
         }
 
         cam.fieldOfView = Mathf.Clamp(cam.fieldOfView - (offset * speed), ZoomBounds[0], ZoomBounds[1]);
+    }
+
+    void PanCameraObject(Vector3 newPanPosition)
+    {
+        //reseta pra 0 a movimentação de cada axis a cada frame
+        offsetX = 0;
+        offsetY = 0;
+
+        //Direita
+        if (newPanPosition.x > Screen.width * 0.9)
+        {
+            offsetX = 4f * Time.deltaTime;
+        }
+        else if (newPanPosition.x > Screen.width * 0.8)
+        {
+            offsetX = 2f * Time.deltaTime;
+        }
+        //Esquerda
+        if (newPanPosition.x < Screen.width * 0.1)
+        {
+            offsetX = -4f * Time.deltaTime;
+        }
+        else if (newPanPosition.x < Screen.width * 0.2)
+        {
+            offsetX = -2f * Time.deltaTime;
+        }
+        //Cima
+        if (newPanPosition.y > Screen.height * 0.9)
+        {
+            offsetY = 4f * Time.deltaTime;
+        }
+        else if (newPanPosition.y > Screen.height * 0.75)
+        {
+            offsetY = 2f * Time.deltaTime;
+        }
+        //Baixo
+        if (newPanPosition.y < Screen.height * 0.1)
+        {
+            offsetY = -4f * Time.deltaTime;
+        }
+        else if (newPanPosition.y < Screen.height * 0.25)
+        {
+            offsetY = -2f * Time.deltaTime;
+        }
+
+        move = new Vector3(offsetX, 0, offsetY);
+
+
+        // Perform the movement
+        transform.Translate(move, Space.World);
+
+        // Ensure the camera remains within bounds.
+        Vector3 pos = transform.position;
+        pos.x = Mathf.Clamp(transform.position.x, BoundsX[0], BoundsX[1]);
+        pos.z = Mathf.Clamp(transform.position.z, BoundsZ[0], BoundsZ[1]);
+        transform.position = pos;
+
+        // Cache the position
+        lastPanPosition = newPanPosition;
     }
 }
