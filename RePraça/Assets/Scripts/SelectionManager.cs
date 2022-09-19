@@ -49,6 +49,19 @@ public class SelectionManager : MonoBehaviour
                     }
                     
                 }
+                else //caso contrário, se clicar em uma área que NAO seja um objeto
+                {             
+                    if (Input.touchSupported && Application.platform != RuntimePlatform.WebGLPlayer) //se for uma plataforma com touch
+                    {
+                        if (!EventSystem.current.IsPointerOverGameObject(Input.touches[0].fingerId) && Input.GetTouch(0).phase != TouchPhase.Ended) //se nao estiver touch em algo da UI sobre o objeto
+                        {
+                            if (selectedObject != null && buildingManager.pendingObject == null) //e se tiver um objeto selecionado e nao estiver movendo nenhum objeto
+                            {
+                                Deselect(); //deseleciona o objeto selecionado
+                            }
+                        }
+                    }
+                }
             }
         }
 

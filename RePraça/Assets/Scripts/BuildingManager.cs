@@ -9,7 +9,8 @@ public class BuildingManager : MonoBehaviour
 
     public GameObject[] objects; //lista de objetos
     public GameObject pendingObject; //objeto selecionado
-    public CanvasGroup painelBtnObjetos; //grupo de botoes pra add objetos
+    public GameObject painelObjetos; //painel com botoes e info pra adicionar objetos
+    public GameObject botaoAddObjetos; //botao de adicionar novos objetos
     
     [SerializeField] private Material[] materialPlacement; //materiais pra indicar por cor se pode ou não colocar um novo objeto ali
 
@@ -39,8 +40,6 @@ public class BuildingManager : MonoBehaviour
     {
         if(pendingObject != null) //checa se existe um objeto selecionado
         {
-            painelBtnObjetos.interactable = false; //desativa os botões de adicionar objetos
-
             UpdateMaterials(); //atualiza a cor pra definir se pode ou nao colocar lá
 
             if (Input.touchSupported && Application.platform != RuntimePlatform.WebGLPlayer) //se for uma plataforma com touchscreen
@@ -64,10 +63,6 @@ public class BuildingManager : MonoBehaviour
             {
                 RotateObject();
             }
-        }
-        else if(pendingObject == null)
-        {
-            painelBtnObjetos.interactable = true; //reativa os botoes pra adicionar objetos
         }
     }
 
@@ -148,6 +143,8 @@ public class BuildingManager : MonoBehaviour
         outline.OutlineWidth = 5f;
 
         //materialPlacement[2] = pendingObject.GetComponent<MeshRenderer>().material; //coloca o material original do objeto como o usado pós posicionar - foi substituido pelo outline
+
+        PainelAddObjetos();
     }
 
     public void ToggleGrid() //liga desliga a grid
@@ -174,5 +171,19 @@ public class BuildingManager : MonoBehaviour
             pos += gridSize;
         }
         return pos;
+    }
+
+    public void PainelAddObjetos()
+    {
+        if(painelObjetos.activeInHierarchy == true)
+        {
+            botaoAddObjetos.SetActive(true);
+            painelObjetos.SetActive(false);
+        }
+        else if (painelObjetos.activeInHierarchy == false)
+        {
+            botaoAddObjetos.SetActive(false);
+            painelObjetos.SetActive(true);
+        }
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class CameraPanZoom : MonoBehaviour
 {
@@ -70,12 +71,16 @@ public class CameraPanZoom : MonoBehaviour
                 Touch touch = Input.GetTouch(0);
                 if (touch.phase == TouchPhase.Began)
                 {
-                    lastPanPosition = touch.position;
+                    lastPanPosition = touch.position; 
                     panFingerId = touch.fingerId;
                 }
                 else if (touch.fingerId == panFingerId) //REMOVIDO: && touch.phase == TouchPhase.Moved
                 {
-                    PanCamera(touch.position);
+                    if (!EventSystem.current.IsPointerOverGameObject(Input.touches[0].fingerId) && Input.GetTouch(0).phase != TouchPhase.Ended) //checa se o toque esta batendo em um botao
+                    {
+                        PanCamera(touch.position);
+                    }
+                        
                 }
                 break;
 
@@ -127,11 +132,24 @@ public class CameraPanZoom : MonoBehaviour
     void PanCamera(Vector3 newPanPosition)
     {
         //Se NÃO estiver movendo nenhum objeto, move a câmera pelo arrastar de dedo normal na cena
-        if (buildingManager.pendingObject == null)
+        if (buildingManager.pendingObject == null) 
         {
-            // Determine how much to move the camera
-            Vector3 offset = cam.ScreenToViewportPoint(lastPanPosition - newPanPosition);
-            move = new Vector3(offset.x * PanSpeed, 0, offset.y * PanSpeed);
+            if (Input.touchSupported && Application.platform != RuntimePlatform.WebGLPlayer) //se for uma plataforma com touchscreen
+            {
+                if(Input.GetTouch(0).phase == TouchPhase.Moved) 
+                {
+                    //se o dedo estiver movendo na tela, isso estava la em cima mas mudou pra cá por causa do mover segurando objeto
+                    // Determine how much to move the camera
+                    Vector3 offset = cam.ScreenToViewportPoint(lastPanPosition - newPanPosition);
+                    move = new Vector3(offset.x * PanSpeed, 0, offset.y * PanSpeed);
+                }
+            }
+            else //se for no computador
+            {
+                // Determine how much to move the camera de forma normal
+                Vector3 offset = cam.ScreenToViewportPoint(lastPanPosition - newPanPosition);
+                move = new Vector3(offset.x * PanSpeed, 0, offset.y * PanSpeed);
+            }
 
         }
         //se estiver movendo algum objeto, move a câmera pelo lado da tela que o dedo estiver 
