@@ -30,6 +30,7 @@ public class BuildingManager : MonoBehaviour
 
     public List<string> objetosPosicionados = new List<string>();
 
+
     void Start()
     {
         //coloca o objeto SelectManager da scene na variavel do codigo

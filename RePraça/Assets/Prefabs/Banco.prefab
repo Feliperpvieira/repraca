@@ -115,6 +115,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66f930315bdaa44758cc4e86574d0944, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dados: {fileID: 11400000, guid: ec8d06613916342809a406abf65fdf5a, type: 2}
 --- !u!64 &5024561761801153371
 MeshCollider:
   m_ObjectHideFlags: 0

@@ -98,7 +98,7 @@ GameObject:
   - component: {fileID: 7216362856580953898}
   - component: {fileID: -2447561645859114681}
   m_Layer: 0
-  m_Name: "A\u0301rvore"
+  m_Name: "\xC1rvore"
   m_TagString: Objetos
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -162,6 +162,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66f930315bdaa44758cc4e86574d0944, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dados: {fileID: 11400000, guid: 48cbef7001c7b4d7f89ff0d4c68b155d, type: 2}
 --- !u!33 &7216362856580953898
 MeshFilter:
   m_ObjectHideFlags: 0
