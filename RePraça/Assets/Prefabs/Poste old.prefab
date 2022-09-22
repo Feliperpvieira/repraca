@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6499701371297895463}
   - component: {fileID: 2188942702625161819}
   m_Layer: 0
-  m_Name: Poste
+  m_Name: Poste old
   m_TagString: Objetos
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
