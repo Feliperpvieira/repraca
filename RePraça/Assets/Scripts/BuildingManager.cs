@@ -11,7 +11,8 @@ public class BuildingManager : MonoBehaviour
     public GameObject pendingObject; //objeto selecionado
     public GameObject painelObjetos; //painel com botoes e info pra adicionar objetos
     public GameObject botaoAddObjetos; //botao de adicionar novos objetos
-    
+    public GameObject interfaceTopoSistema; //botoes do topo da tela
+
     [SerializeField] private Material[] materialPlacement; //materiais pra indicar por cor se pode ou não colocar um novo objeto ali
 
     private Vector3 pos; //posição do obj
@@ -183,12 +184,12 @@ public class BuildingManager : MonoBehaviour
     {
         if(painelObjetos.activeInHierarchy == true)
         {
-            botaoAddObjetos.SetActive(true);
+            interfaceTopoSistema.SetActive(true);
             painelObjetos.SetActive(false);
         }
         else if (painelObjetos.activeInHierarchy == false)
         {
-            botaoAddObjetos.SetActive(false);
+            interfaceTopoSistema.SetActive(false);
             painelObjetos.SetActive(true);
         }
     }
