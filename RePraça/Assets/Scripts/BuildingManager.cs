@@ -41,6 +41,7 @@ public class BuildingManager : MonoBehaviour
     {
         if(pendingObject != null) //checa se existe um objeto selecionado
         {
+            botaoAddObjetos.SetActive(false);
             UpdateMaterials(); //atualiza a cor pra definir se pode ou nao colocar lá
 
             if (Input.touchSupported && Application.platform != RuntimePlatform.WebGLPlayer) //se for uma plataforma com touchscreen
@@ -64,6 +65,10 @@ public class BuildingManager : MonoBehaviour
             {
                 RotateObject();
             }
+        }
+        else if(pendingObject == null)
+        {
+            botaoAddObjetos.SetActive(true);
         }
     }
 
