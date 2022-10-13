@@ -81,7 +81,8 @@ public class CameraPanZoom : MonoBehaviour
                     //    PanCamera(touch.position);
                     //}
 
-                    if(Input.GetTouch(0).phase == TouchPhase.Moved && buildingManager.pendingObject == null)
+                    //painelObjetos é a tela de adicionar novos objetos, ela tem que estar false pra evitar que a interação nessa tela movimente a câmera
+                    if(buildingManager.painelObjetos.activeInHierarchy == false && Input.GetTouch(0).phase == TouchPhase.Moved && buildingManager.pendingObject == null)
                     {
                         PanCamera(touch.position);
                     }
