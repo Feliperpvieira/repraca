@@ -18,7 +18,7 @@ public class CameraPanZoom : MonoBehaviour
     private static readonly float ZoomSpeedMouse = 0.5f;
 
     private static readonly float[] BoundsX = new float[] { -10f, 11f };
-    private static readonly float[] BoundsZ = new float[] { -18f, 8f };
+    private static readonly float[] BoundsZ = new float[] { -23f, 9f };
     private static readonly float[] ZoomBounds = new float[] { 10f, 85f };
 
     private Camera cam;
@@ -31,8 +31,8 @@ public class CameraPanZoom : MonoBehaviour
 
 
     private BuildingManager buildingManager;
-    public Toggle toogleAnguloCamera;
-    float lerpDuration = 0.5f;
+    public Toggle toogleAnguloCamera; //toggle entre angulos da camera
+    float lerpDuration = 0.8f; //duração da animação entre angulos da camera no toggle
     //bool rotating;
 
     void Awake()
@@ -237,29 +237,36 @@ public class CameraPanZoom : MonoBehaviour
     {
         if (toogleAnguloCamera.isOn)
         {
-            StartCoroutine(RotateCam(90f));
+            StartCoroutine(RotateCam(90f, 5, 12));
         }
         else
         {
-            StartCoroutine(RotateCam(45f));
+            StartCoroutine(RotateCam(40f, -5, -12));
         }
     }
     //Coroutine que muda entre os ângulos de forma fluida - https://gamedevbeginner.com/how-to-rotate-in-unity-complete-beginners-guide/#rotate_over_time
-    IEnumerator RotateCam(float angle)
+    IEnumerator RotateCam(float angle, float deslocY, float deslocZ)
     {
         //rotating = true;
-        toogleAnguloCamera.interactable = false;
+        toogleAnguloCamera.interactable = false; //impede que toque no toggle enquanto a animacao roda
         float timeElapsed = 0;
         Quaternion startRotation = transform.rotation;
         Quaternion targetRotation = Quaternion.Euler(angle, 0, 0);
+
+        Vector3 starPosition = transform.position;
+        Vector3 targetPosition = transform.position + new Vector3(0, deslocY, deslocZ);
+
         while (timeElapsed < lerpDuration)
         {
             transform.rotation = Quaternion.Slerp(startRotation, targetRotation, timeElapsed / lerpDuration);
+
+            transform.position = Vector3.Lerp(starPosition, targetPosition, timeElapsed / lerpDuration);
+
             timeElapsed += Time.deltaTime;
             yield return null;
         }
         transform.rotation = targetRotation;
         //rotating = false;
-        toogleAnguloCamera.interactable = true;
+        toogleAnguloCamera.interactable = true; //retoma o toggle
     }
 }
