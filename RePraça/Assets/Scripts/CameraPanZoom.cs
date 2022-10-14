@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class CameraPanZoom : MonoBehaviour
 {
@@ -30,6 +31,9 @@ public class CameraPanZoom : MonoBehaviour
 
 
     private BuildingManager buildingManager;
+    public Toggle toogleAnguloCamera;
+    float lerpDuration = 0.5f;
+    //bool rotating;
 
     void Awake()
     {
@@ -226,5 +230,36 @@ public class CameraPanZoom : MonoBehaviour
 
         // Cache the position
         lastPanPosition = newPanPosition;
+    }
+
+    //Toggle para alternar entre 90 e 45 graus na câmera
+    public void ToggleCamera()
+    {
+        if (toogleAnguloCamera.isOn)
+        {
+            StartCoroutine(RotateCam(90f));
+        }
+        else
+        {
+            StartCoroutine(RotateCam(45f));
+        }
+    }
+    //Coroutine que muda entre os ângulos de forma fluida - https://gamedevbeginner.com/how-to-rotate-in-unity-complete-beginners-guide/#rotate_over_time
+    IEnumerator RotateCam(float angle)
+    {
+        //rotating = true;
+        toogleAnguloCamera.interactable = false;
+        float timeElapsed = 0;
+        Quaternion startRotation = transform.rotation;
+        Quaternion targetRotation = Quaternion.Euler(angle, 0, 0);
+        while (timeElapsed < lerpDuration)
+        {
+            transform.rotation = Quaternion.Slerp(startRotation, targetRotation, timeElapsed / lerpDuration);
+            timeElapsed += Time.deltaTime;
+            yield return null;
+        }
+        transform.rotation = targetRotation;
+        //rotating = false;
+        toogleAnguloCamera.interactable = true;
     }
 }
