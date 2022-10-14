@@ -1371,6 +1371,7 @@ MonoBehaviour:
   - {fileID: 5605095610920771813, guid: d6f1dad80673541b38b47ca0e16a79f3, type: 3}
   - {fileID: 6284925690302588988, guid: 5be8f91a4930b41bea044790f368f9bf, type: 3}
   - {fileID: 3015242873962709260, guid: d73a92aa7469648178210780cb46573d, type: 3}
+  - {fileID: 120739114323560, guid: d77c0ffcc8e15483ab13f95f113e346f, type: 3}
   pendingObject: {fileID: 0}
   painelObjetos: {fileID: 741305825}
   botaoAddObjetos: {fileID: 278991199}
@@ -3893,7 +3894,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1015590392
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3955,10 +3956,22 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 1015590394}
+  m_TargetGraphic: {fileID: 1524989592}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 394526725}
+        m_TargetAssemblyTypeName: BuildingManager, Assembly-CSharp
+        m_MethodName: SelectObject
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 7
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1015590394
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4294,7 +4307,7 @@ RectTransform:
   - {fileID: 1913473643}
   - {fileID: 1465966868}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -4521,7 +4534,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 70cf348307f9b4deaa284719547a497b, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 70cf348307f9b4deaa284719547a497b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4663,7 +4676,7 @@ RectTransform:
   m_Children:
   - {fileID: 741305826}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -5084,7 +5097,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 70cf348307f9b4deaa284719547a497b, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 70cf348307f9b4deaa284719547a497b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7992,7 +8005,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Button
+  m_text: "Biclet\xE1rio U"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
