@@ -32,8 +32,7 @@ public class CameraPanZoom : MonoBehaviour
 
     private BuildingManager buildingManager;
     public Toggle toogleAnguloCamera; //toggle entre angulos da camera
-    float lerpDuration = 0.8f; //duração da animação entre angulos da camera no toggle
-    //bool rotating;
+    float lerpDuration = 1f; //duração da animação entre angulos da camera no toggle
 
     void Awake()
     {
@@ -247,26 +246,26 @@ public class CameraPanZoom : MonoBehaviour
     //Coroutine que muda entre os ângulos de forma fluida - https://gamedevbeginner.com/how-to-rotate-in-unity-complete-beginners-guide/#rotate_over_time
     IEnumerator RotateCam(float angle, float deslocY, float deslocZ)
     {
-        //rotating = true;
         toogleAnguloCamera.interactable = false; //impede que toque no toggle enquanto a animacao roda
         float timeElapsed = 0;
+
         Quaternion startRotation = transform.rotation;
         Quaternion targetRotation = Quaternion.Euler(angle, 0, 0);
 
-        Vector3 starPosition = transform.position;
+        Vector3 startPosition = transform.position;
         Vector3 targetPosition = transform.position + new Vector3(0, deslocY, deslocZ);
 
         while (timeElapsed < lerpDuration)
         {
             transform.rotation = Quaternion.Slerp(startRotation, targetRotation, timeElapsed / lerpDuration);
 
-            transform.position = Vector3.Lerp(starPosition, targetPosition, timeElapsed / lerpDuration);
+            transform.position = Vector3.Lerp(startPosition, targetPosition, timeElapsed / lerpDuration);
 
             timeElapsed += Time.deltaTime;
             yield return null;
         }
-        transform.rotation = targetRotation;
-        //rotating = false;
+        //transform.rotation = targetRotation;
+
         toogleAnguloCamera.interactable = true; //retoma o toggle
     }
 }

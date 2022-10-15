@@ -6,6 +6,7 @@ TagManager:
   tags:
   - CantPlace
   - Objetos
+  - LuzPoste
   layers:
   - Default
   - TransparentFX
