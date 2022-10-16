@@ -6,7 +6,7 @@ DSG1042 - Projeto Final em Design de Mídia Digital
 Versões da plataforma: [releases](https://github.com/Feliperpvieira/PracaBuilder/releases)\
 Próximos passos: [issues](https://github.com/Feliperpvieira/PracaBuilder/issues)\
 Planejamento: [project](https://github.com/users/Feliperpvieira/projects/2)\
-Documentação: [wiki](https://github.com/Feliperpvieira/PracaBuilder/wiki)
+Documentação: [wiki](https://github.com/Feliperpvieira/rePraca/wiki/rePraça-wiki)
 
 
 ### COMO UTILIZAR:
