@@ -2391,7 +2391,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 70cf348307f9b4deaa284719547a497b, type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 70cf348307f9b4deaa284719547a497b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3009,7 +3009,6 @@ MonoBehaviour:
   solDaCena: {fileID: 705507994}
   luaDaCena: {fileID: 816708480}
   toggleNoiteDia: {fileID: 1308665077}
-  luzDosPostes: []
 --- !u!4 &801397759
 Transform:
   m_ObjectHideFlags: 0
@@ -3018,7 +3017,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 801397757}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.4354194, y: 2.9034824, z: -4.22258}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3040,7 +3039,6 @@ GameObject:
   m_Component:
   - component: {fileID: 816708482}
   - component: {fileID: 816708480}
-  - component: {fileID: 816708481}
   m_Layer: 0
   m_Name: Lua
   m_TagString: Untagged
@@ -3110,22 +3108,6 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
---- !u!114 &816708481
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 816708479}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f52b5f8f8fca4bcfba14162ab8343e5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  solDaCena: {fileID: 816708480}
-  luaDaCena: {fileID: 0}
-  toggleNoiteDia: {fileID: 1308665077}
-  luzDosPostes: []
 --- !u!4 &816708482
 Transform:
   m_ObjectHideFlags: 0
@@ -3790,7 +3772,7 @@ GameObject:
   - component: {fileID: 963194226}
   - component: {fileID: 963194229}
   m_Layer: 0
-  m_Name: Main Camera
+  m_Name: Player Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4466,7 +4448,7 @@ RectTransform:
   - {fileID: 1913473643}
   - {fileID: 1465966868}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -4693,7 +4675,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 70cf348307f9b4deaa284719547a497b, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 70cf348307f9b4deaa284719547a497b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4835,7 +4817,7 @@ RectTransform:
   m_Children:
   - {fileID: 741305826}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -5256,7 +5238,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 70cf348307f9b4deaa284719547a497b, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 70cf348307f9b4deaa284719547a497b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7419,7 +7401,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1667514745
 GameObject:

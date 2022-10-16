@@ -28,6 +28,7 @@ public class BuildingManager : MonoBehaviour
     [SerializeField] private Toggle gridToggle;
 
     private SelectionManager selectionManager;
+    private DiaNoite iluminacaoManager;
 
     public List<string> objetosPosicionados = new List<string>();
 
@@ -36,6 +37,8 @@ public class BuildingManager : MonoBehaviour
     {
         //coloca o objeto SelectManager da scene na variavel do codigo
         selectionManager = GameObject.Find("SelectManager").GetComponent<SelectionManager>();
+        iluminacaoManager = GameObject.Find("IluminacaoManager").GetComponent<DiaNoite>(); //pega o script DiaNoite dentro do gameobject iluminacao manager
+
     }
 
     void Update()
@@ -152,6 +155,11 @@ public class BuildingManager : MonoBehaviour
         //materialPlacement[2] = pendingObject.GetComponent<MeshRenderer>().material; //coloca o material original do objeto como o usado pós posicionar - foi substituido pelo outline
 
         PainelAddObjetos();
+
+        if (!iluminacaoManager.toggleNoiteDia.isOn) //se o toggleNoiteDia NÃO estiver on (!) então tá de noite
+        {
+            iluminacaoManager.AcendeOsPostes(); //acende os postes inclusive o recém adicionado (se tiver colocado um poste, se nao só reacende os velhos)
+        }
     }
 
     public void ToggleGrid() //liga desliga a grid
@@ -166,7 +174,7 @@ public class BuildingManager : MonoBehaviour
         }
     }
 
-    float RoundToNearestGrid(float pos)
+    float RoundToNearestGrid(float pos) //era usado quando tinha um botao de grid no app
     {
         float xDiff = pos % gridSize; //calcula o resto da posição pelo grid size
 
@@ -180,7 +188,7 @@ public class BuildingManager : MonoBehaviour
         return pos;
     }
 
-    public void PainelAddObjetos()
+    public void PainelAddObjetos() //liga e desliga as coisas do painel de adicionar objetos
     {
         if(painelObjetos.activeInHierarchy == true)
         {

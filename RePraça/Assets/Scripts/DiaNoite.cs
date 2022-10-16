@@ -42,7 +42,13 @@ public class DiaNoite : MonoBehaviour
         solDaCena.transform.rotation = targetRotationSol;
         luaDaCena.transform.rotation = targetRotationLua;
 
+        AcendeOsPostes();
 
+        toggleNoiteDia.interactable = true; //retoma o toggle
+    }
+
+    public void AcendeOsPostes() //em uma funcao separada para poder ser acionado do building manager ao construir novos postes de noite
+    {
         GameObject[] allLights = GameObject.FindGameObjectsWithTag("LuzPoste"); //procura todos os game objects com a tag LuzPoste
 
         foreach (GameObject i in allLights) //para cada objeto (a luz spotlight) com a tag LuzPoste
@@ -59,12 +65,8 @@ public class DiaNoite : MonoBehaviour
                 {
                     n.enabled = true; //ativa a luz
                 }
-            }  
+            }
         }
-
-
-        toggleNoiteDia.interactable = true; //retoma o toggle
     }
-
 
 }
