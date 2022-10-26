@@ -10,7 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0491bbfd1185341628a219dcda508852, type: 3}
-  m_Name: Lixeira
+  m_Name: Poste duplo
   m_EditorClassIdentifier: 
-  nome: Lixeira
-  prefab: {fileID: 2000082659668512613, guid: 694a9413e2f8c46b0a4e34fd738b55a5, type: 3}
+  nome: Poste duplo
+  imagemObjeto: {fileID: 21300000, guid: 1b7bac0bb27d0410a9ca9d5101a7ccea, type: 3}
+  prefab: {fileID: 8313520209376652182, guid: 7bbd15a5a874f4e2bb6a6c89d143aa42, type: 3}

@@ -7,12 +7,14 @@ public class BotaoObjSelect : MonoBehaviour
 {
     public ObjetosData dadosObj;
     public GameObject imagemDestaque;
+    public Image imagemObjeto;
 
     private BotaoObjManager objetosManager;
 
     public void Start()
     {
         objetosManager = GameObject.Find("GridAddObjetos").GetComponent<BotaoObjManager>();
+        imagemObjeto.sprite = dadosObj.imagemObjeto;
     }
 
     public void SelecionaObjeto()

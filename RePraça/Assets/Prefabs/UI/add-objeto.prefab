@@ -150,6 +150,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dadosObj: {fileID: 0}
   imagemDestaque: {fileID: 2835635253872395128}
+  imagemObjeto: {fileID: 2835635253467176882}
 --- !u!1 &2835635253467176880
 GameObject:
   m_ObjectHideFlags: 0
@@ -186,7 +187,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -36, y: -36}
+  m_SizeDelta: {x: -24, y: -24}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2835635253467176885
 CanvasRenderer:
