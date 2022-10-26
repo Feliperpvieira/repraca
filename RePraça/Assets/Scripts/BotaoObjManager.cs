@@ -29,38 +29,39 @@ public class BotaoObjManager : MonoBehaviour
     private void Start()
     {
         //coloca o objeto building manager da scene na variavel do codigo
-        buildingManager = GameObject.Find("BuildingManager").GetComponent<BuildingManager>();
+        buildingManager = GameObject.Find("BuildingManager").GetComponent<BuildingManager>(); //pega o building manager pra construir os objs
 
-        for (int i = 0; i < listaTodosDados.Length; i++)
+        for (int i = 0; i < listaTodosDados.Length; i++) //loop for que passa pela lista de todos os dados. nela vão estar TODOS os arquivos de dado de objeto
         {
-            var botaoNovo = Instantiate(prefabBotaoAdd);
-            botaoNovo.transform.SetParent(this.gameObject.transform, false);
+            var botaoNovo = Instantiate(prefabBotaoAdd); //cria o botao
+            botaoNovo.transform.SetParent(this.gameObject.transform, false); //coloca o botao como child desse objeto (a grid)
             
-            BotaoObjSelect botaoCriado = botaoNovo.GetComponent<BotaoObjSelect>();
+            BotaoObjSelect botaoCriado = botaoNovo.GetComponent<BotaoObjSelect>(); //pega o script do botao recém criado
             //botaoCriado.imagemObjeto.sprite = botaoCriado.dadosObj.imagemObjeto;
-
-            botaoCriado.dadosObj = listaTodosDados[i];
-            botaoCriado.Start();
+            
+            botaoCriado.dadosObj = listaTodosDados[i]; //salva o arquivo de dados no botão recém criado
+            botaoCriado.Start(); //roda o start pq nele o botão recém criado define a imagem
         }
     }
 
     public void BotaoObjClicado()
     {
-        if(currentImgDestaque != null)
+        if(currentImgDestaque != null) //se já tiver algum botão selecionado
         {
-            currentImgDestaque.SetActive(false);
+            currentImgDestaque.SetActive(false); //desliga a imagem que marca que ele tá selecionado
         }
-        newImgDestaque.SetActive(true);
+        newImgDestaque.SetActive(true); //ativa a imagem no botão selecionado novo
 
-        currentImgDestaque = newImgDestaque;
-        //Debug.Log(dados.nome);
+        currentImgDestaque = newImgDestaque; //o botão novo vira o atual
+
+        //Define as informações no painel de informações na direita
         painelNomeObjeto.text = dados.nome;
         painelImagemObjeto.sprite = dados.imagemObjeto;
         objetoToBeConstruido = dados.prefab;
     }
 
-    public void AdicionaObjeto()
+    public void AdicionaObjeto() //funcao do botao adicionar que ta no painel
     {
-        buildingManager.SelectObject(objetoToBeConstruido);
+        buildingManager.SelectObject(objetoToBeConstruido); //passa o prefab pro building manager construir
     }
 }
