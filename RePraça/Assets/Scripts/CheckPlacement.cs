@@ -6,7 +6,6 @@ public class CheckPlacement : MonoBehaviour
 {
 
     BuildingManager buildingManager; //conecta o building manager a esse codigo
-    public ObjetosData dados;
 
     void Start()
     {

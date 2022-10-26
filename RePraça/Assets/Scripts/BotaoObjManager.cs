@@ -6,16 +6,22 @@ using UnityEngine.UI;
 
 public class BotaoObjManager : MonoBehaviour
 {
+    [Header("Dados do painel de infos")]
     public TextMeshProUGUI painelNomeObjeto;
     public Image painelImagemObjeto;
-    public GameObject painelBotaoAddObjeto;
+    private GameObject painelBotaoAddObjeto;
 
+    [Header("Prefab do botão de objetos")]
+    public GameObject prefabBotaoAdd;
+
+    [Header("DEIXAR VAZIO - coisas do script")]
     public GameObject currentImgDestaque;
     public GameObject newImgDestaque;
     public ObjetosData dados;
 
+    [Header("Todos os script de dados")]
     public ObjetosData[] listaTodosDados;
-    public GameObject prefabBotaoAdd;
+    
 
     private GameObject objetoToBeConstruido;
     private BuildingManager buildingManager;
