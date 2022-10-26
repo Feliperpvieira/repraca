@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class BuildingManager : MonoBehaviour
 {
 
-    public GameObject[] objects; //lista de objetos
+    //public GameObject[] objects; //lista de objetos - todos os objetos ficavam aqui e eles eram construídos pelo seu index
     public GameObject pendingObject; //objeto selecionado
     public GameObject painelObjetos; //painel com botoes e info pra adicionar objetos
     public GameObject botaoAddObjetos; //botao de adicionar novos objetos
@@ -141,10 +141,10 @@ public class BuildingManager : MonoBehaviour
         }
     }
 
-    public void SelectObject(int index) //seleciona o objeto pelo index dele no array objects
+    public void SelectObject(GameObject objeto) //seleciona o objeto, é chamado pelo BotaoManager, o objeto é o prefab que ta no scriptable object dados
     {
-        pendingObject = Instantiate(objects[index], pos, transform.rotation);
-        pendingObject.name = objects[index].name;
+        pendingObject = Instantiate(objeto, pos, transform.rotation);
+        pendingObject.name = objeto.name;
         
         selectionManager.Select(pendingObject);
         //pendingObject.AddComponent<Outline>(); //não precisa mais adicionar o outline pq ele é adicionado no Select()
