@@ -13,5 +13,9 @@ MonoBehaviour:
   m_Name: Mesa de xadrez
   m_EditorClassIdentifier: 
   nome: Mesa de Xadrez
+  categoria: 
+  tamanho: 
+  materiais: Concreto
+  descricao: 
   imagemObjeto: {fileID: 21300000, guid: 4683500c05bbb45bca64e0d39f90c08d, type: 3}
   prefab: {fileID: 7158094683095247041, guid: 226831ea6958e4bffabed1b1be2ede57, type: 3}

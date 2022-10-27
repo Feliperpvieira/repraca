@@ -13,5 +13,11 @@ MonoBehaviour:
   m_Name: Gangorra
   m_EditorClassIdentifier: 
   nome: Gangorra
+  categoria: Infantil
+  tamanho: 
+  materiais: Metal e madeira
+  descricao: "Um cl\xE1ssico dos parquinhos, a gangorra permite que as crian\xE7as
+    brinquem entre si ou at\xE9 mesmo com adultos., se divertindo com a sensa\xE7\xE3o
+    de serem elevados pelo peso do outro participante da brincadeira."
   imagemObjeto: {fileID: 21300000, guid: 3ec325307156e498f99d5c9c10c3e324, type: 3}
   prefab: {fileID: 7562312395036506806, guid: 498064b2830694904909eefea96fe951, type: 3}

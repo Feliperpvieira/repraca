@@ -9,6 +9,10 @@ public class BotaoObjManager : MonoBehaviour
     [Header("Dados do painel de infos")]
     public TextMeshProUGUI painelNomeObjeto;
     public Image painelImagemObjeto;
+    public TextMeshProUGUI painelCategoria;
+    public TextMeshProUGUI painelMedidas;
+    public TextMeshProUGUI painelMaterial;
+    public TextMeshProUGUI painelTxtDescricao;
     private GameObject painelBotaoAddObjeto;
 
     [Header("Prefab do botão de objetos")]
@@ -58,6 +62,10 @@ public class BotaoObjManager : MonoBehaviour
         painelNomeObjeto.text = dados.nome;
         painelImagemObjeto.sprite = dados.imagemObjeto;
         objetoToBeConstruido = dados.prefab;
+        painelCategoria.text = dados.categoria;
+        painelMedidas.text = dados.tamanho;
+        painelMaterial.text = dados.materiais;
+        painelTxtDescricao.text = dados.descricao;
     }
 
     public void AdicionaObjeto() //funcao do botao adicionar que ta no painel

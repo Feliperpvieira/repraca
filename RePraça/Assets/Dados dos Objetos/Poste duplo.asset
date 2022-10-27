@@ -13,5 +13,9 @@ MonoBehaviour:
   m_Name: Poste duplo
   m_EditorClassIdentifier: 
   nome: Poste duplo
+  categoria: Infraestrutura
+  tamanho: 
+  materiais: Metal
+  descricao: 
   imagemObjeto: {fileID: 21300000, guid: 1b7bac0bb27d0410a9ca9d5101a7ccea, type: 3}
   prefab: {fileID: 8313520209376652182, guid: 7bbd15a5a874f4e2bb6a6c89d143aa42, type: 3}
