@@ -44,7 +44,7 @@ public class BotaoObjManager : MonoBehaviour
             //botaoCriado.imagemObjeto.sprite = botaoCriado.dadosObj.imagemObjeto;
             
             botaoCriado.dadosObj = listaTodosDados[i]; //salva o arquivo de dados no botão recém criado
-            botaoCriado.Start(); //roda o start pq nele o botão recém criado define a imagem
+            //botaoCriado.Start(); //roda o start pq nele o botão recém criado define a imagem
         }
     }
 
