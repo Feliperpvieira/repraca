@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Mesa de xadrez
   m_EditorClassIdentifier: 
   nome: Mesa de Xadrez
-  categoria: 
+  categoria: Lazer
   tamanho: 
   materiais: Concreto
   descricao: 
