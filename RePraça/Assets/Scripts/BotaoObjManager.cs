@@ -13,7 +13,7 @@ public class BotaoObjManager : MonoBehaviour
     public TextMeshProUGUI painelMedidas;
     public TextMeshProUGUI painelMaterial;
     public TextMeshProUGUI painelTxtDescricao;
-    private GameObject painelBotaoAddObjeto;
+    public GameObject painelCompleto;
 
     [Header("Prefab do botão de objetos")]
     public GameObject prefabBotaoAdd;
@@ -50,7 +50,8 @@ public class BotaoObjManager : MonoBehaviour
 
     public void BotaoObjClicado()
     {
-        if(currentImgDestaque != null) //se já tiver algum botão selecionado
+        painelCompleto.SetActive(true);
+        if (currentImgDestaque != null) //se já tiver algum botão selecionado
         {
             currentImgDestaque.SetActive(false); //desliga a imagem que marca que ele tá selecionado
         }
