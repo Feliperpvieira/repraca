@@ -13,7 +13,7 @@ public class BuildingManager : MonoBehaviour
     public GameObject botaoAddObjetos; //botao de adicionar novos objetos
     public GameObject interfaceTopoSistema; //botoes do topo da tela
 
-    [SerializeField] private Material[] materialPlacement; //materiais pra indicar por cor se pode ou não colocar um novo objeto ali
+    //[SerializeField] private Material[] materialPlacement; //materiais pra indicar por cor se pode ou não colocar um novo objeto ali - substituido por outline
 
     private Vector3 pos; //posição do obj
     private RaycastHit hit;
