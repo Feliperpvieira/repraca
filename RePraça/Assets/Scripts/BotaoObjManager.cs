@@ -60,6 +60,7 @@ public class BotaoObjManager : MonoBehaviour
         currentImgDestaque = newImgDestaque; //o botão novo vira o atual
 
         //Define as informações no painel de informações na direita
+        // /n para pular linha
         painelNomeObjeto.text = dados.nome;
         painelImagemObjeto.sprite = dados.imagemObjeto;
         objetoToBeConstruido = dados.prefab;
