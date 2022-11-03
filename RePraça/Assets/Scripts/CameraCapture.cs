@@ -15,7 +15,7 @@ public class CameraCapture : MonoBehaviour
 
     public static string ScreenShotName(string nomeCena, string angulo) //define o nome do arquivo
     {
-        return string.Format("praça_{0}-{1}_{2}.png",
+        return string.Format("praca_{0}-{1}_{2}.png",
                                nomeCena, angulo,
                                System.DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss")); //data e hora atual
 
