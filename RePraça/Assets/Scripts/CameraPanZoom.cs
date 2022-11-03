@@ -31,6 +31,7 @@ public class CameraPanZoom : MonoBehaviour
 
 
     private BuildingManager buildingManager;
+    private GameObject cameraExport;
     public Toggle toogleAnguloCamera; //toggle entre angulos da camera
     float lerpDuration = 1f; //duração da animação entre angulos da camera no toggle
 
@@ -84,10 +85,11 @@ public class CameraPanZoom : MonoBehaviour
                     //    PanCamera(touch.position);
                     //}
 
-                    //painelObjetos é a tela de adicionar novos objetos, ela tem que estar false pra evitar que a interação nessa tela movimente a câmera
-                    if(buildingManager.painelObjetos.activeInHierarchy == false && Input.GetTouch(0).phase == TouchPhase.Moved && buildingManager.pendingObject == null)
+                    //interfaceTopoSistemas são os botões brancos no topo da tela
+                    //ela só é true na tela de edição da praça, sempre que abre outra tela ela vira falsa. então a movimentação da camera só funciona quando esses botoes estao ativos
+                    if(buildingManager.interfaceTopoSistema.activeInHierarchy == true && Input.GetTouch(0).phase == TouchPhase.Moved && buildingManager.pendingObject == null)
                     {
-                        PanCamera(touch.position);
+                            PanCamera(touch.position);
                     }
                     //se estiver movendo algum objeto, move a câmera pelo lado da tela que o dedo estiver 
                     else if (!EventSystem.current.IsPointerOverGameObject(Input.touches[0].fingerId) && Input.GetTouch(0).phase != TouchPhase.Ended && buildingManager.pendingObject != null)
