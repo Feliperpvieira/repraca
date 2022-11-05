@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5492270510095583721}
   - component: {fileID: 8242443261884649718}
   - component: {fileID: 5848181851528521051}
-  - component: {fileID: 5024561761801153371}
+  - component: {fileID: 6365526337091184579}
   m_Layer: 0
   m_Name: Banco
   m_TagString: Objetos
@@ -115,9 +115,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66f930315bdaa44758cc4e86574d0944, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dados: {fileID: 11400000, guid: ec8d06613916342809a406abf65fdf5a, type: 2}
---- !u!64 &5024561761801153371
-MeshCollider:
+--- !u!65 &6365526337091184579
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -126,7 +125,6 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -1550514412580984892, guid: 425e88c6d10c4479ab886bcba5240c83, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 0.013522211, y: 0.00845925, z: 0.004422714}
+  m_Center: {x: 0, y: 0.0039296257, z: -0.0009941007}

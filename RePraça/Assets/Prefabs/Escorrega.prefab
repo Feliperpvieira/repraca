@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 2491506300092095414}
   - component: {fileID: 1530168697596679187}
   - component: {fileID: 3663879624141365465}
-  - component: {fileID: 4293961431879669020}
   - component: {fileID: 7228215349062571005}
   - component: {fileID: 3623969000147946874}
+  - component: {fileID: 6128078555143622649}
   m_Layer: 0
   m_Name: Escorrega
   m_TagString: Objetos
@@ -91,20 +91,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &4293961431879669020
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3015242873962709260}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -3836351409066291858, guid: 2131e016d6e63499b9d7b79a6661c0c5, type: 3}
 --- !u!54 &7228215349062571005
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -133,4 +119,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66f930315bdaa44758cc4e86574d0944, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dados: {fileID: 0}
+--- !u!65 &6128078555143622649
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3015242873962709260}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.991208, y: 2.244362, z: 1.0638331}
+  m_Center: {x: 0.07203436, y: 1.1056308, z: 0.0011731386}

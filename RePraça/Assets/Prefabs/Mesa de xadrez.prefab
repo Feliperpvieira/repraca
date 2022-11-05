@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8671211867259963668}
   - component: {fileID: 2424182541191486600}
   - component: {fileID: 5466414378358483233}
-  - component: {fileID: 3741056621839922564}
+  - component: {fileID: 5073371541564335629}
   m_Layer: 0
   m_Name: Mesa de xadrez
   m_TagString: Objetos
@@ -102,7 +102,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66f930315bdaa44758cc4e86574d0944, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dados: {fileID: 11400000, guid: 7d4ae404678f044f2bd86f9680c526cc, type: 2}
 --- !u!54 &5466414378358483233
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -119,8 +118,8 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!64 &3741056621839922564
-MeshCollider:
+--- !u!135 &5073371541564335629
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -129,7 +128,6 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 2534964839176971238, guid: 118fca77ca1b94305b222b07353dc0f7, type: 3}
+  serializedVersion: 2
+  m_Radius: 0.008133654
+  m_Center: {x: -9.313225e-10, y: 0.005488187, z: 0}

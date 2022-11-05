@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 7185893027869581324}
   - component: {fileID: 6059224101863583657}
   - component: {fileID: 8354818866358033251}
-  - component: {fileID: 5513394105483378131}
   - component: {fileID: 8010173753306617201}
   - component: {fileID: 1313161882500563319}
+  - component: {fileID: 8994845567292110075}
   m_Layer: 0
   m_Name: Gangorra
   m_TagString: Objetos
@@ -88,20 +88,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &5513394105483378131
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7562312395036506806}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -1550514412580984892, guid: bacf776f5dbe646cb9491d29070d072e, type: 3}
 --- !u!54 &8010173753306617201
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -130,4 +116,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66f930315bdaa44758cc4e86574d0944, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dados: {fileID: 11400000, guid: dc13d810ba57d46468583ff24785951c, type: 2}
+--- !u!65 &8994845567292110075
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7562312395036506806}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.049226437, y: 0.025846288, z: 0.063397504}
+  m_Center: {x: 0.00056732696, y: 0.012111106, z: 0.00029773032}
