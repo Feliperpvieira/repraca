@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0491bbfd1185341628a219dcda508852, type: 3}
   m_Name: Mupi
   m_EditorClassIdentifier: 
-  nome: Mupi
-  categoria: 
+  nome: MUPI
+  categoria: Outros
   tamanho: 
-  materiais: 
-  descricao: 
-  imagemObjeto: {fileID: 0}
-  prefab: {fileID: 0}
+  materiais: Metal e vidro
+  descricao: "MUPI (Mobili\xE1rio Urbano para Informa\xE7\xE3o) "
+  imagemObjeto: {fileID: 21300000, guid: b9d70db29072b4c0e83e2e5e1bda5c72, type: 3}
+  prefab: {fileID: 4083256698792874286, guid: 0495faef693b34c8f98c797fe44d4727, type: 3}

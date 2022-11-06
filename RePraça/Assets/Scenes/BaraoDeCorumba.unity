@@ -7718,7 +7718,7 @@ MonoBehaviour:
     de metr\xF4 Uruguai.\n\nO espa\xE7o \xE9 altamente residencial, em frente a uma
     igreja e ao acesso secund\xE1rio do Col\xE9gio Batista.\n\nNa pra\xE7a s\xE3o
     encontrados poucos objetos, todos da linha mais simples. S\xE3o eles: 2 bancos
-    de madeira, 2 mesas de xadres e um banco de concreto."
+    de madeira, 2 mesas de xadrez e um banco de concreto."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ed25ac25b916b3e4e899bed7c3213f86, type: 2}
   m_sharedMaterial: {fileID: 2998768298454111397, guid: ed25ac25b916b3e4e899bed7c3213f86, type: 2}
@@ -8691,10 +8691,12 @@ MonoBehaviour:
   newImgDestaque: {fileID: 0}
   dados: {fileID: 0}
   listaTodosDados:
+  - {fileID: 11400000, guid: 31bd4111258da43859f8ca46202f52c8, type: 2}
   - {fileID: 11400000, guid: 0facc132e3f8340ca959de8363ed49a0, type: 2}
   - {fileID: 11400000, guid: 8b3c57b8c276d467bb3e5a7eb7d9e0e0, type: 2}
   - {fileID: 11400000, guid: dc13d810ba57d46468583ff24785951c, type: 2}
   - {fileID: 11400000, guid: 7d4ae404678f044f2bd86f9680c526cc, type: 2}
+  - {fileID: 11400000, guid: f303824dd2d1f4200a70d38804797504, type: 2}
   - {fileID: 11400000, guid: 43ff394d8643c4b3388100fdb5656d49, type: 2}
 --- !u!1 &1615479969
 GameObject:
@@ -9803,7 +9805,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.8740845, y: -0.000030517578}
+  m_AnchoredPosition: {x: 0.8740845, y: 0}
   m_SizeDelta: {x: 450, y: 77.586426}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!114 &1817712184
@@ -10783,7 +10785,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.000061035156, y: 0.000030517578}
+  m_AnchoredPosition: {x: -0.000061035156, y: 0}
   m_SizeDelta: {x: 228.54688, y: 112.94922}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2021135549

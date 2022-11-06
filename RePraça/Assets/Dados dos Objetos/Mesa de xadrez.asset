@@ -16,6 +16,8 @@ MonoBehaviour:
   categoria: Lazer
   tamanho: 
   materiais: Concreto
-  descricao: 
+  descricao: "Esse \xE9 um item presente em quase todas as pra\xE7as da cidade. Usada
+    principalmente para reunir grupos, ela atende qualquer necessidade que as pessoas
+    possam ter, como fazer refei\xE7\xF5es, jogar, juntar grupos..."
   imagemObjeto: {fileID: 21300000, guid: 4683500c05bbb45bca64e0d39f90c08d, type: 3}
   prefab: {fileID: 7158094683095247041, guid: 226831ea6958e4bffabed1b1be2ede57, type: 3}
