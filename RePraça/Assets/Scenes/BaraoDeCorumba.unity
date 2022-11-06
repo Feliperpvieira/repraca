@@ -219,25 +219,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 52548809}
   m_CullTransparentMesh: 1
---- !u!1 &74877155 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1812299610027767340, guid: a9dffcf701237428fac6d33d4cd6b70c, type: 3}
-  m_PrefabInstance: {fileID: 1698687331}
-  m_PrefabAsset: {fileID: 0}
---- !u!64 &74877159
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 74877155}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -8643135062377466549, guid: a9dffcf701237428fac6d33d4cd6b70c, type: 3}
 --- !u!1 &89012716
 GameObject:
   m_ObjectHideFlags: 0
@@ -8606,13 +8587,13 @@ MonoBehaviour:
   m_Padding:
     m_Left: 62
     m_Right: 260
-    m_Top: 102
+    m_Top: 92
     m_Bottom: 0
   m_ChildAlignment: 3
   m_StartCorner: 0
   m_StartAxis: 1
-  m_CellSize: {x: 172, y: 172}
-  m_Spacing: {x: 52, y: 32}
+  m_CellSize: {x: 152, y: 152}
+  m_Spacing: {x: 52, y: 46}
   m_Constraint: 2
   m_ConstraintCount: 2
 --- !u!114 &1594598297
@@ -10947,6 +10928,24 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2065666097}
   m_CullTransparentMesh: 1
+--- !u!1 &2084868075 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7655633259851401260, guid: a9dffcf701237428fac6d33d4cd6b70c, type: 3}
+  m_PrefabInstance: {fileID: 1698687331}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &2084868079
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2084868075}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 939.8114, y: 1051.3602, z: 6.0172224}
+  m_Center: {x: -69.644714, y: -37.8114, z: -19.30061}
 --- !u!1 &2089447056
 GameObject:
   m_ObjectHideFlags: 0
