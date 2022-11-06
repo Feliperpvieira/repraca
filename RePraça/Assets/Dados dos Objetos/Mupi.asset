@@ -14,8 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nome: MUPI
   categoria: Outros
-  tamanho: 
+  tamanho: 1,7 x 0,25 x 1,1 m
   materiais: Metal e vidro
-  descricao: "MUPI (Mobili\xE1rio Urbano para Informa\xE7\xE3o) "
+  descricao: "MUPI (Mobili\xE1rio Urbano para Informa\xE7\xE3o) \xE9 uma pe\xE7a
+    usada por empresas para divulga\xE7\xE3o de campanhas publicit\xE1rias em \xE1reas
+    de grandes circula\xE7\xF5es de pessoas. Pode conter at\xE9 5 cartazes ao mesmo
+    tempo, que rotacionam."
   imagemObjeto: {fileID: 21300000, guid: b9d70db29072b4c0e83e2e5e1bda5c72, type: 3}
   prefab: {fileID: 4083256698792874286, guid: 0495faef693b34c8f98c797fe44d4727, type: 3}

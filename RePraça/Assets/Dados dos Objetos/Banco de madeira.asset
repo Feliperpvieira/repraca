@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0491bbfd1185341628a219dcda508852, type: 3}
   m_Name: Banco de madeira
   m_EditorClassIdentifier: 
-  nome: Banco de madeira
+  nome: Banco
   categoria: Lazer
   tamanho: 0,85 x 0,5 x 1,1 m
   materiais: Madeira e metal
