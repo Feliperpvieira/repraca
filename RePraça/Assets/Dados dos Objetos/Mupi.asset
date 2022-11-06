@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Mupi
   m_EditorClassIdentifier: 
   nome: MUPI
-  categoria: Outros
+  categoria: Infraestrutura
   tamanho: 1,7 x 0,25 x 1,1 m
   materiais: Metal e vidro
   descricao: "MUPI (Mobili\xE1rio Urbano para Informa\xE7\xE3o) \xE9 uma pe\xE7a

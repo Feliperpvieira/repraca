@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0491bbfd1185341628a219dcda508852, type: 3}
   m_Name: Poste duplo
   m_EditorClassIdentifier: 
-  nome: Poste duplo
+  nome: Poste
   categoria: Infraestrutura
   tamanho: 
   materiais: Metal

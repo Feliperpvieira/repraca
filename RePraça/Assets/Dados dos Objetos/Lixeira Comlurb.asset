@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nome: Lixeira
   categoria: Infraestrutura
-  tamanho: '1,4 x '
+  tamanho: 1,4 x 0,6 x 0,8 m
   materiais: "Pl\xE1stico"
   descricao: "A lixeira possibilita que os usu\xE1rios descartem o lixo e mantenham
     as ruas limpas. Um desafio \xE9 equilibrar a quantidade de lixeiras que permitam
