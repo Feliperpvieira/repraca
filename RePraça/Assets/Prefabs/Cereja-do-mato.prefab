@@ -98,7 +98,7 @@ GameObject:
   - component: {fileID: 7216362856580953898}
   - component: {fileID: -2447561645859114681}
   m_Layer: 0
-  m_Name: "\xC1rvore"
+  m_Name: Cereja-do-mato
   m_TagString: Objetos
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -112,9 +112,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5605095610920771813}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.7959193, y: -0.17611742, z: -0.25593233}
-  m_LocalScale: {x: 0.017, y: 0.017, z: 0.017}
-  m_ConstrainProportionsScale: 1
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.015, y: 0.02, z: 0.015}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7404380377355469850}
   - {fileID: 4765805142387738563}
@@ -162,7 +162,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66f930315bdaa44758cc4e86574d0944, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dados: {fileID: 11400000, guid: 48cbef7001c7b4d7f89ff0d4c68b155d, type: 2}
 --- !u!33 &7216362856580953898
 MeshFilter:
   m_ObjectHideFlags: 0
