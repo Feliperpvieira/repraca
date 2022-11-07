@@ -39,13 +39,16 @@ public class BotaoObjManager : MonoBehaviour
         {
             var botaoNovo = Instantiate(prefabBotaoAdd); //cria o botao
             botaoNovo.transform.SetParent(this.gameObject.transform, false); //coloca o botao como child desse objeto (a grid)
-            
+
             BotaoObjSelect botaoCriado = botaoNovo.GetComponent<BotaoObjSelect>(); //pega o script do botao recém criado
-            //botaoCriado.imagemObjeto.sprite = botaoCriado.dadosObj.imagemObjeto;
-            
-            botaoCriado.dadosObj = listaTodosDados[i]; //salva o arquivo de dados no botão recém criado
-            //botaoCriado.Start(); //roda o start pq nele o botão recém criado define a imagem
+
+            botaoCriado.dadosObj = listaTodosDados[i]; //salva o arquivo de dados no botão recém criado 
         }
+    }
+
+    public void FiltraBotoes(string filtro)
+    {
+
     }
 
     public void BotaoObjClicado()
