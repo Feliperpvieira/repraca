@@ -6,6 +6,8 @@ using TMPro;
 
 public class FiltroManager : MonoBehaviour
 {
+    public Button primeiroBotao;
+
     private Button botaoAtual;
     private Button botaoAnterior;
 
@@ -27,12 +29,14 @@ public class FiltroManager : MonoBehaviour
             textoAtual.color = corBege;
 
 
-            if (botaoAnterior != null)
+            if (botaoAnterior == null)
             {
-                botaoAnterior.image.color = corBege;
-                textoAnterior = botaoAnterior.transform.GetComponentInChildren<TextMeshProUGUI>();
-                textoAnterior.color = corAzul;
+                botaoAnterior = primeiroBotao;
             }
+
+            botaoAnterior.image.color = corBege;
+            textoAnterior = botaoAnterior.transform.GetComponentInChildren<TextMeshProUGUI>();
+            textoAnterior.color = corAzul;
 
             botaoAnterior = botaoAtual;
             textoAnterior = textoAtual;
