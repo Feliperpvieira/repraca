@@ -4,5 +4,11 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/telaInicial.unity
+    guid: 0565c4b7254ce4fe2bfe97595b4c0a47
+  - enabled: 1
+    path: Assets/Scenes/BaraoDeCorumba.unity
+    guid: 610e12f0a357948fcb6558754658edd4
   m_configObjects: {}

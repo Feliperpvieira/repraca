@@ -578,6 +578,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9078976164697301472, guid: ee6ace7f9705a400295a8556c9cc7ef4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9078976164697301472, guid: ee6ace7f9705a400295a8556c9cc7ef4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1554593315}
+    - target: {fileID: 9078976164697301472, guid: ee6ace7f9705a400295a8556c9cc7ef4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: VaiParaCena
+      objectReference: {fileID: 0}
+    - target: {fileID: 9078976164697301472, guid: ee6ace7f9705a400295a8556c9cc7ef4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: passaParaCena, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 9078976164697301472, guid: ee6ace7f9705a400295a8556c9cc7ef4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: BaraoDeCorumba
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ee6ace7f9705a400295a8556c9cc7ef4, type: 3}
 --- !u!224 &1242266966 stripped
@@ -585,6 +605,23 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1730826467230724742, guid: ee6ace7f9705a400295a8556c9cc7ef4, type: 3}
   m_PrefabInstance: {fileID: 1242266965}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1554593314 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1009118812871332938, guid: ee6ace7f9705a400295a8556c9cc7ef4, type: 3}
+  m_PrefabInstance: {fileID: 1242266965}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1554593315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1554593314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43f43011389ad40b6be5a3b90a853749, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1713534375
 GameObject:
   m_ObjectHideFlags: 0
