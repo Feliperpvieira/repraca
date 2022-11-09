@@ -16,6 +16,8 @@ MonoBehaviour:
   categoria: Lazer
   tamanho: 0,6 x 0,4 x 1 m
   materiais: Concreto
-  descricao: 
+  descricao: "De constru\xE7\xE3o barata e r\xE1pida, esse modelo de banco \xE9 um
+    dos mais comuns de se encontrar nas pra\xE7as cariocas. Proporciona um ponto
+    para descanso r\xE1pidao, al\xE9m de tamb\xE9m ser popular entre skatistas."
   imagemObjeto: {fileID: 21300000, guid: eabafd50277854ed3a01131d394f7425, type: 3}
   prefab: {fileID: 1242563696300082228, guid: 8bd5236df83b34cb6a3c9dad4608b3f3, type: 3}
