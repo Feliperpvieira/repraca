@@ -5,7 +5,7 @@ const imagesTotal = 99;
 
 //cria a grid de imagens
 for (let i = imagesTotal; i > 0; i--) { 
-    const imgUrl = "images/cover_episode-" + i + ".jpg" //define o url da imagem
+    const imgUrl = "images/praca_BaraoDeCorumba-topo (" + i + ").png" //define o url da imagem
 
     checkIfImageExists(imgUrl, (exists) => { //checa se o url existe
 
