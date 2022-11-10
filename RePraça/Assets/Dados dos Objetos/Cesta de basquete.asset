@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: Cesta de basquete
   m_EditorClassIdentifier: 
   nome: Cesta de basquete
-  categoria: 
-  tamanho: 
-  materiais: 
-  descricao: 
+  categoria: "Atividade f\xEDsica"
+  tamanho: 2,8 x 1 x 1,5 m
+  materiais: Madeira e metal
+  descricao: "Uma cesta de basquete pode ser usada por qualquer um, sozinho ou em
+    grupo, desde que tenha uma bola. Com uma \xFAnica cesta \xE9 poss\xEDvel fazer
+    arremessos ou jogar varia\xE7\xF5es do esporte tradicional."
   imagemObjeto: {fileID: 21300000, guid: 8f1aa7f9cf54841f4999793fc0af5929, type: 3}
   prefab: {fileID: 5304685031201250490, guid: e3c3c5520ba5f45d9b71e71fed4744ba, type: 3}

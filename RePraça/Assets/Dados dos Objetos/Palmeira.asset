@@ -16,6 +16,9 @@ MonoBehaviour:
   categoria: Paisagem
   tamanho: 6 m de altura
   materiais: "\xC1rvore"
-  descricao: 
+  descricao: "Palmeiras s\xE3o plantas de caule n\xE3o ramificado, sendo muito assimiladas
+    a um ar tropical. Com ra\xEDzes curtas, s\xE3o menos prop\xEDcias a danificarem
+    cal\xE7adas, mas tamb\xE9m oferecem uma menor cobertura de sombra do que outras
+    \xE1rvores."
   imagemObjeto: {fileID: 21300000, guid: 4e02f9729c5bc40c2b8ad7121f06ce19, type: 3}
   prefab: {fileID: 3981242790803654909, guid: 6fd579c85a69149db83e5559da49ee5c, type: 3}

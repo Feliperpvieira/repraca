@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nome: Mesa de Xadrez
   categoria: Lazer
-  tamanho: 
+  tamanho: 0,8 x 1,4 x 1,4 m
   materiais: Concreto
   descricao: "Esse \xE9 um item presente em quase todas as pra\xE7as da cidade. Usada
     principalmente para reunir grupos, ela atende qualquer necessidade que as pessoas
