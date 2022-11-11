@@ -4,7 +4,7 @@ DSG1042 - Projeto Final em Design de Mídia Digital\
 Desenvolvido por: Felipe Rabaça\
 Orientadora: Joy Till
 
-Versão web: https://feliperpv.com/rePraca/web/\
+Versão web: https://feliperpv.com/rePraca/web/ \
 Galeria de praças: https://feliperpv.com/rePraca/galeria/
 
 **Confira**:\
