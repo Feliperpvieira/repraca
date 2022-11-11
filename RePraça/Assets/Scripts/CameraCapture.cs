@@ -10,14 +10,19 @@ public class CameraCapture : MonoBehaviour
     public RenderTexture rtVistaTopo;
     public RenderTexture rtVistaAngulo;
 
+    public GameObject botaoSalvar;
+
     string album = "rePraca";
     MediaSaveCallback callback = null;
 
     public static string ScreenShotName(string nomeCena, string angulo) //define o nome do arquivo
     {
-        return string.Format("praca_{0}-{1}_{2}.png",
+        /*return string.Format("praca_{0}-{1}_{2}.png",
                                nomeCena, angulo,
-                               System.DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss")); //data e hora atual
+                               System.DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss")); //data e hora atual*/
+
+        return string.Format("praca_{0}-{1}.png",
+                               nomeCena, angulo);
 
         //return string.Format("{0}/screenshots/screen_{1}x{2}_{3}.png",
         //                     Application.persistentDataPath,
@@ -39,6 +44,8 @@ public class CameraCapture : MonoBehaviour
         byte[] imagemAngulo = toTexture2D(rtVistaAngulo, 1920, 1200).EncodeToPNG(); //transforma a renderTexture em texture 2d
         string fileNameAng = ScreenShotName(sceneName, "angulo"); //define o nome do arquivo
         NativeGallery.SaveImageToGallery(imagemAngulo, album, fileNameAng, callback);
+
+        botaoSalvar.SetActive(false);
     }
 
     Texture2D toTexture2D(RenderTexture rTex, int width, int height)

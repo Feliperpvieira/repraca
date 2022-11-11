@@ -492,7 +492,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 514}
+  m_SizeDelta: {x: 0, y: 622}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &52548811
 MonoBehaviour:
@@ -1950,7 +1950,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 1, y: 0}
-  m_SizeDelta: {x: 540, y: 2}
+  m_SizeDelta: {x: 500, y: 2}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!114 &290431883
 MonoBehaviour:
@@ -7300,7 +7300,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 514}
+  m_SizeDelta: {x: 0, y: 622}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1076481300
 MonoBehaviour:
@@ -7999,7 +7999,7 @@ MonoBehaviour:
   m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 800, y: 630}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
@@ -8379,7 +8379,7 @@ MonoBehaviour:
   m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 800, y: 700}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 1
   m_PhysicalUnit: 3
@@ -10749,7 +10749,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 29.4
+  m_fontSize: 26.55
   m_fontSizeBase: 26
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -11728,7 +11728,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -575.59143, y: 0}
+  m_SizeDelta: {x: -510.5376, y: 0}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1594598296
 MonoBehaviour:
@@ -11750,10 +11750,10 @@ MonoBehaviour:
   m_ChildAlignment: 3
   m_StartCorner: 0
   m_StartAxis: 1
-  m_CellSize: {x: 142, y: 142}
+  m_CellSize: {x: 136, y: 136}
   m_Spacing: {x: 52, y: 46}
   m_Constraint: 2
-  m_ConstraintCount: 2
+  m_ConstraintCount: 3
 --- !u!114 &1594598297
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13851,7 +13851,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 1, y: 0}
-  m_SizeDelta: {x: 540, y: 2}
+  m_SizeDelta: {x: 500, y: 2}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!114 &1900753275
 MonoBehaviour:

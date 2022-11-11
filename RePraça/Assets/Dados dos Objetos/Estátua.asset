@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0491bbfd1185341628a219dcda508852, type: 3}
+  m_Name: "Esta\u0301tua"
+  m_EditorClassIdentifier: 
+  nome: "Est\xE1tua"
+  categoria: Paisagem
+  tamanho: 1,8 x 0,6 x 0,6 m
+  materiais: Cobre
+  descricao: "Her\xF3is nacionais ou locais, membros de lutas sociais... Todo lugar
+    possui figuras que devem ser homenageadas, e est\xE1tuas s\xE3o uma das principais
+    formas de reconhecer a contribui\xE7\xE3o desses membros para a sociedade."
+  imagemObjeto: {fileID: 21300000, guid: 20d9adfcef9d94008b1b72160945d617, type: 3}
+  prefab: {fileID: 3109014928702136777, guid: 10f01ac7ee7824cf5bd1c34582b14437, type: 3}

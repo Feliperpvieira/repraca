@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/BaraoDeCorumba.unity
     guid: 610e12f0a357948fcb6558754658edd4
+  - enabled: 0
+    path: Assets/Scenes/BaraoDeCorumba-tablet.unity
+    guid: ec2039863d1374f85854b3efb5dadb18
   m_configObjects: {}
