@@ -1,0 +1,63 @@
+*{margin:0;padding:0;outline:0;font-size:1em;font-weight:normal;font-style:normal;border:0;text-decoration:none;list-style-type:none}
+
+body{
+    font-family: 'Cabin', sans-serif;
+    background-color: #f9efe7af;
+}
+
+.container{
+    max-width: 1600px;
+    padding: 50px 20px;
+    margin: 0 auto;
+}
+
+header{
+    background-color: #0A6EB6;
+    border-radius: 0 0 30px 30px;
+}
+
+.img-logo{
+    width: 400px;
+    margin: auto;
+    padding: 30px 0;
+    display: block;
+}
+
+#gallery{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    grid-gap: 20px;
+}
+
+.galleryImg{
+    max-width: 100%;
+    border-radius: 30px;
+    position: relative;
+    transition: transform 250ms;
+    cursor: pointer;
+}
+
+.galleryImg:hover{
+    transform: translateY(-2px);
+    box-shadow: 0px 3px 5px rgba(128, 128, 128, 0.5);
+}
+
+#popup{
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: translateY(-100%);
+    transition: 250ms transform;
+    padding: 50px;
+}
+
+#selectedImage{
+    max-width: 100%;
+    max-height: 100%;
+}
