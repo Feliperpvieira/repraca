@@ -15,6 +15,4 @@ body { padding: 0; margin: 0; background-color: #f9efe7af; }
 #unity-fullscreen-button { float: right; width: 38px; height: 38px; background: url('fullscreen-button.png') no-repeat center }
 #unity-warning { position: absolute; left: 50%; top: 5%; transform: translate(-50%); background: white; padding: 10px; display: none }
 
-p{
-    font-family: arial; font-size: 18px; color: #131C3B; 
-}
+
