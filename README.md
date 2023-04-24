@@ -6,7 +6,7 @@ DSG1042 - Projeto Final em Design de Mídia Digital\
 Desenvolvido por: Felipe Rabaça\
 Orientadora: Joy Till
 
-Demo Day: https://feliperpv.com/rePraca/demoday/
+Demo Day: https://feliperpv.com/repraca/demoday/
 
 **Confira**:\
 Versões da plataforma: [releases](https://github.com/Feliperpvieira/PracaBuilder/releases)\
