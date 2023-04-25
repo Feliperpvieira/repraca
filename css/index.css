@@ -61,3 +61,13 @@ footer{
     width: 80%;
     margin: auto;
 }
+
+
+
+
+/* Mobile */
+@media screen and (max-width: 760px) {
+    .img-logo{
+        width: 80%;
+    }
+}
