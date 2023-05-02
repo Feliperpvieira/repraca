@@ -22,4 +22,5 @@ Documentação: [wiki](https://github.com/Feliperpvieira/rePraca/wiki/rePraça-w
 
 
 ### COMO UTILIZAR:
-📱Versão para Android: Acesse os [releases](https://github.com/Feliperpvieira/PracaBuilder/releases) e baixe o arquivo .apk disponível na última versão publicada. Ou baixe na [Google Play Store](https://play.google.com/store/apps/details?id=com.frpv.rePraca&utm_source=github&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1).
+📱 **Android**: Baixe diretamente da [Google Play Store](https://play.google.com/store/apps/details?id=com.frpv.rePraca), ou acesse os [releases](https://github.com/Feliperpvieira/PracaBuilder/releases) e baixe uma das versões disponíveis.\
+Aviso: Geralmente a versão da Play Store é a mais atualizada, checar as versões na hora de fazer o download.
