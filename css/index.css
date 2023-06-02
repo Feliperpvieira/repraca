@@ -178,7 +178,8 @@ footer > div{
     }
     
     .img-logo{
-        width: 80%;
+        margin-top: -14px;
+        width: 75%;
     }
 
 
@@ -194,6 +195,7 @@ footer > div{
         height: 54px;
         margin: auto;
         font-size: 24px;
+        border: 4px solid rgba(249, 137, 61, 0.7);
     }
 
     .arrasaquart a:hover{
@@ -219,7 +221,7 @@ footer > div{
 
     .arrasaquart > img{
         margin-bottom: 40px;
-        width: 50%;
+        width: 60%;
     }
 
     /* rodapé */
