@@ -4,39 +4,39 @@ html,body,p,ol,ul,li,dl,dt,dd,blockquote,figure,fieldset,legend,textarea,pre,ifr
 /* body font */
 body{
     font-family: 'Cabin', sans-serif;
+}
+
+main{
     background-color: #f9efe7af;
+    border-radius: 42px 42px 0 0;
 }
 
 /* Barra frpv */
 .nav-frpv{
     background: linear-gradient(280.12deg, #F5F5F5 41.12%, #FFFFFF 100.31%);
-    overflow: hidden;
+
+    display: flex;
+    border-end-end-radius: 36px;
+    width: 200px;
+    height: 64px;
 }
 
-header nav{
-    width: 80%;
+.nav-frpv img{
+    justify-content: center;
     margin: auto;
-    margin-bottom: 1rem;
-}
-
-nav img{
-    margin-top: 1rem;
-    margin-right: 2rem;
-    margin-bottom: -0.5rem;
-    padding-right: 2rem;
-    width: 7rem;
 }
 
 /* logo repraça */
 header{
     background-color: #0A6EB6;
-    border-radius: 0 0 30px 30px;
+    border-radius: 0 0 42px 42px;
 }
 
 .img-logo{
     width: 400px;
     margin: auto;
-    padding: 30px 0;
+    margin-top: -48px;
+    padding: 40px 0;
     display: block;
 }
 
@@ -49,17 +49,117 @@ header{
 
 .github{
     text-align: center;
+    margin-bottom: 48px;
+}
+
+
+
+/* publi do arrasa quarteirao */
+.arrasaquart{
+    width: 90%;
+
+    /* Degradê azul */
+    background: linear-gradient(151.72deg, #92DBFF 8.3%, #57C4F9 46.4%, #57C4F9 84.5%);
+    border-radius: 36px;
+
+    padding: 64px;
+    display: flex;
+    justify-content: space-between;
+
+    margin: 48px auto;
+}
+
+.arrasaquart > div{
+    max-width: 600px;
+}
+
+.arrasaquart h2, .arrasaquart p{
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+}
+
+.arrasaquart h2{
+    font-size: 32px;
+}
+
+.arrasaquart .h-destaque{
+    font-weight: 400;
+    margin-top: 2px;
+    margin-bottom: 18px;
+}
+
+.arrasaquart p{
+    font-size: 24px;
+    margin-bottom: 50px;
+    line-height: 32px;
+}
+
+.arrasaquart a{
+    font-size: 32px;
+    font-weight: 400;
+    background: #FFFFFF;
+    border: 5px solid rgba(249, 137, 61, 0.7);
+    text-decoration: none;
+    color: #303030;
+    font-weight: bold;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 364px;
+    height: 72px;
+
+    border-radius: 40px;
+
+    transition: 0.2s ease-in-out;
+}
+
+.arrasaquart a:hover{
+    width: 380px;
+}
+
+.arrasaquart a:hover img{
+    width: 48px;
+    margin-right: -30px;
+    height: auto;
+}
+
+.arrasaquart a img{
+    margin-left: 20px;
+    margin-right: -20px;
+    transition: .2s ease-in-out;
+}
+
+.arrasaquart > img{
+    margin: auto;
 }
 
 /* Footer */
 footer{
-    padding-top: 5rem;
-
-    font-family: 'Roboto', sans-serif;
+    border-radius: 42px 42px 0 0;
+    margin-top: 3rem;
     font-weight: 300;
-    font-size: 0.8rem;
-    width: 80%;
-    margin: auto;
+
+    background: linear-gradient(-40deg, #fcfcfc 70.12%, #FFFFFF 100.31%);
+    text-align: center;
+    padding: 3rem 0 3rem 0;
+}
+
+footer > div{
+    margin-top: 26px;
+}
+
+.contato{
+    line-height: 130%;
+}
+
+.contato a{
+    color: black;
+}
+
+.termos-legais{
+    font-size: 12px;
+    line-height: 160%;
 }
 
 
@@ -67,7 +167,65 @@ footer{
 
 /* Mobile */
 @media screen and (max-width: 760px) {
+    .nav-frpv{
+        height: 64px;
+        width: 180px;
+
+    }
+
+    .nav-frpv img{
+        width: 80px;
+    }
+    
     .img-logo{
         width: 80%;
+    }
+
+
+    /* repraca */
+    .arrasaquart{
+        width: 100%;
+        padding: 60px 30px;
+        flex-direction: column-reverse;
+    }
+
+    .arrasaquart a{
+        width: 100%;
+        height: 54px;
+        margin: auto;
+        font-size: 24px;
+    }
+
+    .arrasaquart a:hover{
+        width: 100%;
+    }
+
+    .arrasaquart a:hover img{
+        width: 36px;
+    }
+    
+    .arrasaquart a img{
+        width: 30px;
+    }
+
+    .arrasaquart h2{
+        font-size: 25px;
+    }
+
+    .arrasaquart p{
+        font-size: 20px;
+        line-height: auto;
+    }
+
+    .arrasaquart > img{
+        margin-bottom: 40px;
+        width: 50%;
+    }
+
+    /* rodapé */
+    .termos-legais{
+        width: 90%;
+        margin-left: auto;
+        margin-right: auto;
     }
 }
