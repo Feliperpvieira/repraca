@@ -222,7 +222,7 @@ footer > div{
 
 
 
-/* Mobile */
+/* ----------- Mobile ----------- */
 @media screen and (max-width: 760px) {
     .nav-frpv img{
         width: 80px;
@@ -233,6 +233,10 @@ footer > div{
     }
 
     /* capa google play */
+    .header-cover{
+        height: 40vh;
+    }
+
     .header-cover > img{
         height: 100%;
     }
