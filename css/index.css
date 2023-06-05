@@ -7,7 +7,7 @@ body{
 }
 
 main{
-    background-color: #f9efe7af;
+    background-color: #f9efe7;
     border-radius: 42px 42px 0 0;
 }
 
@@ -38,16 +38,75 @@ header{
     display: block;
 }
 
-/* google play */
-.play-badge img{
-    padding-top: 80px;
-    display: block;
+/* Imagem fundo botao google play */
+.header-cover{
+    display: block; 
+    width: 100%;
+    height: 50vh;
+    overflow: hidden;
+    position: relative; /* used to center img */
+    border: none;
+    border-radius: 0;
+
+    margin: -40px 0;
+}
+
+.header-cover > img{
+    width: 100%;
+    position: absolute; /* img centered */
+    top:-100%; left:0; right: 0; bottom:-100%;
+    z-index: -1;
     margin: auto;
 }
 
+/* google play */
+.play-badge{
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.play-badge a{
+    width: 530px;
+    height: 86px;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* Degradê bege */
+    background: linear-gradient(136.27deg, rgba(255, 255, 255, 0.95) 17.49%, rgba(254, 242, 224, 0.95) 103.91%), #B76F51;
+    border-radius: 55px;
+
+    transition: 0.2s ease-out;
+}
+
+.play-badge a:hover{
+    width: 580px;
+}
+
+.play-badge a img{
+    transition: 0.2s ease-out;
+}
+
+.play-badge a:hover img{
+    width: 220px;
+}
+
+.play-badge h3{
+    margin-right: 28px;
+    color: #0A6EB6;
+    font-size: 32px;
+    font-weight: 700;
+}
+
+
+
+
 .github{
     text-align: center;
-    margin-bottom: 80px;
+    padding-top: 10px;
 }
 
 
@@ -173,8 +232,35 @@ footer > div{
         width: 75%;
     }
 
+    /* capa google play */
+    .header-cover > img{
+        height: 100%;
+    }
 
-    /* repraca */
+    .play-badge a{
+        width: 230px;
+        height: 150px;
+        
+        flex-direction: column;
+        border-radius: 20px;
+    }
+
+    .play-badge a:hover{
+        width: 250px;
+        height: 170px;
+    }
+
+    .play-badge a img{
+        width: 180px;
+    }
+
+    .play-badge h3{
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+
+
+    /* arrasa quarteirao banner */
     .arrasaquart{
         width: 100%;
         padding: 60px 30px;
