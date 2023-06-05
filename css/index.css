@@ -108,14 +108,6 @@ header{
 
 
 
-
-.github{
-    text-align: center;
-    padding-top: 10px;
-}
-
-
-
 /* publi do arrasa quarteirao */
 .arrasaquart{
     width: 90%;
@@ -217,6 +209,10 @@ footer > div{
 
 .contato a{
     color: black;
+}
+
+.github{
+    padding-top: 10px;
 }
 
 .termos-legais{
