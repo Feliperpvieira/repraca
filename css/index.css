@@ -215,6 +215,10 @@ footer > div{
     padding-top: 10px;
 }
 
+.github a{
+    color: black;
+}
+
 .termos-legais{
     font-size: 12px;
     line-height: 160%;
