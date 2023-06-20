@@ -1,13 +1,18 @@
 /*! minireset.css v0.0.6 | MIT License | github.com/jgthms/minireset.css */
 html,body,p,ol,ul,li,dl,dt,dd,blockquote,figure,fieldset,legend,textarea,pre,iframe,hr,h1,h2,h3,h4,h5,h6{margin:0;padding:0}h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal}ul{list-style:none}button,input,select{margin:0}html{box-sizing:border-box}*,*::before,*::after{box-sizing:inherit}img,video{height:auto;max-width:100%}iframe{border:0}table{border-collapse:collapse;border-spacing:0}td,th{padding:0}
 
+:root{
+    --azul: #0A6EB6;
+    --bege: #F9EFE7;
+}
+
 /* body font */
 body{
     font-family: 'Cabin', sans-serif;
 }
 
 main{
-    background-color: #f9efe7;
+    background-color: var(--bege);
     border-radius: 42px 42px 0 0;
 }
 
@@ -27,7 +32,7 @@ main{
 
 /* logo repraça */
 header{
-    background-color: #0A6EB6;
+    background-color: var(--azul);
     border-radius: 0 0 42px 42px;
 }
 
@@ -42,7 +47,7 @@ header{
 .header-cover{
     display: block; 
     width: 100%;
-    height: 50vh;
+    height: 60vh;
     overflow: hidden;
     position: relative; /* used to center img */
     border: none;
@@ -101,12 +106,38 @@ header{
 
 .play-badge h3{
     margin-right: 28px;
-    color: #0A6EB6;
+    color: var(--azul);
     font-size: 32px;
     font-weight: 700;
 }
 
+/* Foto da praça real */
+.questao-inicial{
+    display: flex;
+    align-items: center;
+}
 
+.questao-inicial div{
+    margin: 64px;
+}
+
+.questao-inicial img{
+    width: 50%;
+    border-radius: 42px 42px 42px 0;
+}
+
+.questao-inicial h1{
+    color: var(--azul);
+    font-size: 48px;
+    line-height: 120%;
+    font-weight: 700;
+}
+
+.questao-inicial p{
+    margin-top: 24px;
+    font-size: 26px;
+    line-height: 150%;
+}
 
 /* publi do arrasa quarteirao */
 .arrasaquart{
@@ -228,7 +259,7 @@ footer > div{
 
 
 /* ----------- Mobile ----------- */
-@media screen and (max-width: 760px) {
+@media screen and (max-width: 780px) {
     .nav-frpv img{
         width: 80px;
     }
@@ -239,7 +270,7 @@ footer > div{
 
     /* capa google play */
     .header-cover{
-        height: 45vh;
+        height: 50vh;
     }
 
     .header-cover > img{
@@ -247,11 +278,17 @@ footer > div{
     }
 
     .play-badge a{
-        width: 220px;
-        height: 140px;
-        
+        width: 210px;
+        height: 130px;
+
         flex-direction: column;
         border-radius: 20px;
+    }
+
+    .play-badge a h3{
+        font-size: 26px;
+        margin-right: 0;
+        margin-bottom: 6px;
     }
 
     .play-badge a:hover{
@@ -260,14 +297,31 @@ footer > div{
     }
 
     .play-badge a img{
-        width: 180px;
+        width: 170px;
     }
 
-    .play-badge h3{
-        margin-right: 0;
-        margin-bottom: 4px;
+    /* Foto da praça real */
+    .questao-inicial{
+        flex-direction: column-reverse;
     }
 
+    .questao-inicial div{
+        margin: 42px;
+    }
+
+    .questao-inicial img{
+        width: 86%;
+        margin: auto;
+        border-radius: 42px;
+    }
+
+    .questao-inicial h1{
+        font-size: 30px;
+    }
+
+    .questao-inicial p{
+        font-size: 20px;
+    }
 
     /* arrasa quarteirao banner */
     .arrasaquart{
