@@ -172,12 +172,12 @@ header{
     width: 90%;
     margin: auto;
 
-    margin-top: 120px;
+    margin-top: 98px;
 }
 
 .definicao h6{
     max-width: 870px;
-    margin: 48px auto;
+    margin: 54px auto;
 }
 
 
@@ -365,7 +365,7 @@ footer > div{
 
     /* Foto da praça real */
     .primeira-frase{
-        padding: 32px;
+        padding: 38px 32px;
     }
 
     .primeira-frase img{
@@ -384,6 +384,19 @@ footer > div{
         width: 86%;
         margin: auto;
         border-radius: 42px;
+    }
+
+    /* definição repraça */
+    .definicao{
+        display: flex;
+        flex-direction: column-reverse;
+        align-items: center;
+
+        margin-top: 46px;
+    }
+
+    .definicao h6{
+        margin: 56px 0;
     }
 
     /* arrasa quarteirao banner */
