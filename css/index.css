@@ -4,6 +4,23 @@ html,body,p,ol,ul,li,dl,dt,dd,blockquote,figure,fieldset,legend,textarea,pre,ifr
 :root{
     --azul: #0A6EB6;
     --bege: #F9EFE7;
+    --marrom: #B76F51;
+}
+
+h6{
+    font-size: 26px;
+    line-height: 150%;
+}
+
+h1{
+    color: var(--azul);
+    font-size: 48px;
+    line-height: 120%;
+    font-weight: 700;
+}
+
+.texto-marrom{
+    color: var(--marrom);
 }
 
 /* body font */
@@ -47,7 +64,7 @@ header{
 .header-cover{
     display: block; 
     width: 100%;
-    height: 60vh;
+    height: 56vh;
     overflow: hidden;
     position: relative; /* used to center img */
     border: none;
@@ -112,32 +129,57 @@ header{
 }
 
 /* Foto da praça real */
+.primeira-frase{
+    text-align: center;
+    padding: 52px;
+}
+
+.primeira-frase h6{
+    margin-bottom: 8px;
+}
+
+.primeira-frase img{
+    margin-right: 6px;
+}
+
 .questao-inicial{
     display: flex;
     align-items: center;
 }
 
 .questao-inicial div{
-    margin: 64px;
+    margin: auto;
+    padding: 0 64px;
+    text-align: center;
 }
 
 .questao-inicial img{
-    width: 50%;
+    width: 45%;
+    max-width: 750px;
     border-radius: 42px 42px 42px 0;
 }
 
-.questao-inicial h1{
-    color: var(--azul);
-    font-size: 48px;
-    line-height: 120%;
-    font-weight: 700;
+.questao-inicial h6{
+    margin-top: 24px;
+    max-width: 560px;
 }
 
-.questao-inicial p{
-    margin-top: 24px;
-    font-size: 26px;
-    line-height: 150%;
+
+
+/* definição repraça */
+.definicao{
+    text-align: center;
+    width: 90%;
+    margin: auto;
+
+    margin-top: 120px;
 }
+
+.definicao h6{
+    max-width: 870px;
+    margin: 48px auto;
+}
+
 
 /* publi do arrasa quarteirao */
 .arrasaquart{
@@ -258,8 +300,29 @@ footer > div{
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 /* ----------- Mobile ----------- */
 @media screen and (max-width: 780px) {
+    h1{
+        font-size: 34px;
+    }
+
+    h6{
+        font-size: 20px;
+    }
+
+
     .nav-frpv img{
         width: 80px;
     }
@@ -301,26 +364,26 @@ footer > div{
     }
 
     /* Foto da praça real */
+    .primeira-frase{
+        padding: 32px;
+    }
+
+    .primeira-frase img{
+        width: 8px;
+    }
     .questao-inicial{
-        flex-direction: column-reverse;
+        flex-direction: column;
     }
 
     .questao-inicial div{
-        margin: 42px;
+        margin: 32px 0;
+        padding: 0 20px;
     }
 
     .questao-inicial img{
         width: 86%;
         margin: auto;
         border-radius: 42px;
-    }
-
-    .questao-inicial h1{
-        font-size: 30px;
-    }
-
-    .questao-inicial p{
-        font-size: 20px;
     }
 
     /* arrasa quarteirao banner */
