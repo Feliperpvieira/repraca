@@ -425,7 +425,8 @@ footer > div{
     }
 
     h3{
-        font-size: 28px;
+        font-size: 24px;
+        width: 80%;
     }
 
     h6{
@@ -491,7 +492,7 @@ footer > div{
     }
 
     .definicao-praca .grid-elementos div img{
-        width: 150px;
+        width: 200px;
     }
 
     .grid-elementos > * {
