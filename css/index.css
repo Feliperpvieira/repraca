@@ -7,16 +7,22 @@ html,body,p,ol,ul,li,dl,dt,dd,blockquote,figure,fieldset,legend,textarea,pre,ifr
     --marrom: #B76F51;
 }
 
-h6{
-    font-size: 26px;
-    line-height: 150%;
-}
-
 h1{
     color: var(--azul);
     font-size: 48px;
     line-height: 120%;
     font-weight: 700;
+}
+
+h2{
+    font-size: 42px;
+    color: var(--azul);
+    font-weight: 700;
+}
+
+h6{
+    font-size: 26px;
+    line-height: 150%;
 }
 
 .texto-marrom{
@@ -181,6 +187,36 @@ header{
 }
 
 
+
+/* imagens how to imaginar */
+.imaginacao{
+    text-align: center;
+    width: 90%;
+    margin: 64px auto;
+}
+
+.imaginacao h2{
+    margin-bottom: 64px;
+}
+
+.legenda{
+    font-size: 14px;
+    color: #3d3d3d;
+    margin: 6px 0;
+}
+
+.imaginacao .separador{
+    margin: 64px 0;
+}
+
+.imaginacao .mobiliario{
+    width: 110%;
+    position: relative;
+    right: 100;
+}
+
+
+
 /* publi do arrasa quarteirao */
 .arrasaquart{
     width: 90%;
@@ -203,6 +239,7 @@ header{
 .arrasaquart h2, .arrasaquart p{
     font-family: 'Roboto', sans-serif;
     font-weight: 300;
+    color: black;
 }
 
 .arrasaquart h2{
@@ -318,6 +355,10 @@ footer > div{
         font-size: 34px;
     }
 
+    h2{
+        font-size: 32px;
+    }
+
     h6{
         font-size: 20px;
     }
@@ -406,6 +447,21 @@ footer > div{
 
     .definicao h6{
         margin: 64px 0;
+    }
+
+    /* how to imaginar */
+    .imaginacao h2{
+        margin-bottom: 44px;
+    }
+    
+    .legenda{
+        font-size: 10px;
+        margin: 4px 0;
+    }
+
+    .imaginacao .separador{
+        width: 74px;
+        margin: 44px 0;
     }
 
     /* arrasa quarteirao banner */
