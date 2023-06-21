@@ -214,41 +214,75 @@ header{
 
 
 .questao-inicial{
-    display: flex;
-    align-items: center;
-}
-
-.questao-inicial div{
-    margin: auto;
-    padding: 0 64px;
-    text-align: center;
+    display: grid;
+    grid-template-columns: 50% 50%;
 }
 
 .questao-inicial img{
-    width: 45%;
+    width: 95%;
     max-width: 750px;
     border-radius: 42px 42px 42px 0;
 }
 
-.questao-inicial h6{
-    margin-top: 24px;
-    max-width: 560px;
+.questao-inicial .pergunta{
+    justify-self: center;
+    align-self: center;
+    max-width: 600px;
+}
+
+.questao-inicial .pergunta h1{
+    text-align: left;
+}
+
+.questao-inicial h3{
+    text-align: right;
+}
+
+.questao-inicial img:last-child{
+    border-radius: 42px 42px 0 42px;
+    margin-right: 0;
+    margin-left: auto;
 }
 
 
-
-/* definição repraça */
-.definicao{
-    text-align: center;
-    width: 90%;
+/* repraça anunciado */
+.repraca-def{
+    margin-top: 220px;
+}
+.repraca-def > img{
+    display: block;
     margin: auto;
-
-    margin-top: 98px;
+    margin-bottom: 28px;
 }
 
-.definicao h6{
-    max-width: 870px;
-    margin: 54px auto;
+.repraca-def .first{
+    margin-bottom: 108px;
+}
+
+.repraca-def .versus{
+    margin: 84px 0;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.repraca-def .versus > span{
+    font-size: 30px;
+    margin: 160px 30px 0 30px;
+}
+
+.repraca-def .versus img{
+    border-radius: 110px;
+}
+
+.repraca-def .logo-3r{
+    margin-top: 126px;
+    margin-bottom: 52px;
+}
+
+.repraca-def a img{
+    display: block;
+    margin: auto;
+    margin-bottom: 160px;
 }
 
 
@@ -519,39 +553,35 @@ footer > div{
 
 
 
-
-
+    /* questao inicial */
     .questao-inicial{
-        flex-direction: column;
+        grid-template-columns: 100%;
     }
-
     .questao-inicial div{
         margin: 58px 0;
         padding: 0 20px;
     }
 
-    .questao-inicial h6{
-        margin-top: 36px;
+    .questao-inicial .pergunta{
+        margin-bottom: 20px;
     }
 
-    .questao-inicial img{
+    .questao-inicial .pergunta h1{
+        text-align: center;
+    }
+
+    .questao-inicial h3{
+        text-align: center;
+        margin-bottom: 58px;
+    }
+
+    .questao-inicial img, .questao-inicial img:last-child{
         width: 86%;
         margin: auto;
         border-radius: 42px;
     }
 
-    /* definição repraça */
-    .definicao{
-        display: flex;
-        flex-direction: column-reverse;
-        align-items: center;
-
-        margin-top: 8px;
-    }
-
-    .definicao h6{
-        margin: 64px 0;
-    }
+  
 
     /* how to imaginar */
     .imaginacao h2{
