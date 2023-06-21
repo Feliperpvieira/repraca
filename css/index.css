@@ -371,13 +371,22 @@ footer > div{
     .primeira-frase img{
         width: 8px;
     }
+
+    .primeira-frase h6{
+        margin-bottom: 16px;
+    }
+
     .questao-inicial{
         flex-direction: column;
     }
 
     .questao-inicial div{
-        margin: 32px 0;
+        margin: 58px 0;
         padding: 0 20px;
+    }
+
+    .questao-inicial h6{
+        margin-top: 36px;
     }
 
     .questao-inicial img{
@@ -392,7 +401,7 @@ footer > div{
         flex-direction: column-reverse;
         align-items: center;
 
-        margin-top: 46px;
+        margin-top: 8px;
     }
 
     .definicao h6{
