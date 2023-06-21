@@ -7,17 +7,39 @@ html,body,p,ol,ul,li,dl,dt,dd,blockquote,figure,fieldset,legend,textarea,pre,ifr
     --marrom: #B76F51;
 }
 
+/* body font */
+body{
+    font-family: 'Cabin', sans-serif;
+}
+
+main{
+    background-color: var(--bege);
+    border-radius: 42px 42px 0 0;
+}
+
 h1{
-    color: var(--azul);
-    font-size: 48px;
+    font-size: 54px;
     line-height: 120%;
     font-weight: 700;
+    text-align: center;
 }
 
 h2{
-    font-size: 42px;
-    color: var(--azul);
+    font-size: 46px;
+    line-height: 140%;
     font-weight: 700;
+    text-align: center;
+}
+
+h3{
+    font-size: 36px;
+    line-height: 150%;
+
+    text-align: center;
+
+    width: 90%;
+    max-width: 860px;
+    margin: auto;
 }
 
 h6{
@@ -29,14 +51,8 @@ h6{
     color: var(--marrom);
 }
 
-/* body font */
-body{
-    font-family: 'Cabin', sans-serif;
-}
-
-main{
-    background-color: var(--bege);
-    border-radius: 42px 42px 0 0;
+.texto-azul{
+    color: var(--azul);
 }
 
 /* Barra frpv */
@@ -127,26 +143,74 @@ header{
     width: 220px;
 }
 
-.play-badge h3{
+.play-badge span{
     margin-right: 28px;
-    color: var(--azul);
     font-size: 32px;
     font-weight: 700;
 }
 
 /* Foto da praça real */
 .primeira-frase{
+    padding: 52px 0;
+}
+
+.primeira-frase h3{
+    max-width: 550px;
+    margin: auto;
+}
+
+.primeira-frase h2 img{
+    margin-right: 12px;
+    margin-left: -12px;
+}
+
+.primeira-frase .legenda{
+    margin-top: 34px;
     text-align: center;
-    padding: 52px;
 }
 
-.primeira-frase h6{
-    margin-bottom: 8px;
+.primeira-frase .grid-colet-img{
+    margin-bottom: 94px;
 }
 
-.primeira-frase img{
-    margin-right: 6px;
+
+
+/* Definicao de praça */
+.definicao-praca > *{
+    margin-bottom: 78px;
 }
+
+.definicao-praca .grid-elementos{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+
+    margin: 100px 0;
+}
+
+.definicao-praca .grid-elementos div img{
+    width: 20vw;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: auto;
+}
+
+.icone-mais{
+    width: 7.55vw;
+    height: 7.55vw;
+    align-self: center;
+}
+
+.definicao-praca{
+    margin-bottom: 150px;
+}
+
+
+
+
+
 
 .questao-inicial{
     display: flex;
@@ -244,6 +308,7 @@ header{
 
 .arrasaquart h2{
     font-size: 32px;
+    text-align: left;
 }
 
 .arrasaquart .h-destaque{
@@ -352,11 +417,15 @@ footer > div{
 /* ----------- Mobile ----------- */
 @media screen and (max-width: 780px) {
     h1{
-        font-size: 34px;
+        font-size: 38px;
     }
 
     h2{
-        font-size: 32px;
+        font-size: 34px;
+    }
+
+    h3{
+        font-size: 28px;
     }
 
     h6{
@@ -389,7 +458,7 @@ footer > div{
         border-radius: 20px;
     }
 
-    .play-badge a h3{
+    .play-badge a span{
         font-size: 26px;
         margin-right: 0;
         margin-bottom: 6px;
@@ -406,16 +475,39 @@ footer > div{
 
     /* Foto da praça real */
     .primeira-frase{
-        padding: 38px 32px;
+        padding: 38px 0;
     }
 
-    .primeira-frase img{
-        width: 8px;
+    .primeira-frase h2 img{
+        width: 16px;
     }
 
     .primeira-frase h6{
         margin-bottom: 16px;
     }
+
+    .definicao-praca .grid-elementos{
+        flex-direction: column;
+    }
+
+    .definicao-praca .grid-elementos div img{
+        width: 150px;
+    }
+
+    .grid-elementos > * {
+        margin-bottom: 32px;
+    }
+
+    .icone-mais{
+        width: 60px;
+        height: 60px;
+
+        margin-right: -7px;
+    }
+
+
+
+
 
     .questao-inicial{
         flex-direction: column;
