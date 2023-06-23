@@ -417,7 +417,7 @@ footer > div{
     line-height: 130%;
 }
 
-.contato a{
+.contato a, footer a{
     color: black;
 }
 
