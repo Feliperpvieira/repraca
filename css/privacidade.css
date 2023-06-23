@@ -3,10 +3,7 @@ body{
 }
 
 header .logo img{
-    display: block;
-    margin: auto;
-
-    transition: all 0.4s ease-out;
+    transition: all 0.2s ease-out;
 }
 
 header .logo:hover img{
@@ -19,8 +16,44 @@ header .logo:hover img{
     line-height: 150%;
 }
 
+.politica h2{
+    font-size: 32px;
+    text-align: left;
+    margin-bottom: 8px;
+    margin-top: 48px;
+}
+
+.politica h2 span{
+    background-color: #B76F51;
+    color: #F9EFE7;
+}
+
+.politica ul{
+    list-style-type: disc;
+    line-height: 200%;
+    list-style-position: inside;
+}
+
+.politica .atualizacao{
+    text-align: center;
+    color: #3b3b3b;
+    margin-bottom: 32px;
+}
+
+.politica p{
+    margin-bottom: 6px;
+}
+
+.politica .duvidas{
+    margin-top: 22px;
+}
+
 .politica a{
     color: #0A6EB6;
+}
+
+.politica .dados{
+    margin: 24px 0;
 }
 
 .btn-play{
