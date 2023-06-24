@@ -5,6 +5,7 @@ html,body,p,ol,ul,li,dl,dt,dd,blockquote,figure,fieldset,legend,textarea,pre,ifr
     --azul: #0A6EB6;
     --bege: #F9EFE7;
     --marrom: #B76F51;
+    --verde: #98AB56;
 }
 
 /* body font */
@@ -47,12 +48,22 @@ h6{
     line-height: 150%;
 }
 
+.legenda{
+    font-size: 14px;
+    color: #4b4b4b;
+    margin: 6px 0;
+}
+
 .texto-marrom{
     color: var(--marrom);
 }
 
 .texto-azul{
     color: var(--azul);
+}
+
+.texto-verde{
+    color: var(--verde);
 }
 
 /* Barra frpv */
@@ -260,6 +271,22 @@ header{
     margin-bottom: 108px;
 }
 
+.repraca-def .celular{
+    width: 75%;
+    max-width: 800px;
+    margin: 104px auto;
+}
+
+.repraca-def .ideias-geradas{
+    text-align: center;
+    margin: 104px auto;
+}
+
+.repraca-def .ideias-geradas img{
+    border-radius: 72px;
+    margin: 0 16px;
+}
+
 .repraca-def .versus{
     margin: 84px 0;
     display: flex;
@@ -299,11 +326,7 @@ header{
     margin-bottom: 64px;
 }
 
-.legenda{
-    font-size: 14px;
-    color: #3d3d3d;
-    margin: 6px 0;
-}
+
 
 .imaginacao .separador{
     margin: 64px 0;
@@ -612,6 +635,24 @@ footer > div{
         border-radius: 42px;
     }
 
+    /* definicao repraça */
+    .repraca-def .celular{
+        margin: 84px auto;
+    }
+    
+    .repraca-def .ideias-geradas{
+        margin: 84px auto;
+    }
+    
+    .repraca-def .ideias-geradas img{
+        border-radius: 32px;
+        width: 25%;
+        margin: 0 8px;
+    }
+    
+    .repraca-def .versus img{
+        border-radius: 52px;
+    }
   
 
     /* how to imaginar */
@@ -628,6 +669,8 @@ footer > div{
         width: 74px;
         margin: 44px 0;
     }
+
+
 
     /* arrasa quarteirao banner */
     .arrasaquart{
