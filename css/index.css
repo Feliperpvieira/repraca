@@ -239,11 +239,12 @@ header{
 .questao-inicial .pergunta{
     justify-self: center;
     align-self: center;
-    max-width: 600px;
+    max-width: 580px;
 }
 
-.questao-inicial .pergunta h1{
+.questao-inicial .pergunta h2{
     text-align: left;
+    font-size: 54px;
 }
 
 .questao-inicial h3{
@@ -261,19 +262,24 @@ header{
 .repraca-def{
     margin-top: 220px;
 }
-.repraca-def > img{
+.repraca-def .icone-proj{
     display: block;
     margin: auto;
     margin-bottom: 28px;
 }
 
+.repraca-def .nome-proj{
+    margin-bottom: 28px;
+}
+
 .repraca-def .first{
-    margin-bottom: 158px;
+    margin-bottom: 178px;
 }
 
 .repraca-def .celular{
     width: 75%;
     max-width: 800px;
+    display: block;
     margin: 104px auto;
 }
 
@@ -286,11 +292,13 @@ header{
     border-radius: 72px;
     margin: 0 16px;
 }
-
+ 
 .repraca-def .versus{
-    margin: 84px 0;
+    margin: 84px auto;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
+    width: 90%;
+    max-width: 900px;
 }
 
 .repraca-def .versus > span{
@@ -305,6 +313,16 @@ header{
 .repraca-def .logo-3r{
     margin-top: 126px;
     margin-bottom: 52px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.repraca-def .logo-3r div h3{
+    text-align: left;
+    margin-left: 36px;
+    line-height: 130%;
 }
 
 .repraca-def a img{
@@ -620,8 +638,9 @@ footer > div{
         margin-bottom: 20px;
     }
 
-    .questao-inicial .pergunta h1{
+    .questao-inicial .pergunta h2{
         text-align: center;
+        font-size: 38px;
     }
 
     .questao-inicial h3{
@@ -636,6 +655,10 @@ footer > div{
     }
 
     /* definicao repraça */
+    .repraca-def .icone-proj{
+        width: 140px;
+    }
+
     .repraca-def .celular{
         margin: 84px auto;
     }
@@ -649,9 +672,25 @@ footer > div{
         width: 25%;
         margin: 0 8px;
     }
+
+    .repraca-def .versus{
+        width: 86%;
+        margin-left: auto;
+        margin-right: auto;
+        align-items: flex-end;
+    }
     
     .repraca-def .versus img{
         border-radius: 52px;
+    }
+
+    .repraca-def .logo-3r img{
+        width: 136px;
+    }
+
+    .repraca-def .logo-3r div h3{
+        font-size: 28px;
+        margin-left: 28px;
     }
   
 
