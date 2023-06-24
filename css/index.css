@@ -333,12 +333,13 @@ header{
 }
 
 .arrasaquart > div{
+    width: 55%;
     max-width: 600px;
 }
 
 .arrasaquart h2, .arrasaquart p{
-    font-family: 'Roboto', sans-serif;
-    font-weight: 300;
+
+    font-weight: 400;
     color: black;
 }
 
@@ -348,7 +349,7 @@ header{
 }
 
 .arrasaquart .h-destaque{
-    font-weight: 400;
+    font-weight: 700;
     margin-top: 2px;
     margin-bottom: 18px;
 }
@@ -395,8 +396,37 @@ header{
     transition: .2s ease-in-out;
 }
 
-.arrasaquart > img{
-    margin: auto;
+.arrasaquart .logo-prints{
+    max-width: 500px;
+    width: 43%;
+}
+
+.arrasaquart .print-1{
+    display: block;
+    margin-left: auto;
+
+    transform: rotate(2.856deg);
+    border-radius: 14px;
+    border: 7px solid #FFF; 
+}
+
+.arrasaquart .print-2{
+    display: block;
+    margin-left: 20%;
+    margin-top: -2%;
+
+    transform: rotate(-3.21deg);
+    border-radius: 14px;
+    border: 7px solid #FFF;
+}
+
+.arrasaquart .logo-aq{
+    display: block;
+    margin-right: auto;
+
+    margin-top: -60%;
+    position: relative;
+    z-index: 99;
 }
 
 /* Footer */
@@ -621,6 +651,11 @@ footer > div{
     .arrasaquart a:hover img{
         width: 36px;
     }
+
+    .arrasaquart > div{
+        width: 100%;
+        max-width: 100%;
+    }
     
     .arrasaquart a img{
         width: 30px;
@@ -635,9 +670,30 @@ footer > div{
         line-height: auto;
     }
 
-    .arrasaquart > img{
+    .arrasaquart .logo-prints{
+        width: 100%;
         margin-bottom: 40px;
-        width: 60%;
+        max-width: 100%;
+    }
+    
+    .arrasaquart .print-1{
+        width: 80%;
+        margin: auto;
+    }
+    
+    .arrasaquart .print-2{
+        width: 70%;
+        margin-right: auto;
+        margin-top: -8%;
+        margin-left: 0;
+    }
+    
+    .arrasaquart .logo-aq{
+        margin-left: auto;
+        margin-right: 0;
+        margin-top: -36%;
+        width: 70%;
+
     }
 
     /* rodapé */
