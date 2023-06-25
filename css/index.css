@@ -679,6 +679,10 @@ footer > div{
         margin-right: auto;
         align-items: flex-end;
     }
+
+    .repraca-def .versus > span{
+        font-size: 24px;
+    }
     
     .repraca-def .versus img{
         border-radius: 52px;
