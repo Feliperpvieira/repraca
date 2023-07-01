@@ -56,6 +56,11 @@ h6{
     line-height: 150%;
 }
 
+p{
+    font-size: 16px;
+    line-height: 130%;
+}
+
 .legenda{
     font-size: 14px;
     color: #4b4b4b;
