@@ -43,6 +43,14 @@ h3{
     margin: auto;
 }
 
+h4{
+    font-size: 30px;
+}
+
+h5{
+    font-size: 28px;
+}
+
 h6{
     font-size: 26px;
     line-height: 150%;
@@ -64,6 +72,10 @@ h6{
 
 .texto-verde{
     color: var(--verde);
+}
+
+.texto-centro{
+    text-align: center;
 }
 
 /* Barra frpv */
