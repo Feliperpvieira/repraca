@@ -518,7 +518,7 @@ footer > div{
     color: black;
 }
 
-.termos-legais{
+.termos-legais, .termos-legais p{
     font-size: 12px;
     line-height: 160%;
 }
