@@ -393,7 +393,6 @@ header{
 .extra-content{
     width: 90%;
     margin: auto;
-    
 }
 
 .extra-content .banner{
@@ -412,6 +411,12 @@ header{
     text-align: left;
     line-height: 100%;
     margin-bottom: 16px;
+}
+
+.extra-content .banner img{
+    height: auto;
+    max-height: max-content;
+    margin: auto 0 auto auto;
 }
 
 .extra-content .banner > div{
@@ -783,7 +788,26 @@ footer > div{
         margin: 44px 0;
     }
 
+    /* banner conteudo extra */
+    .extra-content{
+        width: 100%;
+    }
 
+    .extra-content .banner{
+        flex-direction: column;
+    }
+
+    .extra-content .banner img{
+        width: 90%;
+        margin-top: 24px;
+    }
+
+    .extra-content .banner > div{
+        width: 100%;
+        max-width: 100%;
+
+        padding-right: 53px;
+    }
 
     /* arrasa quarteirao banner */
     .arrasaquart{
