@@ -1,4 +1,4 @@
-.texto-termos{
+.texto-termos, .lista-arquivos{
     width: 80%;
     max-width: 900px;
     margin: 48px auto 112px auto;
@@ -12,8 +12,57 @@
     margin-top: 48px;
 }
 
+/* Lista de objetos mobiliario */
+
+.mobilia{
+    display: flex;
+    margin-bottom: 92px;
+}
+
+.mobilia img{
+    border-radius: 56px;
+    background: var(--Degrad-bege, linear-gradient(136deg, rgba(255, 255, 255, 0.95) 17.49%, rgba(254, 242, 224, 0.95) 103.91%), #B76F51);
+    box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.25);
+    padding: 20px;
+}
+
+.mobilia h4{
+    color: var(--marrom, #B76F51);
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 150%; /* 81px */
+}
+
+.mobilia div{
+    margin: auto auto auto 46px;
+}
+
+.mobilia div p{
+    font-size: 20px;
+    line-height: 160%;
+}
 
 
+.mobilia div p a {
+    color: var(--azul);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--------------------------------
 
 .galeria{
     display: grid;

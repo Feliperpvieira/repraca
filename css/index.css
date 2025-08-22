@@ -83,6 +83,21 @@ p{
     text-align: center;
 }
 
+/* links dao um pulinho pra baixo no hover */
+a {
+    /* Make the underline visible by default */
+    text-decoration: underline;
+    /* Set an initial small gap between the text and the line */
+    text-underline-offset: 0.2em;
+    /* Animate the change in the offset property */
+    transition: text-underline-offset 300ms ease;
+}
+
+a:hover {
+    /* Increase the gap on hover to create the "bump" effect */
+    text-underline-offset: 0.4em;
+}
+
 /* Barra frpv */
 .nav-frpv{
     background: linear-gradient(280.12deg, #F5F5F5 41.12%, #FFFFFF 100.31%);
