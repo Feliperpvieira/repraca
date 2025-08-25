@@ -52,32 +52,31 @@
 
 
 
+/* ----------- Mobile ----------- */
+@media screen and (max-width: 780px) {
 
-
-
-
-
-
-
-
-
---------------------------------
-
-.galeria{
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    grid-gap: 20px;
+.mobilia{
+    flex-direction: column;
 }
 
-.galeriaImg{
-    max-width: 100%;
-    border-radius: 30px;
-    position: relative;
-    transition: transform 250ms;
-    cursor: pointer;
-} 
+.mobilia img{
+    border-radius: 42px;
+    width: 160px;
+}
 
-.galeriaImg:hover{
-    transform: translateY(-2px);
-    box-shadow: 0px 3px 5px rgba(128, 128, 128, 0.5);
+.mobilia h4{
+    font-size: 36px;
+    margin-top: 16px;
+}
+
+.mobilia div{
+    margin: auto auto auto 0;
+}
+
+.mobilia div p{
+    font-size: 18px;
+}
+
+
+
 }

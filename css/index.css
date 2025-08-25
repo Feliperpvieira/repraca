@@ -416,7 +416,8 @@ header{
 .extra-content .banner img{
     height: auto;
     max-height: max-content;
-    margin: auto 0 auto auto;
+    max-width: 50%;
+    margin: auto 32px auto auto;
 }
 
 .extra-content .banner > div{
@@ -799,7 +800,9 @@ footer > div{
 
     .extra-content .banner img{
         width: 90%;
+        margin: auto;
         margin-top: 24px;
+        max-width: 70%;
     }
 
     .extra-content .banner > div{
