@@ -55,27 +55,27 @@
 /* ----------- Mobile ----------- */
 @media screen and (max-width: 780px) {
 
-.mobilia{
-    flex-direction: column;
-}
+    .mobilia{
+        flex-direction: column;
+    }
 
-.mobilia img{
-    border-radius: 42px;
-    width: 160px;
-}
+    .mobilia img{
+        border-radius: 42px;
+        width: 160px;
+    }
 
-.mobilia h4{
-    font-size: 36px;
-    margin-top: 16px;
-}
+    .mobilia h4{
+        font-size: 36px;
+        margin-top: 16px;
+    }
 
-.mobilia div{
-    margin: auto auto auto 0;
-}
+    .mobilia div{
+        margin: auto auto auto 0;
+    }
 
-.mobilia div p{
-    font-size: 18px;
-}
+    .mobilia div p{
+        font-size: 18px;
+    }
 
 
 
