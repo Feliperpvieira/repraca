@@ -400,7 +400,7 @@ header{
     background-color: #F5F5F5;
     filter: drop-shadow(0 0 9px rgba(0, 0, 0, 0.25));
 
-    padding: 33px 0px 33px 53px;
+    padding: 33px 53px 33px 53px;
     display: flex;
     justify-content: space-between;
 }
@@ -417,7 +417,7 @@ header{
     height: auto;
     max-height: max-content;
     max-width: 50%;
-    margin: auto 32px auto auto;
+    margin: auto 0 auto auto;
 }
 
 .extra-content .banner > div{
@@ -800,8 +800,8 @@ footer > div{
 
     .extra-content .banner img{
         width: 90%;
-        margin: auto;
-        margin-top: 24px;
+        margin: 24px auto auto auto;
+     
         max-width: 70%;
     }
 
@@ -809,7 +809,7 @@ footer > div{
         width: 100%;
         max-width: 100%;
 
-        padding-right: 53px;
+        padding-right: 0;
     }
 
     /* arrasa quarteirao banner */
