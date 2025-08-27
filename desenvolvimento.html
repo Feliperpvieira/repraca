@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="pt">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="Relatório de pesquisa e desenvolvimento do projeto rePraça, com todas as etapas detalhadas desde as primeiras ideias a conclusão final.">
+       
+        
+        <!-- Title -->
+        <title>Pesquisa e desenvolvimento - rePraça</title>
+
+        <link rel="icon" type="image/x-icon" href="../favicon.ico">
+
+        <!-- Social media preview -->
+        <meta property="og:title" content="Pesquisa e desenvolvimento - rePraça">
+        <meta property="og:type" content="website">
+        <meta property="og:image" content="https://feliperpv.com/repraca/img/social-preview.jpg">
+        <meta property="og:image:width" content="1200">
+        <meta property="og:image:height" content="600">
+        <meta property="og:description" content="Relatório de pesquisa e desenvolvimento do projeto rePraça.">
+        <meta property="og:url" content="https://feliperpv.com/repraca/desenvolvimento.html">
+
+        <!-- Google Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com"> 
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+        <link href="https://fonts.googleapis.com/css2?family=Cabin:wght@400;700&display=swap" rel="stylesheet">
+
+        <!-- CSS -->
+        <link rel="stylesheet" href="css/index.css">
+        <link rel="stylesheet" href="css/privacidade.css">
+        <link rel="stylesheet" href="css/arquivos.css">
+        <link rel="stylesheet" href="css/desenvolvimento.css">
+    </head>
+
+    <body>
+        <header>
+            <a class="nav-frpv" href="https://feliperpv.com">
+                <img src="https://feliperpv.com/img/frpv-logo.svg" alt="frpv logo" width="86">
+            </a>
+
+            <a class="logo" href="https://feliperpv.com/repraca/">
+                <img class="img-logo" src="img/repraca-logo-horiz.png" width="800" alt="Logo do projeto rePraça">
+            </a>
+        </header>
+            
+        
+        <main>
+            <div class="texto-termos">
+                <h1 class="texto-azul">Relatório de projeto</h1>
+                <h3 class="texto-marrom"><b>Observação, pesquisa e desenvolvimento</b></h3>
+
+                <section id="resumo">
+                    <h2>Resumo</h2>
+                    <p>rePraça é um projeto sobre a imaginação de espaços públicos no Rio de Janeiro.</p>
+                    <p>A ideia surge da mistura entre a pesquisa sobre os espaços urbanos com o meu interesse pessoal sobre trabalhar a imaginação desses lugares. Com o foco em praças devido às suas características únicas, o trabalho se desenvolve na reimaginação desses locais pelos usuários por meio de uma plataforma virtual. Desse modo, é possível saber se as características daquele lugar atendem aos desejos da maioria e quais usos que as pessoas imaginam que diferem dos atuais.</p>
+                </section>
+
+                <section id="sumario">
+                    <h2>Sumário</h2>
+                    <div class="table-container">
+                        <ul>
+                            <li><a class="texto-azul" href="#introducao">Introdução</a></li>
+                            <li><a class="texto-azul" href="#definicao-tema">Definição do tema</a></li>
+                            <li><a class="texto-azul" href="#geracao-alternativas">Geração de alternativas</a></li>
+                            <li><a class="texto-azul" href="#similares">Similares</a></li>
+                            <li><a class="texto-azul" href="#estudo-liracas">Estudo de praças</a></li>
+                            <li><a class="texto-azul" href="#mobiliario-urbano">Mobiliário urbano</a></li>                                
+                            <li><a class="texto-azul" href="#fluxograma-wireframe">Fluxograma e Wireframe</a></li>
+                            <li><a class="texto-azul" href="#desenvolvimento">Desenvolvimento</a></li>
+                            <li><a class="texto-azul" href="#demo-day">Demo Day</a></li>
+                            <li><a class="texto-azul" href="#conclusao">Conclusão</a></li>
+                        </ul>
+                    </div>
+                </section>
+                
+                <section id="introducao">
+                    <h2>Introdução</h2>
+                    <p>A proposta desse trabalho começa pela minha vontade pessoal: eu sempre tive muito interesse por cidades e pelas histórias por trás delas, e, ao longo do curso, esse interesse foi se fortalecendo. Pelos projetos desenvolvidos na faculdade, meu foco de trabalho foi sendo direcionado principalmente às inúmeras formas de interação que se dão entre as pessoas, a tecnologia e o cenário urbano. Assim, escolhi explorar mais essa interação para o meu último projeto na graduação, buscando me aprofundar nas possibilidades e reflexões que a tecnologia pode trazer aos centros.</p>
+                    <p>Com isso em mente, comecei a pesquisar sobre projetos já existentes que utilizam meios virtuais para trazer soluções ao meio urbano. Os primeiros do tipo que eu encontrei foram serviços em que os cidadãos podem fiscalizar áreas da cidade e serviços prestados por órgãos públicos, como os aplicativos <a class="texto-azul" href="https://www.1746.rio/hc/pt-br">1746</a>, da Prefeitura do Rio de Janeiro, e o <a class="texto-azul" href="https://www.colab.com.br/sou-cidadao/">Colab</a>.</p>
+                    
+                    <div class="image-gallery">
+                        <figure>
+                            <img src="img/relatorio/screen-1746-1.jpg" alt="Interface do aplicativo 1746">
+                        </figure>
+                        <figure>
+                            <img src="img/relatorio/screen-1746-2.jpg" alt="Interface do aplicativo 1746">
+                        </figure>
+                        <figcaption>Aplicativo 1746 - Google Play Store.</figcaption>
+                    </div>
+
+                    <p>O 1746 é o aplicativo oficial da Prefeitura do Rio de Janeiro e funciona como forma de comunicação oficial entre cidadãos e governo municipal. Nele, as pessoas podem fazer reclamações ou abrir solicitações sobre os mais diversos assuntos da cidade, como poda de árvores, remoção de entulhos, conserto de iluminação, fiscalização de estabelecimentos ou denúncias. O funcionamento é simples: o usuário acessa o site ou aplicativo, seleciona a categoria na qual deseja abrir um protocolo, descreve a situação e envia o pedido para o órgão público responsável, que irá responder e, talvez, solucionar a solicitação.</p>
+                    <p>Já o Colab é um aplicativo que começou em Recife no ano de 2013 e se expandiu pelo Brasil, tendo como diferencial ser administrado por uma empresa privada que, para servir de ponte para as reclamações entre cidadãos e prefeituras, cria parcerias com os órgãos governamentais. O funcionamento segue uma linha similar ao do 1746, em que você pode selecionar uma categoria e realizar sua solicitação. Além disso, o aplicativo tenta criar um senso de comunidade, disponibilizando enquetes e conteúdos sobre cidadania para engajar os usuários.</p>
+
+                    <div class="image-gallery three-columns">
+                        <figure>
+                            <img src="img/relatorio/screen-colab-1.jpg" alt="Interface do aplicativo 1746">
+                        </figure>
+                        <figure>
+                            <img src="img/relatorio/screen-colab-2.jpg" alt="Interface do aplicativo 1746">
+                        </figure>
+                        <figure>
+                            <img src="img/relatorio/screen-colab-3.jpg" alt="Interface do aplicativo 1746">
+                        </figure>
+                        <figcaption>Aplicativo Colab - Google Play Store.</figcaption>
+                    </div>
+
+                    <p>Com esses dois exemplos, concluí que eles eram exatamente o que eu <b>não</b> estava interessado: plataformas para fiscalização, onde uma pessoa reclama e a prefeitura responde, finalizando toda a operação até que uma nova reclamação surja. Esses serviços, por mais que essenciais para o bom funcionamento das cidades,  têm uma pegada muito curta e burocrática, enquanto que para esse projeto eu queria algo mais livre, criativo e que tivesse uma duração maior.</p>
+                    <p>Outro exemplo que encontrei nas pesquisas, dessa vez na linha de algo um pouco mais criativo, foi o <a class="texto-azul" href="https://www.querodiscutiromeuestado.rj.gov.br">Fórum da ALERJ de Desenvolvimento do Rio</a>, em que cidadãos e parlamentares podem discutir propostas e tópicos que talvez se transformem em ideias para legislação de todo o Estado do Rio de Janeiro. Entretanto, esse fórum ocorre no interior da Assembleia Legislativa, no centro da cidade, com trabalhos geralmente ocorrendo em horário comercial. Por mais que seja a casa representativa da população, a ALERJ não é um espaço muito aberto para os que não conhecem sua estrutura, portanto os debates do fórum acabam se fechando em pequenos grupos normalmente formados por especialistas e pessoas mais ligadas ao funcionalismo público.</p>
+                    <p>Ainda durante essa linha de pesquisa inicial, feita para definir a temática do projeto, encontrei também o trabalho <a  class="texto-azul" href="https://www.candychang.com/i-was-this-was/">I Wish This Was</a>, da artista Candy Chang na cidade de New Orleans, nos Estados Unidos.</p>
+
+                    <div class="image-gallery single-image">
+                        <figure>
+                            <img src="img/relatorio/i-wish-this-was-mural.jpg" alt="Painel da instalação I Wish This Was, em New Orleans">
+                            <figcaption>Painel da instalação "I Wish This Was", em New Orleans.</figcaption>
+                        </figure>
+                    </div>
+
+                    <p>Na instalação, a artista colou pequenos adesivos nos quais se lia "I Wish This Was" ("Eu queria que isso fosse", em português) seguido por um espaço em branco, onde as pessoas eram convidadas a escrever o que elas gostariam que existisse ali.</p>
+                    <p>A obra foi criada depois que Chang reparou na quantidade de casas e estabelecimentos abandonados que ela via pelas ruas. Ela decidiu usar dos adesivos como uma maneira de incentivar a imaginação coletiva daqueles espaços, de modo a poder visualizar posteriormente o conjunto de pensamentos individuais de todos que participaram, como é possível ver na imagem acima.</p>
+                    <p>No Brasil, uma ideia semelhante a essa foi a obra <a href="https://gabrielevalente.wixsite.com/liberteseussonhos" class="texto-azul">Liberte seus Sonhos</a>, realizada na Lapa, no Rio de Janeiro, pela artista Gabriela Valente, que a define como "uma intervenção urbana de arte relacional que convida a comunidade e transeuntes a compartilhar seus sonhos em murais interativos e assim cocriar novos espaços de ser e estar". Nesse caso, a artista reparou em um muro de um prédio abandonado próximo ao local onde ela morava, e decidiu transformar aquela parede em um grande mural no qual as pessoas que ali passavam poderiam escrever seus sonhos usando giz de cera.</p>
+
+                    <div class="image-gallery single-image">
+                        <figure>
+                            <img src="img/relatorio/liberte-seus-sonhos-painel.jpg" alt="Painel da instalação Liberte seus sonhos, no Rio de Janeiro">
+                            <figcaption>Painel da instalação Liberte seus sonhos, no Rio de Janeiro.</figcaption>
+                        </figure>
+                    </div>
+
+                    <p>Por mais que nessa obra os sonhos não sejam específicos sobre o local, deixando a interpretação aberta para que escrevam sobre qualquer tipo de sonho que tenham, essa proposta se relaciona muito com a anterior pela ideia de convidar as pessoas a imaginarem algo e compartilhar isso com os outros, gerando também um grande painel em que é possível ver todas as individualidades juntas.</p>
+
+                </section>
+
+
+                <section id="definicao-tema">
+                    <h2>Definição do Tema</h2>
+                    <p>Se as plataformas de fiscalização da cidade eram o caminho que eu não queria seguir, a proposta de imaginar espaços públicos e ter a visão do conjunto das imaginações de cada pessoa me cativou muito. Além disso, trabalhar a imaginação com pessoas mais velhas é uma ótima oportunidade, pois o público adulto costuma ser mais apático, tendo uma tendência maior a apenas aceitar as coisas do jeito que são e seguir em frente. Trazer de volta essa capacidade de imaginação, que costuma ser muito atribuída ao público infantil e acaba se perdendo com o tempo, será essencial para qualquer proposta de intervenção na cidade.</p>
+                    <p>Assim, juntando o interesse pessoal por cidades com a oportunidade de trabalhar a imaginação, vindo dos projetos similares, o tema do projeto foi definido como:</p>
+
+                    <div class="frase-tema">
+                        <img src="img/relatorio/icone-seta-sombreada.png" alt="Icone de seta" width="55">
+                        <h3>Incentivo à <b>imaginação</b> utilizando os <b>espaços da cidade</b> como cenário.</h3>
+                    </div>
+
+                    <p>A ideia, portanto, é de incentivar a reflexão sobre o espaço com a quebra do esperado, daquilo que já existe no local. A imaginação extrapola a crítica pois ela não se restringe ao já existente; a proposta é que o usuário possa conceber novas estruturas, de pequeno ou médio porte, para a cidade.</p>
+
+                </section>
+
+                <section id="geracao-alternativas">
+                    <h2>Geração de Alternativas</h2>
+                    <p>Com o tema definido, a proposta de projeto sofreu algumas mudanças. Primeiro, o foco, que anteriormente era apenas uma plataforma social, mudou para algo mais próximo de um jogo. Além disso, a última mudança de caminho do projeto foi a troca de foco geográfico, partindo de algo que abordasse a cidade inteira para algo direcionado a alguns pontos específicos: as praças do Rio de Janeiro.</p>
+                </section>
+
+                <section id="similares">
+                    <h2>Similares</h2>
+                    <p>Por mais que a proposta não seja construir um jogo, mas sim uma plataforma com elementos de um, é na linha de videogames que possibilitam a construção de mundos virtuais que a maioria dos similares desse conceito estão.</p>
+                    <div class="image-gallery">
+                        <figure>
+                            <img src="img/pdf/page_11_image_1.png" alt="Captura de tela do jogo Minecraft">
+                            <figcaption>Minecraft, da Mojang.</figcaption>
+                        </figure>
+                        <figure>
+                            <img src="img/pdf/page_12_image_1.png" alt="Tela de edição de casas em The Sims">
+                            <figcaption>Tela de edição de casas em The Sims.</figcaption>
+                        </figure>
+                        <figure>
+                            <img src="img/pdf/page_12_image_2.png" alt="Edição das estruturas viárias no Streetmix">
+                            <figcaption>Edição das estruturas viárias no Streetmix.</figcaption>
+                        </figure>
+                        <figure>
+                            <img src="img/pdf/page_13_image_1.png" alt="Cenário criado no jogo Townscaper">
+                            <figcaption>Exemplo de cenário criado no jogo Townscaper.</figcaption>
+                        </figure>
+                    </div>
+                </section>
+
+                <section id="estudo-pracas">
+                    <h2>Estudo de Praças</h2>
+                    <p>Com a alternativa escolhida e os similares analisados, o próximo passo foi me aprofundar em algumas praças da cidade para entender suas dinâmicas. As praças escolhidas foram a Nossa Senhora da Paz, em Ipanema, Xavier de Brito, Barão de Corumbá e Gabriel Soares, todas na Tijuca.</p>
+
+                    <h3>#1 Praça Nossa Senhora da Paz</h3>
+                    <p>Localizada em Ipanema, foi totalmente reformada para a construção da estação de metrô. Dispõe de ótima infraestrutura de transporte e lazer, com parque infantil, academia, bancos e monumentos.</p>
+                    <div class="image-gallery">
+                        <figure>
+                            <img src="img/pdf/page_16_image_1.png" alt="Brinquedos infantis na Praça Nossa Senhora da Paz">
+                            <figcaption>Parque infantil moderno e bem cuidado.</figcaption>
+                        </figure>
+                        <figure>
+                            <img src="img/pdf/page_17_image_2.png" alt="Lago na Praça Nossa Senhora da Paz">
+                            <figcaption>Lago central, um dos pontos de encontro mais populares.</figcaption>
+                        </figure>
+                    </div>
+
+                    <h3>#2 Praça Xavier de Brito</h3>
+                    <p>Situada na Tijuca, em área residencial, possui estruturas de lazer cercadas, como o parque para cachorros e o parquinho infantil. Uma característica interessante é a intervenção dos frequentadores, que adaptam árvores para guardar mochilas e oferecer sacolas plásticas.</p>
+                    <div class="image-gallery">
+                        <figure>
+                            <img src="img/pdf/page_20_image_3.png" alt="Árvores adaptadas para segurar mochilas no parcão">
+                            <figcaption>Frequentadores adaptam árvores para pendurar pertences.</figcaption>
+                        </figure>
+                        <figure>
+                            <img src="img/pdf/page_21_image_2.png" alt="Teatro de Bonecos da Tijuca">
+                            <figcaption>O tradicional Teatro de Bonecos, reinaugurado em 2022.</figcaption>
+                        </figure>
+                    </div>
+                    
+                    <h3>#3 Praça Barão de Corumbá</h3>
+                    <p>Também na Tijuca, ocupa o espaço de uma rotatória em área residencial. É uma praça pequena, com pouco uso e infraestrutura mínima. Por seu potencial desperdiçado, foi a escolhida como piloto para o projeto rePraça.</p>
+                </section>
+
+                <section id="mobiliario-urbano">
+                    <h2>Mobiliário Urbano</h2>
+                    <p>Em paralelo ao estudo das praças, foi feito um catalogamento das peças de mobiliário urbano encontradas. Essa pesquisa é essencial, pois, para imaginar as praças, os usuários serão convidados a projetar os espaços utilizando módulos com o mobiliário do jeito que desejarem.</p>
+                    <div class="image-gallery single-image">
+                        <figure>
+                            <img src="img/pdf/page_34_image_1.png" alt="Painel com itens do mobiliário urbano separados em categorias">
+                            <figcaption>Painel com itens do mobiliário urbano separados em categorias.</figcaption>
+                        </figure>
+                    </div>
+                </section>
+
+                <section id="fluxograma-wireframe">
+                    <h2>Fluxograma e Wireframe</h2>
+                    <p>Com a praça escolhida e o mobiliário categorizado, o passo seguinte foi o desenvolvimento da solução. A ideia é possibilitar a imaginação de praças por meio de uma plataforma virtual, na qual o usuário teria acesso a uma planta do local e uma lista de itens de mobiliário para montar a praça como imaginar.</p>
+                    <div class="image-gallery single-image">
+                        <figure>
+                            <img src="img/pdf/page_38_image_1.png" alt="Fluxograma do projeto">
+                            <figcaption>Fluxograma do projeto.</figcaption>
+                        </figure>
+                    </div>
+                </section>
+
+                <section id="desenvolvimento">
+                    <h2>Desenvolvimento</h2>
+                    <p>O aplicativo foi desenvolvido na plataforma Unity. Para contornar a falta de conhecimento técnico aprofundado em programação, utilizei como base tutoriais de jogos do tipo "Tower Defense", adaptando a mecânica de posicionar itens em um mapa para o contexto do projeto.</p>
+                    <div class="image-gallery single-image">
+                        <figure>
+                            <img src="img/pdf/page_42_image_1.png" alt="Interface de desenvolvimento do aplicativo na Unity">
+                            <figcaption>Desenvolvimento do rePraça na plataforma Unity.</figcaption>
+                        </figure>
+                    </div>
+                </section>
+
+                <section id="demo-day">
+                    <h2>Demo Day</h2>
+                    <p>O Demo Day é o dia de demonstração dos projetos da disciplina. Para o evento, foi desenvolvido um site especial para exibir uma galeria com todas as praças imaginadas pelos visitantes, atualizada em tempo real.</p>
+                    <div class="image-gallery single-image">
+                        <figure>
+                            <img src="img/pdf/page_94_image_1.png" alt="Galeria com todas as praças imaginadas no Demo Day">
+                            <figcaption>As 22 praças imaginadas durante o evento, exibidas na galeria online.</figcaption>
+                        </figure>
+                    </div>
+                </section>
+                
+                <section id="conclusao">
+                    <h2>Conclusão</h2>
+                    <p>O projeto obteve sucesso em seu tema de incentivar a imaginação. A galeria de praças cumpriu o ideal de reunir as individualidades e expor as imaginações como inspiração para os demais. A plataforma permitiu que o cenário, por vezes burocrático, do planejamento urbano fosse abordado de forma divertida, em uma brincadeira que traz reflexões e novas propostas de uso para os espaços públicos.</p>
+                    <p>Além disso, o trabalho demonstrou a capacidade de gerar ideias para o planejamento urbano de forma colaborativa. Ao analisar os dados das praças imaginadas, é possível identificar demandas da população e usar essas informações para gerar sugestões ao poder público.</p>
+                </section>
+            </div>
+            
+
+    
+        
+
+            <footer> 
+                <a href="https://feliperpv.com"><img src="https://feliperpv.com/img/frpv-logo.svg" width="134" alt="frpv logo"></a>
+
+                <div class="contato">
+                    <p>Entre em contato:</p>
+                    <a href="mailto:repraca@feliperpv.com">repraca@feliperpv.com</a>
+                </div>
+
+                <div class="termos-legais">
+                    <p>© 2023 rePraça - Todos os direitos reservados</p>
+                    <a href="privacidade.html">Política de Privacidade</a>
+                    <p class="github">Código fonte disponível no <a href="https://github.com/Feliperpvieira/rePraca">Github</a></p>
+                    <p>Google Play e o logotipo do Google Play são marcas registradas da Google LLC.</p>
+                </div>       
+            </footer>
+       </main>
+    </body>
+</html>

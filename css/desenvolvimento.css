@@ -1,0 +1,79 @@
+/* Galeria de Imagens */
+.image-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 1.5rem;
+    justify-content: center;
+    align-items: flex-start;
+    margin: 2.5rem 0;
+}
+
+.image-gallery figure {
+    margin: 0;
+    text-align: center;
+    flex-basis: calc(50% - 1.5rem); /* Duas colunas */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centraliza a imagem se ela for mais estreita que o container */
+}
+
+.image-gallery figure img {
+    max-width: 100%; /* Garante que a imagem não ultrapasse o container */
+    max-height: 550px; /* Limita a altura máxima para imagens verticais */
+    /* A combinação de max-width e max-height redimensiona a imagem mantendo a proporção */
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    border: 1px solid #eee;
+}
+
+/* galeria de 3 colunas */
+.image-gallery.three-columns figure {
+    flex-basis: calc((100% - 3rem) / 3); /* Três colunas */
+}
+
+/* Para galerias com uma única imagem centralizada */
+.image-gallery.single-image figure {
+    flex-basis: 100%;
+    max-width: 750px;
+    margin: auto;
+}
+
+figcaption {
+    margin-top: 0.75rem;
+    padding: 0 1rem;
+    font-size: 0.9rem;
+    color: #555;
+    font-style: italic;
+
+    flex-basis: 100%; /* Faz a legenda ocupar a largura total */
+    text-align: center;
+}
+
+/* Frase tema na definicao de tema */
+.frase-tema {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin: 2.5rem auto;
+
+    max-width: 750px;
+
+}
+
+
+/* Responsividade */
+@media screen and (max-width: 780px) {
+
+    .container-projeto h2 {
+        font-size: 2rem;
+    }
+
+    .container-projeto h3 {
+        font-size: 1.5rem;
+    }
+
+    /* .image-gallery figure {
+        flex-basis: 100%;
+    } */
+}
