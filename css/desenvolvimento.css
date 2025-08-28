@@ -1,3 +1,38 @@
+/* fundo titulos */
+main div section h2{
+    color: white;
+    border-radius: 86px;
+    background: linear-gradient(163deg, rgba(10, 110, 182, 0.75) 18.43%, rgba(19, 28, 59, 0.75) 111.5%), linear-gradient(135deg, rgba(249, 239, 231, 0.85) 0%, rgba(183, 111, 81, 0.85) 100%), #131C3B;
+    
+    display: inline-block;
+    padding: 0.2em 1.5em;
+    font-size: 38px;
+    margin-top: 2em;
+    margin-bottom: 0.5em;
+}
+
+main div section#resumo h2{
+    margin-top: 1.5em;
+} 
+
+main div section h3{
+    color: var(--marrom);
+    text-align: left;
+}
+
+main div section h3 b{
+    color: var(--azul-marinho);
+    border-radius: 86px;
+    background: var(--Degrad-bege, linear-gradient(136deg, rgba(255, 255, 255, 0.95) 17.49%, rgba(254, 242, 224, 0.95) 103.91%), #B76F51);
+    background: white;
+    display: inline-block;
+    padding: 0.15em 1.25em;
+
+    margin-top: 2em;
+    margin-bottom: 0.5em;
+    margin-right: 0.5em;
+}
+
 /* Galeria de Imagens */
 .image-gallery {
     display: flex;
@@ -52,18 +87,39 @@ figcaption {
 /* Frase tema na definicao de tema */
 .frase-tema {
     display: flex;
-    flex-wrap: wrap;
     justify-content: center;
     align-items: center;
     margin: 2.5rem auto;
+    gap: 0 1.5rem;
 
     max-width: 750px;
+}
 
+.alternativas{
+    display: flex;
+    gap: 0 1rem;
+    justify-content: center;
+    align-items: center;
+    margin: 2.5rem 0;
+
+    max-width: 750px;
+}
+
+.alternativas p{
+    margin-top: 0;
 }
 
 
 /* Responsividade */
 @media screen and (max-width: 780px) {
+    main div section h2{
+        font-size: 34px;
+    }
+
+    main div section h3{
+        margin-left: 0;
+        width: 100%;
+    }
 
     .container-projeto h2 {
         font-size: 2rem;
