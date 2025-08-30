@@ -15,23 +15,30 @@ main div section#resumo h2{
     margin-top: 1.5em;
 } 
 
-main div section h3{
-    color: var(--marrom);
-    text-align: left;
+/* fundo subtitulos praças */
+main div section .subtitulo-pracas{
+    display: flex;
+    gap: 0 1.75rem;
+    justify-content: left;
+    align-items: center;
+    margin: 2.5rem 0;
 }
 
-main div section h3 b{
+main div section .subtitulo-pracas .numeracao{
+    background-color: white;
     color: var(--azul-marinho);
     border-radius: 86px;
-    background: var(--Degrad-bege, linear-gradient(136deg, rgba(255, 255, 255, 0.95) 17.49%, rgba(254, 242, 224, 0.95) 103.91%), #B76F51);
-    background: white;
-    display: inline-block;
-    padding: 0.15em 1.25em;
-
-    margin-top: 2em;
-    margin-bottom: 0.5em;
-    margin-right: 0.5em;
+    padding: 3px 0;
+    flex: 1 1 0;
 }
+
+main div section .subtitulo-pracas .nome-praca{
+    color: var(--marrom);
+    text-align: left;
+    flex: 2 1 0;
+    
+}
+
 
 /* Galeria de Imagens */
 .image-gallery {
@@ -129,7 +136,12 @@ figcaption {
         font-size: 1.5rem;
     }
 
+
     /* .image-gallery figure {
         flex-basis: 100%;
     } */
+
+    main div section .subtitulo-pracas{
+        gap: 0 0.75rem;
+    }
 }
