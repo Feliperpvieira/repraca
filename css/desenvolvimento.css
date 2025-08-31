@@ -136,6 +136,11 @@ figcaption {
         font-size: 1.5rem;
     }
 
+    .frase-tema {
+       
+        gap: 0 1rem;
+    }
+
 
     /* .image-gallery figure {
         flex-basis: 100%;
