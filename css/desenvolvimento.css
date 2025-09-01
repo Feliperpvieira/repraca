@@ -45,6 +45,16 @@ main div section .subtitulo-pracas .nome-praca{
     
 }
 
+main div section .single-subtitle{
+    width: fit-content;
+    margin-left: 0;
+    margin-right: auto;
+}
+
+main div section .single-subtitle .numeracao{
+    padding: 3px 4rem;
+}
+
 
 /* Galeria de Imagens */
 .image-gallery {
@@ -154,5 +164,21 @@ figcaption {
 
     main div section .subtitulo-pracas{
         gap: 0 0.75rem;
+        flex-direction: column;
+        margin: 5.5rem auto -1rem 0;
+    }
+
+    main div section .subtitulo-pracas .numeracao{
+        width: auto;
+        padding: 3px 28px;
+        margin-bottom: 16px;
+    }
+
+    main div section .subtitulo-pracas .nome-praca{
+        padding-left: 12px;
+    }
+
+    main div section .single-subtitle{
+        margin: 3.5rem auto 1rem 0;
     }
 }
