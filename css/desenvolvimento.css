@@ -4,6 +4,15 @@ a[target="_blank"]::after {
     margin: 0 3px 0 5px;
 }
 
+h6{
+    margin: 4rem 0 -1rem 0;
+}
+
+h5{
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+
 /* fundo titulos */
 main div section h2{
     color: white;
@@ -96,6 +105,18 @@ main div section .single-subtitle .numeracao{
     margin: auto;
 }
 
+/* youtube videos */
+iframe{
+    aspect-ratio: 16 / 9;
+    width: 100%;
+    max-width: 750px;
+    margin: 2.5rem auto;
+    display: block;
+
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    border: 1px solid #eee;
+}
+
 figcaption {
     margin-top: 0.75rem;
     padding: 0 1rem;
@@ -157,10 +178,21 @@ figcaption {
         gap: 0 1rem;
     }
 
+    /* Galeria de Imagens */
+    .image-gallery {
+        gap: 0 0.4rem;
+    }
 
-    /* .image-gallery figure {
-        flex-basis: 100%;
-    } */
+    .image-gallery figure {
+        flex-basis: calc(50% - 0.2rem); /* Duas colunas */
+    }
+
+    /* galeria de 3 colunas */
+    .image-gallery.three-columns figure {
+        flex-basis: calc((100% - 1rem) / 3); /* Três colunas */
+    }
+
+
 
     main div section .subtitulo-pracas{
         gap: 0 0.75rem;
