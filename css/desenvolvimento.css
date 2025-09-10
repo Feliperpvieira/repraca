@@ -66,6 +66,55 @@ main div section .single-subtitle .numeracao{
 }
 
 
+
+/* --- Novo Estilo para o Sumário --- */
+.sumario-nav ul {
+    list-style: none;
+    padding-left: 0;
+    column-count: 2; /* Duas colunas em telas maiores */
+    column-gap: 2.5rem;
+}
+
+.sumario-nav>ul>li {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+    break-inside: avoid-column; /* Evita que itens de lista quebrem entre colunas */
+}
+
+.sumario-nav > ul > li > a {
+    color: var(--azul-marinho);
+}
+
+.sumario-nav>ul>li>ul {
+    list-style: none;
+    padding-left: 1.5rem;
+    margin-top: 0.75rem;
+    border-left: 2px solid #eee;
+}
+
+.sumario-nav>ul>li>ul>li {
+    font-size: 1rem;
+    margin-bottom: 0.6rem;
+    font-weight: 400;
+}
+
+.sumario-nav a {
+    color: var(--azul);
+    text-decoration: none;
+    display: inline-block;
+}
+
+.sumario-nav a:hover {
+    text-decoration: underline;
+    transform: translateX(2px);
+    transition: transform 0.2s ease-out;
+}
+/* --- Fim do Estilo para o Sumário --- */
+
+
+
+
 /* Galeria de Imagens */
 .image-gallery {
     display: flex;
