@@ -228,6 +228,11 @@ figcaption {
         gap: 0 1rem;
     }
 
+    .sumario-nav ul {
+        column-count: 1; 
+    }
+
+
     /* Galeria de Imagens */
     .image-gallery {
         gap: 0 0.4rem;
