@@ -61,3 +61,11 @@ header .logo:hover img{
     text-align:center; 
     margin: 48px 0;
 }
+
+
+
+/* remove a margem excessiva no repense, reimagine, repraça no fim das paginas */
+.repraca-def{
+    margin-top: 0;
+}
+

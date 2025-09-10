@@ -362,6 +362,16 @@ header{
     display: block;
     margin: auto;
     margin-bottom: 160px;
+
+    /* We specify 'box-shadow' and 'transform' for a slightly more performant transition */
+    transition: filter 0.3s ease, transform 0.3s ease;
+}
+
+.repraca-def a img:hover{ /* botao disponivel no google play move no hover */
+    transform: translateY(-3px); /* Moves the element up by 3 pixels */
+    
+    /* The values are: x-offset | y-offset | blur | color */
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.25));
 }
 
 
