@@ -141,16 +141,22 @@ header{
     margin: -40px 0;
 }
 
-.header-cover > img{
-    width: 100%;
-    position: absolute; /* img centered */
-    top:-100%; left:0; right: 0; bottom:-100%;
-    z-index: -1;
-    margin: auto;
+.header-cover > img {
+    /* position: absolute; */
+    /* top:-100%; left:0; right: 0; bottom:-100%; */
+    /* margin: auto; */
 
-      /* Add the blur effect */
-    filter: blur(2px);
-    -webkit-filter: blur(2px);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+
+    /* filtro de desfoque */
+    filter: blur(3px);
+    -webkit-filter: blur(3px);
 }
 
 /* google play */
@@ -703,7 +709,7 @@ footer > div{
 
     /* capa google play */
     .header-cover{
-        height: 40vh;
+        height: 38vh;
     }
 
     .header-cover > img{
