@@ -15,6 +15,15 @@ public class CameraCapture : MonoBehaviour
     string album = "rePraca";
     MediaSaveCallback callback = null;
 
+    // Referência para o BuildingManager
+    private BuildingManager buildingManager;
+
+    // Função Start para encontrar o BuildingManager quando a cena carrega
+    void Start()
+    {
+        buildingManager = GameObject.Find("BuildingManager").GetComponent<BuildingManager>();
+    }
+
     public static string ScreenShotName(string nomeCena, string angulo) //define o nome do arquivo
     {
         /*return string.Format("praca_{0}-{1}_{2}.png",
@@ -44,6 +53,16 @@ public class CameraCapture : MonoBehaviour
         byte[] imagemAngulo = toTexture2D(rtVistaAngulo, 1920, 1200).EncodeToPNG(); //transforma a renderTexture em texture 2d
         string fileNameAng = ScreenShotName(sceneName, "angulo"); //define o nome do arquivo
         NativeGallery.SaveImageToGallery(imagemAngulo, album, fileNameAng, callback);
+
+        // Chama a função de gerar o JSON logo após salvar as imagens!
+        if (buildingManager != null)
+        {
+            buildingManager.GerarJsonDaPraca();
+        }
+        else
+        {
+            Debug.LogError("BuildingManager não encontrado no CameraCapture!");
+        }
 
         botaoSalvar.SetActive(false);
     }

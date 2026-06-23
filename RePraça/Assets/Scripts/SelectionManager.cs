@@ -101,9 +101,17 @@ public class SelectionManager : MonoBehaviour
             outline.OutlineColor = Color.white;
         }
 
-        objNameText.text = obj.name; //coloca o nome do objeto selecionado no campo de texto do nome da interface
+        //objNameText.text = obj.name; //coloca o nome do objeto selecionado no campo de texto do nome da interface
+        // NOVA LÓGICA DE NOME: Procura o objeto na lista do BuildingManager usando o nome (que agora é o ID)
+        ObjetoPosicionadoData dadosSalvos = buildingManager.objetosPosicionados.Find(item => item.id == obj.name);
+        if (dadosSalvos != null) //por algum motivo sem isso da bug
+        {
+            objNameText.text = dadosSalvos.nome;
+        }
 
-       if(buildingManager.pendingObject == null)
+
+
+        if (buildingManager.pendingObject == null)
         {
             objSelectUI.SetActive(true); //faz o pop-up de seleção de objeto aparecer
         }
@@ -128,7 +136,11 @@ public class SelectionManager : MonoBehaviour
     public void Delete()
     {
         GameObject objToDestroy = selectedObject;
-        buildingManager.objetosPosicionados.Remove(objToDestroy.name);
+
+        // Procura na lista o objeto que tem o mesmo ID (salvo no nome do GameObject) e remove
+        buildingManager.objetosPosicionados.RemoveAll(item => item.id == objToDestroy.name);
+
+        //buildingManager.objetosPosicionados.Remove(objToDestroy.name); //substituido pelo novo
         Deselect(); //desseleciona o objeto antes de deletar
         Destroy(objToDestroy);
     }

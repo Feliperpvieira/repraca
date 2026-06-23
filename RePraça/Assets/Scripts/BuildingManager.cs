@@ -30,7 +30,9 @@ public class BuildingManager : MonoBehaviour
     private SelectionManager selectionManager;
     private DiaNoite iluminacaoManager;
 
-    public List<string> objetosPosicionados = new List<string>();
+    //public List<string> objetosPosicionados = new List<string>(); //forma antiga de guardar o que estava adicionado na cena
+    public List<ObjetoPosicionadoData> objetosPosicionados = new List<ObjetoPosicionadoData>();
+    public ObjetosData dadosDoObjetoPendente; // Nova variável para guardar os dados da UI
 
 
     void Start()
@@ -101,8 +103,33 @@ public class BuildingManager : MonoBehaviour
         //pendingObject.GetComponent<MeshRenderer>().material = materialPlacement[2]; //define a cor final ao posicionar o objeto
         if (canPlace)
         {
-            objetosPosicionados.Add(pendingObject.name);
-            
+            // 1. Procura se o objeto já existe na lista (caso ele esteja apenas sendo movido)
+            // Se ele já existir, o nome do GameObject vai ser igual ao ID dele salvo na lista
+            ObjetoPosicionadoData objetoExistente = objetosPosicionados.Find(item => item.id == pendingObject.name);
+
+            if (objetoExistente != null)
+            {
+                // SE ELE JÁ EXISTE (está sendo movido), apenas atualiza a posição e rotação
+                objetoExistente.posicao = pendingObject.transform.position;
+                objetoExistente.rotacao = pendingObject.transform.eulerAngles;
+            }
+            else
+            {
+                // SE ELE NÃO EXISTE (é um objeto novo), cria um novo pacote de dados
+                ObjetoPosicionadoData novoObjeto = new ObjetoPosicionadoData();
+                novoObjeto.id = System.Guid.NewGuid().ToString(); // Cria o ID único
+                novoObjeto.nome = pendingObject.name; // Pega o nome do prefab (ex: "Banco")
+                novoObjeto.categoria = dadosDoObjetoPendente.categoria; // Pega a categoria
+                novoObjeto.posicao = pendingObject.transform.position;
+                novoObjeto.rotacao = pendingObject.transform.eulerAngles;
+
+                // Salva o ID no nome do GameObject para facilitar na hora de deletar e mover
+                pendingObject.name = novoObjeto.id;
+
+                // Adiciona na lista
+                objetosPosicionados.Add(novoObjeto);
+            }
+
             pendingObject = null; //o objeto que estava selecionado não tá selecionado mais
             selectionManager.Deselect();
         }
@@ -201,4 +228,42 @@ public class BuildingManager : MonoBehaviour
             painelObjetos.SetActive(true);
         }
     }
+
+    //gerar o JSON com os dados todos da cena construída
+    public string GerarJsonDaPraca()
+    {
+        // Prepara o pacote final com todas as informações
+        JsonPayloadData payload = new JsonPayloadData();
+        payload.nomeDoJogador = "Visitante"; // opcional? 
+        payload.dataCriacao = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm");
+        payload.layoutDaPraca = objetosPosicionados;
+
+        // Transforma a classe em uma string JSON formatada
+        string jsonPronto = JsonUtility.ToJson(payload, true);
+
+        Debug.Log("JSON Gerado: \n" + jsonPronto);
+        return jsonPronto;
+    }
+
 }
+
+
+//nova lista de itens posicionados na fase pelo player
+[System.Serializable]
+public class ObjetoPosicionadoData
+{
+    public string id; // Útil para quando for deletar um objeto
+    public string nome;
+    public string categoria;
+    public Vector3 posicao; //coordenadas x e y do objeto na cena
+    public Vector3 rotacao; //rotacao do objeto na cena
+}
+
+[System.Serializable] //transforma em um json pro upload
+public class JsonPayloadData
+{
+    public string nomeDoJogador;
+    public string dataCriacao;
+    public List<ObjetoPosicionadoData> layoutDaPraca;
+}
+

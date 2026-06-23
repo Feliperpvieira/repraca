@@ -75,6 +75,9 @@ public class BotaoObjManager : MonoBehaviour
 
     public void AdicionaObjeto() //funcao do botao adicionar que ta no painel
     {
+        // Passa os dados completos (ScriptableObject) para o BuildingManager saber a categoria
+        buildingManager.dadosDoObjetoPendente = dados;
+
         buildingManager.SelectObject(objetoToBeConstruido); //passa o prefab pro building manager construir
     }
 }
