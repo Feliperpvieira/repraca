@@ -74,3 +74,6 @@ crashlytics-build.properties
 # OS generated files #
 .DS_Store
 .DS_Store?
+
+# keys and stuff #
+Assets/Scripts/Secrets.cs
