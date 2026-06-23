@@ -862,7 +862,7 @@ PlayerSettings:
   additionalIl2CppArgs: 
   scriptingRuntimeVersion: 1
   gcIncremental: 1
-  assemblyVersionValidation: 1
+  assemblyVersionValidation: 0
   gcWBarrierValidation: 0
   apiCompatibilityLevelPerPlatform: {}
   m_RenderingPath: 1
@@ -942,7 +942,7 @@ PlayerSettings:
   cloudProjectId: bad1ea72-5d48-4005-801a-fec99d6b7756
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: RePraça
+  projectName: "RePra\xE7a"
   organizationId: feliperpv
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0

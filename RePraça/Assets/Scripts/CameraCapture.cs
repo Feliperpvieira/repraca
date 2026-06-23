@@ -17,11 +17,15 @@ public class CameraCapture : MonoBehaviour
 
     // Referência para o BuildingManager
     private BuildingManager buildingManager;
+    // Referência para o SupabaseManager
+    private SupabaseManager supabaseManager;
 
     // Função Start para encontrar o BuildingManager quando a cena carrega
     void Start()
     {
         buildingManager = GameObject.Find("BuildingManager").GetComponent<BuildingManager>();
+        // Encontra o SupabaseManager na cena (GameObject chama "SupabaseManager")
+        supabaseManager = GameObject.Find("SupabaseManager").GetComponent<SupabaseManager>();
     }
 
     public static string ScreenShotName(string nomeCena, string angulo) //define o nome do arquivo
@@ -62,6 +66,23 @@ public class CameraCapture : MonoBehaviour
         else
         {
             Debug.LogError("BuildingManager não encontrado no CameraCapture!");
+        }
+
+        // Upload pro supabase
+        if (buildingManager != null && supabaseManager != null)
+        {
+            // 1. Pega a string do JSON que o BuildingManager gerou
+            string jsonPronto = buildingManager.GerarJsonDaPraca();
+
+            // 2. Conta quantos objetos existem na lista
+            int totalDeObjetos = buildingManager.objetosPosicionados.Count;
+
+            // 3. Dispara a função de upload no Supabase com as imagens E a contagem
+            _ = supabaseManager.UploadCreationData("Visitante", jsonPronto, imagemAngulo, imagemTopo, totalDeObjetos);
+        }
+        else
+        {
+            Debug.LogError("BuildingManager ou SupabaseManager não encontrados no CameraCapture!");
         }
 
         botaoSalvar.SetActive(false);
