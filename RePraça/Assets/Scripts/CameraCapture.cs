@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 using static NativeGallery;
 
 public class CameraCapture : MonoBehaviour
@@ -19,6 +21,20 @@ public class CameraCapture : MonoBehaviour
     private BuildingManager buildingManager;
     // Referência para o SupabaseManager
     private SupabaseManager supabaseManager;
+
+    [Header("Upload progress UI Feedback")]
+    public GameObject painelLoading; //painel com o status de loading pro server
+    public TextMeshProUGUI tituloLoading;
+    public TextMeshProUGUI textoLoading;
+    public GameObject iconeLoading;
+    public GameObject iconeErro;
+
+    // Referências para a barra de progresso e o texto da percentagem
+    public UnityEngine.UI.Slider barraProgresso;
+    public TextMeshProUGUI textoPorcentagem;
+    private float progressoAtual = 0f;
+    private bool estaAEnviar = false;
+
 
     // Função Start para encontrar o BuildingManager quando a cena carrega
     void Start()
@@ -43,8 +59,46 @@ public class CameraCapture : MonoBehaviour
         //                     System.DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss"));
     }
 
-    public void SaveTexture()
+    void Update()
     {
+        if (estaAEnviar && barraProgresso != null) //se o upload estiver ocorrendo
+        {
+            // O Supabase devolve um número de 0 a 100
+            barraProgresso.value = progressoAtual;
+
+            // O Mathf.RoundToInt arredonda para não mostrar casas decimais (ex: 45%)
+            if (textoPorcentagem != null)
+                textoPorcentagem.text = Mathf.RoundToInt(progressoAtual) + "%";
+        }
+    }
+
+    // ADICIONADO O 'async' AQUI!
+    public async void SaveTexture()
+    {
+        // 1. CHECAGEM DE INTERNET
+        if (Application.internetReachability == NetworkReachability.NotReachable)
+        {
+            painelLoading.SetActive(true);
+            iconeLoading.SetActive(false);
+            iconeErro.SetActive(true);
+            barraProgresso.gameObject.SetActive(false);
+            textoPorcentagem.gameObject.SetActive(false);
+            tituloLoading.text = "Sem conexão com a internet!";
+            textoLoading.text = "Verifique seu Wi-Fi ou Dados.";
+            //await Task.Delay(3000); // Espera 3 segundos para o jogador ler
+            //painelLoading.SetActive(false);
+            return; // PARA A EXECUÇÃO AQUI (não tenta fazer upload sem internet)
+        }
+
+        // 2. ATIVA A UI DE LOADING
+        botaoSalvar.SetActive(false);
+        painelLoading.SetActive(true);
+        iconeLoading.SetActive(true);
+        iconeErro.SetActive(false);
+        barraProgresso.gameObject.SetActive(true);
+        textoPorcentagem.gameObject.SetActive(true);
+        tituloLoading.text = "Gerando imagens...";
+
         string sceneName = SceneManager.GetActiveScene().name;
 
         byte[] imagemTopo = toTexture2D(rtVistaTopo, 1200, 1200).EncodeToPNG(); //transforma a renderTexture em texture 2d
@@ -68,17 +122,41 @@ public class CameraCapture : MonoBehaviour
             Debug.LogError("BuildingManager não encontrado no CameraCapture!");
         }
 
-        // Upload pro supabase
+        // 3. LÓGICA DE UPLOAD COM FEEDBACK
         if (buildingManager != null && supabaseManager != null)
         {
-            // 1. Pega a string do JSON que o BuildingManager gerou
-            string jsonPronto = buildingManager.GerarJsonDaPraca();
+            tituloLoading.text = "Enviando para a nuvem...";
+            textoLoading.text = "Isto pode levar alguns segundos, aguarde.";
 
-            // 2. Conta quantos objetos existem na lista
+            string jsonPronto = buildingManager.GerarJsonDaPraca();
             int totalDeObjetos = buildingManager.objetosPosicionados.Count;
 
-            // 3. Dispara a função de upload no Supabase com as imagens E a contagem
-            _ = supabaseManager.UploadCreationData("Visitante", jsonPronto, imagemAngulo, imagemTopo, totalDeObjetos);
+            estaAEnviar = true; // Liga a barra de progresso no Update
+
+            // ESPERA O UPLOAD TERMINAR E GUARDA O RESULTADO (true/false)
+            // ADICIONADO A FUNÇÃO DE PROGRESSO NO FINAL PARA A BARRA FUNCIONAR
+            bool uploadSucesso = await supabaseManager.UploadCreationData("Visitante", jsonPronto, imagemAngulo, imagemTopo, totalDeObjetos, (progresso) => { progressoAtual = progresso; });
+
+            estaAEnviar = false; // Desliga a barra de progresso no Update
+
+            // 4. FEEDBACK FINAL
+            if (uploadSucesso)
+            {
+                tituloLoading.text = "<color=#98AB56>Praça exportada com sucesso!</color>";
+                textoLoading.text = ":)";
+            }
+            else
+            {
+                tituloLoading.text = "<color=#B76F51>Erro no servidor.</color>";
+                textoLoading.text = "Confira sua conexão e tente novamente.";
+                botaoSalvar.SetActive(true); // Reativa o botão se quiserem tentar de novo
+            }
+
+            // Espera 2 segundos para o usuário ler a mensagem de sucesso/erro (DESCOMENTADO PARA A UI FUNCIONAR BEM)
+            await Task.Delay(2500);
+
+            // Você pode esconder o painel aqui, ou carregar a tela inicial/menu principal!
+            painelLoading.SetActive(false);
         }
         else
         {
