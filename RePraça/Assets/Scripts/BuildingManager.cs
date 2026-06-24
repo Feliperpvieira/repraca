@@ -6,12 +6,11 @@ using UnityEngine.UI;
 
 public class BuildingManager : MonoBehaviour
 {
-
-    //public GameObject[] objects; //lista de objetos - todos os objetos ficavam aqui e eles eram construídos pelo seu index
-    public GameObject pendingObject; //objeto selecionado
+    [Header("UI")]
     public GameObject painelObjetos; //painel com botoes e info pra adicionar objetos
     public GameObject botaoAddObjetos; //botao de adicionar novos objetos
     public GameObject interfaceTopoSistema; //botoes do topo da tela
+    public Button botaoConcluir; //botao de exportar praça, para deixar inativo quando mexe objeto
 
     //[SerializeField] private Material[] materialPlacement; //materiais pra indicar por cor se pode ou não colocar um novo objeto ali - substituido por outline
 
@@ -20,6 +19,7 @@ public class BuildingManager : MonoBehaviour
 
     [SerializeField] private LayerMask layerMask;
 
+    [Header("stuff")]
     public float rotateAmount;
 
     public float gridSize;
@@ -30,9 +30,12 @@ public class BuildingManager : MonoBehaviour
     private SelectionManager selectionManager;
     private DiaNoite iluminacaoManager;
 
+    [Header("o jogo gere")]
     //public List<string> objetosPosicionados = new List<string>(); //forma antiga de guardar o que estava adicionado na cena
     public List<ObjetoPosicionadoData> objetosPosicionados = new List<ObjetoPosicionadoData>();
     public ObjetosData dadosDoObjetoPendente; // Nova variável para guardar os dados da UI
+    //public GameObject[] objects; //lista de objetos - todos os objetos ficavam aqui e eles eram construídos pelo seu index
+    public GameObject pendingObject; //objeto selecionado
 
 
     void Start()
@@ -48,6 +51,7 @@ public class BuildingManager : MonoBehaviour
         if(pendingObject != null) //checa se existe um objeto selecionado
         {
             botaoAddObjetos.SetActive(false);
+            botaoConcluir.interactable = false; //nao da pra exportar a praça se selecionar algo
             UpdateMaterials(); //atualiza a cor pra definir se pode ou nao colocar lá
 
             if (Input.touchSupported && Application.platform != RuntimePlatform.WebGLPlayer) //se for uma plataforma com touchscreen
@@ -75,6 +79,7 @@ public class BuildingManager : MonoBehaviour
         else if(pendingObject == null)
         {
             botaoAddObjetos.SetActive(true);
+            botaoConcluir.interactable = true;
         }
     }
 

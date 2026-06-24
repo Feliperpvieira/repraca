@@ -3345,10 +3345,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57c0e5349f7b04a3f888e57223482ca3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pendingObject: {fileID: 0}
   painelObjetos: {fileID: 741305825}
   botaoAddObjetos: {fileID: 278991199}
   interfaceTopoSistema: {fileID: 1465966867}
+  botaoConcluir: {fileID: 1040632114}
   layerMask:
     serializedVersion: 2
     m_Bits: 8
@@ -3358,6 +3358,7 @@ MonoBehaviour:
   gridToggle: {fileID: 1581478718}
   objetosPosicionados: []
   dadosDoObjetoPendente: {fileID: 0}
+  pendingObject: {fileID: 0}
 --- !u!4 &394526726
 Transform:
   m_ObjectHideFlags: 0
@@ -8019,7 +8020,7 @@ MonoBehaviour:
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_DisabledColor: {r: 0.5566038, g: 0.5566038, b: 0.5566038, a: 0.6313726}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
