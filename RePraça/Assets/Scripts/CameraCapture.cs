@@ -9,11 +9,14 @@ using static NativeGallery;
 
 public class CameraCapture : MonoBehaviour
 {
+    [Header("Cameras para gerar imagens")]
     public RenderTexture rtVistaTopo;
     public RenderTexture rtVistaAngulo;
 
-    public GameObject botaoSalvar;
-
+    [Header("UI pre e pos exportar")]
+    public GameObject telaExportar;
+    public GameObject telaSiteGaleria;
+    
     string album = "rePraca";
     MediaSaveCallback callback = null;
 
@@ -91,7 +94,8 @@ public class CameraCapture : MonoBehaviour
         }
 
         // 2. ATIVA A UI DE LOADING
-        botaoSalvar.SetActive(false);
+        //botaoSalvar.SetActive(false);
+
         painelLoading.SetActive(true);
         iconeLoading.SetActive(true);
         iconeErro.SetActive(false);
@@ -144,18 +148,20 @@ public class CameraCapture : MonoBehaviour
             {
                 tituloLoading.text = "<color=#98AB56>Praça exportada com sucesso!</color>";
                 textoLoading.text = ":)";
+
+                //botaoSalvar.SetActive(false);
+                telaExportar.SetActive(false);
+                telaSiteGaleria.SetActive(true);
             }
             else
             {
                 tituloLoading.text = "<color=#B76F51>Erro no servidor.</color>";
                 textoLoading.text = "Confira sua conexão e tente novamente.";
-                botaoSalvar.SetActive(true); // Reativa o botão se quiserem tentar de novo
+                // Espera 2 segundos para o usuário ler a mensagem de sucesso/erro (DESCOMENTADO PARA A UI FUNCIONAR BEM)
+                await Task.Delay(2500);
+                //botaoSalvar.SetActive(true); // Reativa o botão se quiserem tentar de novo
             }
 
-            // Espera 2 segundos para o usuário ler a mensagem de sucesso/erro (DESCOMENTADO PARA A UI FUNCIONAR BEM)
-            await Task.Delay(2500);
-
-            // Você pode esconder o painel aqui, ou carregar a tela inicial/menu principal!
             painelLoading.SetActive(false);
         }
         else
@@ -163,7 +169,7 @@ public class CameraCapture : MonoBehaviour
             Debug.LogError("BuildingManager ou SupabaseManager não encontrados no CameraCapture!");
         }
 
-        botaoSalvar.SetActive(false);
+        
     }
 
     Texture2D toTexture2D(RenderTexture rTex, int width, int height)
