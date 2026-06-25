@@ -25,8 +25,8 @@ public class SupabaseManager : MonoBehaviour
         Debug.Log("Iniciando upload para a nuvem...");
 
         // Nomes únicos para as duas imagens
-        string fileAngulo = $"praca_ang_{System.Guid.NewGuid()}.png";
-        string fileTopo = $"praca_topo_{System.Guid.NewGuid()}.png";
+        string fileAngulo = $"praca_ang_{System.Guid.NewGuid()}.jpg";
+        string fileTopo = $"praca_topo_{System.Guid.NewGuid()}.jpg";
 
         // Variáveis para guardar o progresso individual de cada imagem
         float progressoAngulo = 0f;
@@ -62,7 +62,7 @@ public class SupabaseManager : MonoBehaviour
         try
         {
             var storage = supabaseClient.Storage.From("praca_images");
-            var result = await storage.Upload(imageBytes, fileName, new Supabase.Storage.FileOptions { ContentType = "image/png" }, onProgress);
+            var result = await storage.Upload(imageBytes, fileName, new Supabase.Storage.FileOptions { ContentType = "image/jpg" }, onProgress);
             return result;
         }
         catch (System.Exception e)

@@ -105,14 +105,14 @@ public class CameraCapture : MonoBehaviour
 
         string sceneName = SceneManager.GetActiveScene().name;
 
-        byte[] imagemTopo = toTexture2D(rtVistaTopo, 1200, 1200).EncodeToPNG(); //transforma a renderTexture em texture 2d
+        byte[] imagemTopo = toTexture2D(rtVistaTopo, 1200, 1200).EncodeToJPG(); //transforma a renderTexture em texture 2d
         string fileName = ScreenShotName(sceneName, "topo"); //define o nome do arquivo
         //System.IO.File.WriteAllBytes(fileName, bytes);
         NativeGallery.SaveImageToGallery(imagemTopo, album, fileName, callback); //plugin native gallery https://github.com/yasirkula/UnityNativeGallery
 
         //Debug.Log(string.Format("Took screenshot to: {0}", fileName));
 
-        byte[] imagemAngulo = toTexture2D(rtVistaAngulo, 1920, 1200).EncodeToPNG(); //transforma a renderTexture em texture 2d
+        byte[] imagemAngulo = toTexture2D(rtVistaAngulo, 1920, 1200).EncodeToJPG(); //transforma a renderTexture em texture 2d
         string fileNameAng = ScreenShotName(sceneName, "angulo"); //define o nome do arquivo
         NativeGallery.SaveImageToGallery(imagemAngulo, album, fileNameAng, callback);
 
