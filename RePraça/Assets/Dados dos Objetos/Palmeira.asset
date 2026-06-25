@@ -14,7 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nome: Palmeira
   categoria: Paisagem
-  tamanho: 6 m de altura
+  comprimento: 0,3m
+  largura: 0,3m
+  altura: 6m
   materiais: "\xC1rvore"
   descricao: "Palmeiras s\xE3o plantas de caule n\xE3o ramificado, sendo muito assimiladas
     a um ar tropical. Com ra\xEDzes curtas, s\xE3o menos prop\xEDcias a danificarem

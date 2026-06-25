@@ -14,7 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nome: "Est\xE1tua"
   categoria: Paisagem
-  tamanho: 1,8 x 0,6 x 0,6 m
+  comprimento: 0,6m
+  largura: 0,6m
+  altura: 1,8m
   materiais: Cobre
   descricao: "Her\xF3is nacionais ou locais, membros de lutas sociais... Todo lugar
     possui figuras que devem ser homenageadas, e est\xE1tuas s\xE3o uma das principais

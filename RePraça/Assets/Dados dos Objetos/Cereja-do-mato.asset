@@ -14,7 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nome: Cereja-do-mato
   categoria: Paisagem
-  tamanho: 4 a 8 m de altura
+  comprimento: 1,4m
+  largura: 1,4m
+  altura: 4 a 8m
   materiais: "\xC1rvore"
   descricao: "Esp\xE9cie nativa brasileira, a Cereja-do-mato \xE9 altamente atrativa
     para os pass\xE1ros por ser frut\xEDfera. Ornamental, ela apresenta de pequeno

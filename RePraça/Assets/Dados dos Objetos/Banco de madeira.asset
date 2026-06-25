@@ -14,7 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nome: Banco
   categoria: Lazer
-  tamanho: 0,85 x 0,5 x 1,1 m
+  comprimento: 1,1m
+  largura: 0,5m
+  altura: 0,85m
   materiais: Madeira e metal
   descricao: "De todas as formas de descanso poss\xEDveis, essa costuma ser uma das
     favoritas dos frequentadores. A madeira proporciona maior conforto do que o concreto

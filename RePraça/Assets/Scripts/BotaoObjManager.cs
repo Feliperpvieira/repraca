@@ -10,7 +10,9 @@ public class BotaoObjManager : MonoBehaviour
     public TextMeshProUGUI painelNomeObjeto;
     public Image painelImagemObjeto;
     public TextMeshProUGUI painelCategoria;
-    public TextMeshProUGUI painelMedidas;
+    public TextMeshProUGUI painelMedidasComp;
+    public TextMeshProUGUI painelMedidasLarg;
+    public TextMeshProUGUI painelMedidasAltura;
     public TextMeshProUGUI painelMaterial;
     public TextMeshProUGUI painelTxtDescricao;
     public GameObject painelCompleto;
@@ -68,7 +70,9 @@ public class BotaoObjManager : MonoBehaviour
         painelImagemObjeto.sprite = dados.imagemObjeto;
         objetoToBeConstruido = dados.prefab;
         painelCategoria.text = dados.categoria;
-        painelMedidas.text = dados.tamanho;
+        painelMedidasComp.text = dados.comprimento;
+        painelMedidasLarg.text = dados.largura;
+        painelMedidasAltura.text = dados.altura;
         painelMaterial.text = dados.materiais;
         painelTxtDescricao.text = dados.descricao;
     }

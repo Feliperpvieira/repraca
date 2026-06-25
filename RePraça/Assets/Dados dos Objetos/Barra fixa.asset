@@ -14,7 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nome: Barra Fixa
   categoria: "Atividade f\xEDsica"
-  tamanho: 2 x 0,1 x 1 m
+  comprimento: 1m
+  largura: 0,1m
+  altura: 2m
   materiais: Metal
   descricao: "Popular pelo seu baixo pre\xE7o de produ\xE7\xE3o e facilidade do uso,
     o exerc\xEDcio de barra permite o alongamento dos membros inferiores e superiores

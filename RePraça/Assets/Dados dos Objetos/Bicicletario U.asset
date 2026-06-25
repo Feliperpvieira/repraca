@@ -14,7 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nome: "Biciclet\xE1rio U"
   categoria: Transporte
-  tamanho: 0,8 x 0,6 x 0,8 m
+  comprimento: 0,8m
+  largura: 0,6m
+  altura: 0,8m
   materiais: Metal
   descricao: "Em formato de U invertido, esse \xE9 considerado por muitos o melhor
     tipo de biciclet\xE1rio existente, pois oferece seguran\xE7a e estabilidade ao

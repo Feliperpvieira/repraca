@@ -14,7 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nome: Escorrega
   categoria: Infantil
-  tamanho: 2,4 x 0,8 x 3,2 m
+  comprimento: 3,2m
+  largura: 0,8m
+  altura: 2,4m
   materiais: Madeira
   descricao: "O escorrega permite que as crian\xE7as sintam o vento correndo enquanto
     experimentam sua queda de mais de 2 metros de altura. Os detalhes coloridos na
