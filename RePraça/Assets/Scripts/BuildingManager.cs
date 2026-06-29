@@ -103,7 +103,8 @@ public class BuildingManager : MonoBehaviour
                     MoveObjectOnMap(); //se NAO estiver tocando num botao atualiza a posicao do objeto no mapa
                 }
             
-            }else if (!EventSystem.current.IsPointerOverGameObject()) //else se estiver no pc usa o ponteiro do mouse
+            }
+            else if (!EventSystem.current.IsPointerOverGameObject()) //else se estiver no pc usa o ponteiro do mouse
             {
                 MoveObjectOnMap(); //se o ponteiro do mouse NAO estiver sobre um botao atualiza a posicao do objeto no mapa
             }
@@ -120,7 +121,10 @@ public class BuildingManager : MonoBehaviour
         }
         else if(pendingObject == null)
         {
-            botaoAddObjetos.SetActive(true);
+            //checa true ou false se a interface do topo da tela esta ativa
+            bool nenhumPainelAberto = interfaceTopoSistema.activeInHierarchy; //atribui o estado true ou false a variavel
+
+            botaoAddObjetos.SetActive(nenhumPainelAberto); //o botao add objetos segue o mesmo estado do topo da tela
             botaoConcluir.interactable = true;
         }
     }
@@ -295,12 +299,12 @@ public class BuildingManager : MonoBehaviour
         if(painelObjetos.activeInHierarchy == true)
         {
             interfaceTopoSistema.SetActive(true);
-            painelObjetos.SetActive(false);
+            painelObjetos.SetActive(false);           
         }
         else if (painelObjetos.activeInHierarchy == false)
         {
             interfaceTopoSistema.SetActive(false);
-            painelObjetos.SetActive(true);
+            painelObjetos.SetActive(true);            
 
             // A CORREÇÃO: Desseleciona qualquer objeto aberto na praça ao abrir a loja!
             if (selectionManager.selectedObject != null)

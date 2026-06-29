@@ -16,6 +16,8 @@ public class CameraCapture : MonoBehaviour
     [Header("UI pre e pos exportar")]
     public GameObject telaExportar;
     public GameObject telaSiteGaleria;
+    public GameObject painelAnimadoSucesso;
+    public GameObject canvasPrincipal;
     
     string album = "rePraca";
     MediaSaveCallback callback = null;
@@ -38,6 +40,8 @@ public class CameraCapture : MonoBehaviour
     private float progressoAtual = 0f;
     private bool estaAEnviar = false;
 
+    private Vector3 tamanhoOrgPainel;
+
 
     // Função Start para encontrar o BuildingManager quando a cena carrega
     void Start()
@@ -45,6 +49,8 @@ public class CameraCapture : MonoBehaviour
         buildingManager = GameObject.Find("BuildingManager").GetComponent<BuildingManager>();
         // Encontra o SupabaseManager na cena (GameObject chama "SupabaseManager")
         supabaseManager = GameObject.Find("SupabaseManager").GetComponent<SupabaseManager>();
+
+        tamanhoOrgPainel = painelAnimadoSucesso.transform.localScale; //salva o tamanho do painel de conclusao na UI
     }
 
     public static string ScreenShotName(string nomeCena, string angulo) //define o nome do arquivo
@@ -108,13 +114,18 @@ public class CameraCapture : MonoBehaviour
         byte[] imagemTopo = toTexture2D(rtVistaTopo, 1200, 1200).EncodeToJPG(); //transforma a renderTexture em texture 2d
         string fileName = ScreenShotName(sceneName, "topo"); //define o nome do arquivo
         //System.IO.File.WriteAllBytes(fileName, bytes);
-        NativeGallery.SaveImageToGallery(imagemTopo, album, fileName, callback); //plugin native gallery https://github.com/yasirkula/UnityNativeGallery
 
         //Debug.Log(string.Format("Took screenshot to: {0}", fileName));
 
         byte[] imagemAngulo = toTexture2D(rtVistaAngulo, 1920, 1200).EncodeToJPG(); //transforma a renderTexture em texture 2d
         string fileNameAng = ScreenShotName(sceneName, "angulo"); //define o nome do arquivo
-        NativeGallery.SaveImageToGallery(imagemAngulo, album, fileNameAng, callback);
+
+        if (PlayerPrefs.GetInt("SalvarGaleria") == 1)
+        {
+            NativeGallery.SaveImageToGallery(imagemTopo, album, fileName, callback); //plugin native gallery https://github.com/yasirkula/UnityNativeGallery
+            NativeGallery.SaveImageToGallery(imagemAngulo, album, fileNameAng, callback);
+        }
+
 
         // Chama a função de gerar o JSON logo após salvar as imagens!
         if (buildingManager != null)
@@ -151,7 +162,19 @@ public class CameraCapture : MonoBehaviour
 
                 //botaoSalvar.SetActive(false);
                 telaExportar.SetActive(false);
+
+                // ativa tudo, com o blur de fundo
                 telaSiteGaleria.SetActive(true);
+
+                // ANIMA APENAS O PAINEL DO MEIO
+                if (painelAnimadoSucesso != null)
+                {
+                    
+                    painelAnimadoSucesso.transform.localScale = Vector3.zero; 
+                    LeanTween.cancel(painelAnimadoSucesso);
+                    LeanTween.scale(painelAnimadoSucesso, tamanhoOrgPainel, 0.4f).setEaseOutBack();
+                }
+                
             }
             else
             {
@@ -180,5 +203,40 @@ public class CameraCapture : MonoBehaviour
         tex.Apply();
         Destroy(tex);//prevents memory leak
         return tex;
+    }
+
+    // Função para ser chamada pelo botão de fechar/OK da tela de sucesso
+    public void FecharTelaSucesso()
+    {
+        if (telaSiteGaleria.activeInHierarchy)
+        {
+            if (painelAnimadoSucesso != null)
+            {
+                LeanTween.cancel(painelAnimadoSucesso);
+
+                // O painel do meio encolhe primeiro...
+                LeanTween.scale(painelAnimadoSucesso, Vector3.zero, 0.2f)
+                    .setEaseInQuad()
+                    .setOnComplete(() =>
+                    {
+                        // Quando terminar de encolher, desliga a tela toda (tirando o blur da frente)
+                        telaSiteGaleria.SetActive(false);
+
+                        // ...e regressa a UI principal
+                        if (canvasPrincipal != null)
+                        {
+                            canvasPrincipal.SetActive(true);
+                            CanvasGroup cg = canvasPrincipal.GetComponent<CanvasGroup>();
+                            if (cg == null)
+                            {
+                                cg = canvasPrincipal.AddComponent<CanvasGroup>();
+                            }
+
+                            cg.alpha = 0f;
+                            LeanTween.alphaCanvas(cg, 1f, 0.3f).setEaseOutQuad();
+                        }
+                    });
+            }
+        }
     }
 }
