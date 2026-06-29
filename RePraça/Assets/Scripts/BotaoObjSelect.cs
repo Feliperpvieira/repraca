@@ -19,6 +19,11 @@ public class BotaoObjSelect : MonoBehaviour
 
     public void SelecionaObjeto() //funcao usada ao clicar no botão
     {
+        // LEANTWEEN: Animação de "aperto" (escala reduz para 0.9 e volta a 1)
+        LeanTween.cancel(this.gameObject);
+        transform.localScale = Vector3.one; // Garante que começa no tamanho certo
+        LeanTween.scale(this.gameObject, new Vector3(0.9f, 0.9f, 0.9f), 0.1f).setLoopPingPong(1);
+
         //Passa os dados do arquivo dadosObj pro script BotaoObjManager do GridAddObjects, ele vai fazer tudo a partir daqui
         objetosManager.newImgDestaque = imagemDestaque;
         objetosManager.dados = dadosObj;

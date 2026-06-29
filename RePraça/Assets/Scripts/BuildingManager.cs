@@ -48,7 +48,49 @@ public class BuildingManager : MonoBehaviour
 
     void Update()
     {
-        if(pendingObject != null) //checa se existe um objeto selecionado
+        if (Input.touchCount > 1) return; // Se o usuário estiver fazendo zoom com 2 dedos, não mexe o objeto
+
+        // NOVO: Verifica se estamos a clicar na tela real ou num botão da UI
+        bool isPointerOverUI = false;
+        bool isInputAtivo = false;
+        Vector3 cursorPosition = Input.mousePosition;
+
+        if (Input.touchCount > 0)
+        {
+            // Checa UI para toques na tela (Mobile)
+            isPointerOverUI = EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId);
+            isInputAtivo = true;
+            cursorPosition = Input.GetTouch(0).position;
+        }
+        else
+        {
+            // Checa UI para cliques do Mouse (PC)
+            isPointerOverUI = EventSystem.current.IsPointerOverGameObject();
+
+            // No PC, queremos que o objeto siga o mouse sempre. 
+            // No mobile, se não houver toques na tela, não movemos o objeto!
+            if (Application.isMobilePlatform)
+            {
+                isInputAtivo = Input.GetMouseButton(0);
+            }
+            else
+            {
+                isInputAtivo = true;
+            }
+        }
+
+        // ORIGINAL MELHORADO: Só atira o raycast e move o 'pos' se o utilizador não estiver a clicar na UI!
+        if (isInputAtivo && !isPointerOverUI)
+        {
+            Ray ray = Camera.main.ScreenPointToRay(cursorPosition);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, 1000, layerMask))
+            {
+                pos = hit.point;
+            }
+        }
+
+        if (pendingObject != null) //checa se existe um objeto selecionado
         {
             botaoAddObjetos.SetActive(false);
             botaoConcluir.interactable = false; //nao da pra exportar a praça se selecionar algo
@@ -66,7 +108,7 @@ public class BuildingManager : MonoBehaviour
                 MoveObjectOnMap(); //se o ponteiro do mouse NAO estiver sobre um botao atualiza a posicao do objeto no mapa
             }
 
-            if (Input.GetKeyDown(KeyCode.P) && canPlace) //se apertar P & canPlace for true
+            if (Input.GetKeyDown(KeyCode.P)) //se apertar P & canPlace for true
             {
                 PlaceObject();
             }
@@ -138,7 +180,16 @@ public class BuildingManager : MonoBehaviour
             pendingObject = null; //o objeto que estava selecionado não tá selecionado mais
             selectionManager.Deselect();
         }
-        
+        else if (pendingObject != null)
+        {
+            // FEEDBACK VISUAL DE ERRO: O objeto dá uma "tremidinha"
+            if (!LeanTween.isTweening(pendingObject)) //evita que rode se ja estiver durante uma animacao
+            {
+                LeanTween.rotateAroundLocal(pendingObject, Vector3.up, 15f, 0.05f).setLoopPingPong(3); // Gira 15 graus super rápido (0.05s) no próprio eixo e volta (ping-pong) 3 vezes
+            }
+            
+        }
+
     }
 
     public void RotateObject()
@@ -175,9 +226,28 @@ public class BuildingManager : MonoBehaviour
 
     public void SelectObject(GameObject objeto) //seleciona o objeto, é chamado pelo BotaoManager, o objeto é o prefab que ta no scriptable object dados
     {
+        // Calcula o centro exato do que a câmera está a ver neste momento, para que os novos objetos apareçam no meio da tela
+        Ray raioCentro = Camera.main.ScreenPointToRay(new Vector3(Screen.width / 2f, Screen.height / 2f, 0f));
+        RaycastHit hitCentro;
+
+        if (Physics.Raycast(raioCentro, out hitCentro, 1000f, layerMask))
+        {
+            pos = hitCentro.point; // Define a posição de spawn para o meio da tela
+        }
+
+     
         pendingObject = Instantiate(objeto, pos, transform.rotation);
         pendingObject.name = objeto.name;
-        
+
+        // ANIMACAO - Guarda o tamanho original do prefab
+        Vector3 escalaOriginal = pendingObject.transform.localScale;
+
+        // LEANTWEEN: O objeto nasce com escala 0 (invisível)
+        pendingObject.transform.localScale = Vector3.zero;
+
+        // LEANTWEEN: Ele cresce até a escala ORIGINAL
+        LeanTween.scale(pendingObject, escalaOriginal, 0.4f).setEaseOutBack();
+
         selectionManager.Select(pendingObject);
         //pendingObject.AddComponent<Outline>(); //não precisa mais adicionar o outline pq ele é adicionado no Select()
         Outline outline = pendingObject.GetComponent<Outline>();
@@ -231,6 +301,12 @@ public class BuildingManager : MonoBehaviour
         {
             interfaceTopoSistema.SetActive(false);
             painelObjetos.SetActive(true);
+
+            // A CORREÇÃO: Desseleciona qualquer objeto aberto na praça ao abrir a loja!
+            if (selectionManager.selectedObject != null)
+            {
+                selectionManager.Deselect();
+            }
         }
     }
 

@@ -1246,7 +1246,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2786590664661327768, guid: c4d7c777f96444986a36db32c94fd6f3, type: 3}
       propertyPath: m_SizeDelta.x
-      value: -680
+      value: -200
       objectReference: {fileID: 0}
     - target: {fileID: 2786590664661327768, guid: c4d7c777f96444986a36db32c94fd6f3, type: 3}
       propertyPath: m_SizeDelta.y
@@ -1282,7 +1282,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2786590664661327768, guid: c4d7c777f96444986a36db32c94fd6f3, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -140
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 2786590664661327768, guid: c4d7c777f96444986a36db32c94fd6f3, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -2554,13 +2554,14 @@ GameObject:
   - component: {fileID: 290431884}
   - component: {fileID: 290431883}
   - component: {fileID: 290431885}
+  - component: {fileID: 290431886}
   m_Layer: 5
   m_Name: Painel Obj
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &290431882
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2601,7 +2602,7 @@ MonoBehaviour:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
+  m_Maskable: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2653,6 +2654,18 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!225 &290431886
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 290431881}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &299423173
 GameObject:
   m_ObjectHideFlags: 0
@@ -14291,7 +14304,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -438.1228, y: 0}
+  m_SizeDelta: {x: -435.3418, y: 0}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1594598296
 MonoBehaviour:
@@ -14391,6 +14404,9 @@ MonoBehaviour:
   painelTxtDescricao: {fileID: 89012718}
   painelCompleto: {fileID: 290431881}
   prefabBotaoAdd: {fileID: 2835635252568780169, guid: 05a20688296524f3381f27194795a19a, type: 3}
+  painelCanvasGroup: {fileID: 290431886}
+  tempoFade: 0.25
+  distanciaEsconder: 150
   currentImgDestaque: {fileID: 0}
   newImgDestaque: {fileID: 0}
   dados: {fileID: 0}
@@ -17552,10 +17568,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 290431881}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 1594598300}
+        m_TargetAssemblyTypeName: BotaoObjManager, Assembly-CSharp
+        m_MethodName: FecharPainelObjs
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
