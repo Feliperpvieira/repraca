@@ -11,7 +11,8 @@ public class BuildingManager : MonoBehaviour
     public GameObject botaoAddObjetos; //botao de adicionar novos objetos
     public GameObject interfaceTopoSistema; //botoes do topo da tela
     public Button botaoConcluir; //botao de exportar praça, para deixar inativo quando mexe objeto
-
+    private Vector3 escalaOriginalPainelObjetos;
+    public GameObject painelObjetosConteudoAnimado;
     //[SerializeField] private Material[] materialPlacement; //materiais pra indicar por cor se pode ou não colocar um novo objeto ali - substituido por outline
 
     private Vector3 pos; //posição do obj
@@ -43,7 +44,8 @@ public class BuildingManager : MonoBehaviour
         //coloca o objeto SelectManager da scene na variavel do codigo
         selectionManager = GameObject.Find("SelectManager").GetComponent<SelectionManager>();
         iluminacaoManager = GameObject.Find("IluminacaoManager").GetComponent<DiaNoite>(); //pega o script DiaNoite dentro do gameobject iluminacao manager
-
+        
+        escalaOriginalPainelObjetos = painelObjetosConteudoAnimado.transform.localScale; //guarda o tamanho do painel de objetos definido no editor
     }
 
     void Update()
@@ -296,21 +298,61 @@ public class BuildingManager : MonoBehaviour
 
     public void PainelAddObjetos() //liga e desliga as coisas do painel de adicionar objetos
     {
-        if(painelObjetos.activeInHierarchy == true)
+        // pega o canvas group de todos os elementos para poder animar a transparencia
+        CanvasGroup cgTopo = interfaceTopoSistema.GetComponent<CanvasGroup>();
+        CanvasGroup cgBotaoAdd = botaoAddObjetos.GetComponent<CanvasGroup>();
+        CanvasGroup cgPainel = painelObjetos.GetComponent<CanvasGroup>();
+
+
+        if (painelObjetos.activeInHierarchy == true)
         {
+            // ===== FECHANDO O PAINEL =====
+            LeanTween.cancel(interfaceTopoSistema);
+            LeanTween.cancel(botaoAddObjetos);
+            LeanTween.cancel(painelObjetos);
+
+            LeanTween.alphaCanvas(cgPainel, 0f, 0.2f).setOnComplete(() =>
+            {
+                painelObjetos.SetActive(false); // Só desliga de vez no fim da animação
+            });
+
+            // A interface do topo (e o botão) ligam imediatamente, mas invisíveis...
             interfaceTopoSistema.SetActive(true);
-            painelObjetos.SetActive(false);           
+            botaoAddObjetos.SetActive(true); // (O Update vai mantê-lo ligado porque o topo agora está on)
+
+            cgTopo.alpha = 0f;
+            cgBotaoAdd.alpha = 0f;
+
+            // ...e fazem o Fade In suave!
+            LeanTween.alphaCanvas(cgTopo, 1f, 0.3f).setEaseOutQuad();
+            LeanTween.alphaCanvas(cgBotaoAdd, 1f, 0.3f).setEaseOutQuad();
         }
         else if (painelObjetos.activeInHierarchy == false)
         {
-            interfaceTopoSistema.SetActive(false);
-            painelObjetos.SetActive(true);            
+            // ===== ABRINDO O PAINEL =====
+            LeanTween.cancel(interfaceTopoSistema);
+            LeanTween.cancel(botaoAddObjetos);
+            LeanTween.cancel(painelObjetos);
 
-            // A CORREÇÃO: Desseleciona qualquer objeto aberto na praça ao abrir a loja!
             if (selectionManager.selectedObject != null)
             {
                 selectionManager.Deselect();
             }
+
+            // A interface do topo e o botão fazem Fade Out juntos
+            LeanTween.alphaCanvas(cgBotaoAdd, 0f, 0.2f);
+            LeanTween.alphaCanvas(cgTopo, 0f, 0.2f).setOnComplete(() =>
+            {
+                interfaceTopoSistema.SetActive(false); 
+                // Assim que o topo desliga, o Update desliga o botão "+" automaticamente
+            });
+
+            // O painel da loja liga transparente...
+            painelObjetos.SetActive(true);
+            cgPainel.alpha = 0f;
+
+            // ...faz o Fade In...
+            LeanTween.alphaCanvas(cgPainel, 1f, 0.2f).setEaseOutQuad();
         }
     }
 
