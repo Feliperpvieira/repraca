@@ -149,8 +149,11 @@ public class CameraCapture : MonoBehaviour
             estaAEnviar = true; // Liga a barra de progresso no Update
 
             // ESPERA O UPLOAD TERMINAR E GUARDA O RESULTADO (true/false)
+
             // ADICIONADO A FUNÇÃO DE PROGRESSO NO FINAL PARA A BARRA FUNCIONAR
-            bool uploadSucesso = await supabaseManager.UploadCreationData("Visitante", jsonPronto, imagemAngulo, imagemTopo, totalDeObjetos, (progresso) => { progressoAtual = progresso; });
+
+            string idJogador = buildingManager.idJogador; //obtém o id do jogador do script building manager
+            bool uploadSucesso = await supabaseManager.UploadCreationData(idJogador, jsonPronto, imagemAngulo, imagemTopo, totalDeObjetos, (progresso) => { progressoAtual = progresso; });
 
             estaAEnviar = false; // Desliga a barra de progresso no Update
 

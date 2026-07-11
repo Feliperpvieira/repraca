@@ -38,13 +38,15 @@ public class BuildingManager : MonoBehaviour
     //public GameObject[] objects; //lista de objetos - todos os objetos ficavam aqui e eles eram construídos pelo seu index
     public GameObject pendingObject; //objeto selecionado
 
+    public string idJogador; //identificacao unica, anonima e aleatoria para cada dispositivo
+
 
     void Start()
     {
         //coloca o objeto SelectManager da scene na variavel do codigo
         selectionManager = GameObject.Find("SelectManager").GetComponent<SelectionManager>();
         iluminacaoManager = GameObject.Find("IluminacaoManager").GetComponent<DiaNoite>(); //pega o script DiaNoite dentro do gameobject iluminacao manager
-        
+
         escalaOriginalPainelObjetos = painelObjetosConteudoAnimado.transform.localScale; //guarda o tamanho do painel de objetos definido no editor
     }
 
@@ -104,7 +106,7 @@ public class BuildingManager : MonoBehaviour
                 {
                     MoveObjectOnMap(); //se NAO estiver tocando num botao atualiza a posicao do objeto no mapa
                 }
-            
+
             }
             else if (!EventSystem.current.IsPointerOverGameObject()) //else se estiver no pc usa o ponteiro do mouse
             {
@@ -121,7 +123,7 @@ public class BuildingManager : MonoBehaviour
                 RotateObject();
             }
         }
-        else if(pendingObject == null)
+        else if (pendingObject == null)
         {
             //checa true ou false se a interface do topo da tela esta ativa
             bool nenhumPainelAberto = interfaceTopoSistema.activeInHierarchy; //atribui o estado true ou false a variavel
@@ -193,7 +195,7 @@ public class BuildingManager : MonoBehaviour
             {
                 LeanTween.rotateAroundLocal(pendingObject, Vector3.up, 15f, 0.05f).setLoopPingPong(3); // Gira 15 graus super rápido (0.05s) no próprio eixo e volta (ping-pong) 3 vezes
             }
-            
+
         }
 
     }
@@ -207,12 +209,12 @@ public class BuildingManager : MonoBehaviour
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition); //posição que vai colocar o objeto sendo segurado
 
-        if(Physics.Raycast(ray, out hit, 1000, layerMask)) //esse 1000 é a distância que ele vai, pode trocar por uma variavel se quiser //layermask vai ser pra impedir que construa coisa sobre coisa
+        if (Physics.Raycast(ray, out hit, 1000, layerMask)) //esse 1000 é a distância que ele vai, pode trocar por uma variavel se quiser //layermask vai ser pra impedir que construa coisa sobre coisa
         {
             pos = hit.point; //o point pega o impact point no worldspace, basicamente diz pro jogo onde colocar o objeto
         }
     }
-    
+
     void UpdateMaterials()
     {
         Outline outline = pendingObject.GetComponent<Outline>();
@@ -241,7 +243,7 @@ public class BuildingManager : MonoBehaviour
             pos = hitCentro.point; // Define a posição de spawn para o meio da tela
         }
 
-     
+
         pendingObject = Instantiate(objeto, pos, transform.rotation);
         pendingObject.name = objeto.name;
 
@@ -287,9 +289,9 @@ public class BuildingManager : MonoBehaviour
         float xDiff = pos % gridSize; //calcula o resto da posição pelo grid size
 
         //aí subtrai ou soma a posição pela diferença pra colocar a posição no grid mais próximo
-        pos -= xDiff; 
+        pos -= xDiff;
 
-        if(xDiff > (gridSize / 2))
+        if (xDiff > (gridSize / 2))
         {
             pos += gridSize;
         }
@@ -343,7 +345,7 @@ public class BuildingManager : MonoBehaviour
             LeanTween.alphaCanvas(cgBotaoAdd, 0f, 0.2f);
             LeanTween.alphaCanvas(cgTopo, 0f, 0.2f).setOnComplete(() =>
             {
-                interfaceTopoSistema.SetActive(false); 
+                interfaceTopoSistema.SetActive(false);
                 // Assim que o topo desliga, o Update desliga o botão "+" automaticamente
             });
 
@@ -361,7 +363,19 @@ public class BuildingManager : MonoBehaviour
     {
         // Prepara o pacote final com todas as informações
         JsonPayloadData payload = new JsonPayloadData();
-        payload.nomeDoJogador = "Visitante"; // opcional? 
+
+        // Tenta procurar um ID salvo. Se não existir, devolve uma string vazia.
+        idJogador = PlayerPrefs.GetString("PlayerUUID", "");
+
+        // Se a string estiver vazia, é a primeira vez que o utilizador abre o jogo
+        if (string.IsNullOrEmpty(idJogador))
+        {
+            idJogador = System.Guid.NewGuid().ToString(); // Gera um ID único (ex: 123e4567-e89b-12d3-a456-426614174000)
+            PlayerPrefs.SetString("PlayerUUID", idJogador);
+            PlayerPrefs.Save();
+        }
+
+        payload.nomeDoJogador = idJogador;
         payload.dataCriacao = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm");
         payload.layoutDaPraca = objetosPosicionados;
 
