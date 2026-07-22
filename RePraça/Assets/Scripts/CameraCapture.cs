@@ -126,17 +126,6 @@ public class CameraCapture : MonoBehaviour
             NativeGallery.SaveImageToGallery(imagemAngulo, album, fileNameAng, callback);
         }
 
-
-        // Chama a função de gerar o JSON logo após salvar as imagens!
-        if (buildingManager != null)
-        {
-            buildingManager.GerarJsonDaPraca();
-        }
-        else
-        {
-            Debug.LogError("BuildingManager não encontrado no CameraCapture!");
-        }
-
         // 3. LÓGICA DE UPLOAD COM FEEDBACK
         if (buildingManager != null && supabaseManager != null)
         {
@@ -152,8 +141,22 @@ public class CameraCapture : MonoBehaviour
 
             // ADICIONADO A FUNÇÃO DE PROGRESSO NO FINAL PARA A BARRA FUNCIONAR
 
-            string idJogador = buildingManager.idJogador; //obtém o id do jogador do script building manager
-            bool uploadSucesso = await supabaseManager.UploadCreationData(idJogador, jsonPronto, imagemAngulo, imagemTopo, totalDeObjetos, (progresso) => { progressoAtual = progresso; });
+            // 1. Obtém todos os IDs necessários do BuildingManager
+            string idJogador = buildingManager.idJogador;
+            string idDaPraca = buildingManager.idDaPracaAtual;
+            string idDoPai = buildingManager.idDaPracaPai;
+
+            // 2. Chama a função passando os argumentos
+            bool uploadSucesso = await supabaseManager.UploadCreationData(
+                idJogador,
+                idDaPraca,
+                idDoPai,
+                jsonPronto,
+                imagemAngulo,
+                imagemTopo,
+                totalDeObjetos,
+                (progresso) => { progressoAtual = progresso; }
+            );
 
             estaAEnviar = false; // Desliga a barra de progresso no Update
 

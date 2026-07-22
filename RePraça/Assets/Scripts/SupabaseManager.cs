@@ -20,7 +20,7 @@ public class SupabaseManager : MonoBehaviour
         Debug.Log("Supabase Conectado!");
     }
 
-    public async Task<bool> UploadCreationData(string playerName, string jsonLayoutData, byte[] imageAnguloBytes, byte[] imageTopoBytes, int totalObjects, Action<float> onProgress)
+    public async Task<bool> UploadCreationData(string playerName, string pracaId, string pracaPaiId, string jsonLayoutData, byte[] imageAnguloBytes, byte[] imageTopoBytes, int totalObjects, Action<float> onProgress)
     {
         Debug.Log("Iniciando upload para a nuvem...");
 
@@ -54,7 +54,7 @@ public class SupabaseManager : MonoBehaviour
         string urlTopo = supabaseClient.Storage.From("praca_images").GetPublicUrl(fileTopo);
 
         // Enviar o JSON e as DUAS URLs para o Banco de Dados
-        return await SaveDataToDatabase(playerName, jsonLayoutData, urlAngulo, urlTopo, totalObjects);
+        return await SaveDataToDatabase(playerName, pracaId, pracaPaiId, jsonLayoutData, urlAngulo, urlTopo, totalObjects);
     }
 
     private async Task<string> UploadImageToStorage(byte[] imageBytes, string fileName, EventHandler<float> onProgress)
@@ -72,12 +72,14 @@ public class SupabaseManager : MonoBehaviour
         }
     }
 
-    private async Task<bool> SaveDataToDatabase(string playerName, string jsonPayload, string urlAngulo, string urlTopo, int totalObjects)
+    private async Task<bool> SaveDataToDatabase(string playerName, string pracaId, string pracaPaiId, string jsonPayload, string urlAngulo, string urlTopo, int totalObjects)
     {
         try
         {
             var insertData = new CityCreationModel
             {
+                PracaId = pracaId,      
+                PracaPaiId = pracaPaiId,
                 PlayerName = playerName,
                 ImageUrl = urlAngulo,
                 ImageTopoUrl = urlTopo,
@@ -100,6 +102,12 @@ public class SupabaseManager : MonoBehaviour
     [Postgrest.Attributes.Table("city_creations")]
     class CityCreationModel : Postgrest.Models.BaseModel
     {
+        [Postgrest.Attributes.Column("praca_id")] 
+        public string PracaId { get; set; }
+
+        [Postgrest.Attributes.Column("praca_pai_id")]
+        public string PracaPaiId { get; set; }
+
         [Postgrest.Attributes.Column("player_name")]
         public string PlayerName { get; set; }
 

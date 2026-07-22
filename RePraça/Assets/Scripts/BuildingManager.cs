@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using System.IO;
 
 public class BuildingManager : MonoBehaviour
 {
@@ -39,9 +40,12 @@ public class BuildingManager : MonoBehaviour
     public GameObject pendingObject; //objeto selecionado
 
     public string idJogador; //identificacao unica, anonima e aleatoria para cada dispositivo
+ 
+    public string idDaPracaAtual = ""; //numero random pra identificar a praça criada localmente e no server
+    public string idDaPracaPai = ""; //se for um fork de outra praça, salva a original
 
 
-    void Start()
+    void Awake()
     {
         //coloca o objeto SelectManager da scene na variavel do codigo
         selectionManager = GameObject.Find("SelectManager").GetComponent<SelectionManager>();
@@ -375,6 +379,14 @@ public class BuildingManager : MonoBehaviour
             PlayerPrefs.Save();
         }
 
+        // Se a praça ainda não tem ID (é uma praça nova), gera um novo UUID
+        if (string.IsNullOrEmpty(idDaPracaAtual))
+        {
+            idDaPracaAtual = System.Guid.NewGuid().ToString();
+        }
+
+        payload.pracaId = idDaPracaAtual;
+        payload.pracaPaiId = idDaPracaPai;
         payload.nomeDoJogador = idJogador;
         payload.dataCriacao = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm");
         payload.layoutDaPraca = objetosPosicionados;
@@ -385,6 +397,89 @@ public class BuildingManager : MonoBehaviour
         Debug.Log("JSON Gerado: \n" + jsonPronto);
         return jsonPronto;
     }
+
+
+    //Salvar a praça no dispositivo, localmente
+    public void SalvarPracaLocalmente()
+    {
+        // obtem o JSON da cena atual
+        string jsonPronto = GerarJsonDaPraca();
+
+        // O nome do ficheiro É o ID da praça. Se o ficheiro já existir, o WriteAllText substitui-o
+        string caminhoFicheiro = Path.Combine(Application.persistentDataPath, idDaPracaAtual + ".json");
+        System.IO.File.WriteAllText(caminhoFicheiro, jsonPronto);
+
+        // Escreve o ficheiro no telemóvel
+        Debug.Log("Praça salva com sucesso em: " + caminhoFicheiro);
+    }
+
+
+    // Carrega uma praça (seja da galeria ou local)
+    public void CarregarPraca(string caminhoDoFicheiroLocal, string jsonDaGaleria, bool isRemixDaGaleria)
+    {
+        string jsonParaCarregar = "";
+
+        // 1. DEFINIR DE ONDE VEM O JSON
+        if (isRemixDaGaleria)
+        {
+            // Se é um remix, usamos o JSON que baixamos da internet
+            jsonParaCarregar = jsonDaGaleria;
+        }
+        else
+        {
+            // Se é local, lemos o ficheiro do dispositivo
+            if (File.Exists(caminhoDoFicheiroLocal))
+            {
+                jsonParaCarregar = File.ReadAllText(caminhoDoFicheiroLocal);
+            }
+            else
+            {
+                Debug.LogWarning("Ficheiro local não encontrado!");
+                return; // Sai da função porque não há nada para carregar
+            }
+        }
+
+        // 2. LER OS DADOS (Declaramos a variável pracaSalva apenas UMA vez aqui)
+        JsonPayloadData pracaSalva = JsonUtility.FromJson<JsonPayloadData>(jsonParaCarregar);
+
+        // 3. ATUALIZAR OS IDs
+        if (isRemixDaGaleria)
+        {
+            idDaPracaPai = pracaSalva.pracaId;
+            idDaPracaAtual = System.Guid.NewGuid().ToString(); // Gera ID novo
+        }
+        else
+        {
+            idDaPracaAtual = pracaSalva.pracaId;
+            idDaPracaPai = pracaSalva.pracaPaiId; // Mantém o que já estava salvo
+        }
+
+        // 4. LIMPAR A CENA ATUAL
+        foreach (var objData in objetosPosicionados)
+        {
+            GameObject objNaCena = GameObject.Find(objData.id);
+            if (objNaCena != null) Destroy(objNaCena);
+        }
+        objetosPosicionados.Clear();
+
+        // 5. RECONSTRUIR A PRAÇA
+        BotaoObjManager lojaManager = FindObjectOfType<BotaoObjManager>(true);
+
+        foreach (ObjetoPosicionadoData item in pracaSalva.layoutDaPraca)
+        {
+            BotaoObjSelect botaoOriginal = lojaManager.botoesCriados.Find(b => b.dadosObj.prefab.name == item.nome);
+
+            if (botaoOriginal != null)
+            {
+                GameObject novoObj = Instantiate(botaoOriginal.dadosObj.prefab, item.posicao, Quaternion.Euler(item.rotacao));
+                novoObj.name = item.id;
+                objetosPosicionados.Add(item);
+            }
+        }
+
+        Debug.Log("Praça carregada com sucesso!");
+    }
+
 
 }
 
@@ -403,7 +498,9 @@ public class ObjetoPosicionadoData
 [System.Serializable] //transforma em um json pro upload
 public class JsonPayloadData
 {
-    public string nomeDoJogador;
+    public string pracaId; // ID Único DESTA praça
+    public string pracaPaiId; // ID da praça original (vazio se for uma criação do zero)
+    public string nomeDoJogador; //nao é um nome nome mas um id unico por dispositivo
     public string dataCriacao;
     public List<ObjetoPosicionadoData> layoutDaPraca;
 }
