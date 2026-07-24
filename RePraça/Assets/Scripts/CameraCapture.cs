@@ -120,9 +120,25 @@ public class CameraCapture : MonoBehaviour
         byte[] imagemAngulo = toTexture2D(rtVistaAngulo, 1920, 1200).EncodeToJPG(); //transforma a renderTexture em texture 2d
         string fileNameAng = ScreenShotName(sceneName, "angulo"); //define o nome do arquivo
 
-        if (PlayerPrefs.GetInt("SalvarGaleria") == 1)
+        if (PlayerPrefs.GetInt("SalvarGaleria") == 1) // config de salvar na galeria do dispositivo
         {
-            NativeGallery.SaveImageToGallery(imagemTopo, album, fileName, callback); //plugin native gallery https://github.com/yasirkula/UnityNativeGallery
+            //metodo antigo falhava no iOS, substituido pelo abaixo com espera
+            //NativeGallery.SaveImageToGallery(imagemTopo, album, fileName, callback); //plugin native gallery https://github.com/yasirkula/UnityNativeGallery
+            //NativeGallery.SaveImageToGallery(imagemAngulo, album, fileNameAng, callback);
+
+            //  fazer o código esperar
+            TaskCompletionSource<bool> esperaPrimeiraImagem = new TaskCompletionSource<bool>();
+
+            // salvar a imagem de Topo
+            NativeGallery.SaveImageToGallery(imagemTopo, album, fileName, (sucesso, caminho) =>
+            {
+                esperaPrimeiraImagem.SetResult(sucesso);
+            });
+
+            // pausa aqui em background (sem travar o jogo) até o iOS terminar
+            await esperaPrimeiraImagem.Task;
+
+            // a imagem de Ângulo
             NativeGallery.SaveImageToGallery(imagemAngulo, album, fileNameAng, callback);
         }
 
