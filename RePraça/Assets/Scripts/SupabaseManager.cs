@@ -20,7 +20,7 @@ public class SupabaseManager : MonoBehaviour
         Debug.Log("Supabase Conectado!");
     }
 
-    public async Task<bool> UploadCreationData(string playerName, string pracaId, string pracaPaiId, string jsonLayoutData, byte[] imageAnguloBytes, byte[] imageTopoBytes, int totalObjects, Action<float> onProgress)
+    public async Task<bool> UploadCreationData(string playerName, string pracaId, string pracaPaiId, string sceneName, string jsonLayoutData, byte[] imageAnguloBytes, byte[] imageTopoBytes, int totalObjects, Action<float> onProgress)
     {
         Debug.Log("Iniciando upload para a nuvem...");
 
@@ -54,7 +54,7 @@ public class SupabaseManager : MonoBehaviour
         string urlTopo = supabaseClient.Storage.From("praca_images").GetPublicUrl(fileTopo);
 
         // Enviar o JSON e as DUAS URLs para o Banco de Dados
-        return await SaveDataToDatabase(playerName, pracaId, pracaPaiId, jsonLayoutData, urlAngulo, urlTopo, totalObjects);
+        return await SaveDataToDatabase(playerName, pracaId, pracaPaiId, sceneName, jsonLayoutData, urlAngulo, urlTopo, totalObjects);
     }
 
     private async Task<string> UploadImageToStorage(byte[] imageBytes, string fileName, EventHandler<float> onProgress)
@@ -72,7 +72,7 @@ public class SupabaseManager : MonoBehaviour
         }
     }
 
-    private async Task<bool> SaveDataToDatabase(string playerName, string pracaId, string pracaPaiId, string jsonPayload, string urlAngulo, string urlTopo, int totalObjects)
+    private async Task<bool> SaveDataToDatabase(string playerName, string pracaId, string pracaPaiId, string sceneName, string jsonPayload, string urlAngulo, string urlTopo, int totalObjects)
     {
         try
         {
@@ -81,6 +81,7 @@ public class SupabaseManager : MonoBehaviour
                 PracaId = pracaId,      
                 PracaPaiId = pracaPaiId,
                 PlayerName = playerName,
+                SceneName = sceneName,
                 ImageUrl = urlAngulo,
                 ImageTopoUrl = urlTopo,
                 TotalObjects = totalObjects,
@@ -119,6 +120,9 @@ public class SupabaseManager : MonoBehaviour
 
         [Postgrest.Attributes.Column("total_objects")]
         public int TotalObjects { get; set; }
+
+        [Postgrest.Attributes.Column("nome_da_cena")]
+        public string SceneName { get; set; }
 
         [Postgrest.Attributes.Column("layout_data")]
         public string LayoutData { get; set; }

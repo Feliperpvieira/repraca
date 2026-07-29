@@ -167,6 +167,7 @@ public class CameraCapture : MonoBehaviour
                 idJogador,
                 idDaPraca,
                 idDoPai,
+                sceneName,
                 jsonPronto,
                 imagemAngulo,
                 imagemTopo,

@@ -44,6 +44,21 @@ public class BuildingManager : MonoBehaviour
     public string idDaPracaAtual = ""; //numero random pra identificar a praça criada localmente e no server
     public string idDaPracaPai = ""; //se for um fork de outra praça, salva a original
 
+    void Start()
+    {
+        // Verifica se a tela inicial mandou abrir um ficheiro
+        if (PlayerPrefs.HasKey("PracaParaCarregar"))
+        {
+            // Pega o caminho
+            string caminho = PlayerPrefs.GetString("PracaParaCarregar");
+
+            // Chama a função principal de carregar praça
+            CarregarPraca(caminho, "", false);
+
+            // Apaga a chave para que, se o utilizador reiniciar a cena depois, não carregue isto acidentalmente
+            PlayerPrefs.DeleteKey("PracaParaCarregar");
+        }
+    }
 
     void Awake()
     {
@@ -389,6 +404,7 @@ public class BuildingManager : MonoBehaviour
         payload.pracaPaiId = idDaPracaPai;
         payload.nomeDoJogador = idJogador;
         payload.dataCriacao = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm");
+        payload.nomeDaCena = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name; // Pega o nome exato da cena atual em que o utilizador está a jogar
         payload.layoutDaPraca = objetosPosicionados;
 
         // Transforma a classe em uma string JSON formatada
@@ -467,18 +483,36 @@ public class BuildingManager : MonoBehaviour
 
         foreach (ObjetoPosicionadoData item in pracaSalva.layoutDaPraca)
         {
-            BotaoObjSelect botaoOriginal = lojaManager.botoesCriados.Find(b => b.dadosObj.prefab.name == item.nome);
+            ObjetosData dadosOriginais = null;
 
-            if (botaoOriginal != null)
+            // Em vez de procurar nos botões, procura diretamente na lista de ScriptableObjects!
+            foreach (ObjetosData objData in lojaManager.listaTodosDados)
             {
-                GameObject novoObj = Instantiate(botaoOriginal.dadosObj.prefab, item.posicao, Quaternion.Euler(item.rotacao));
-                novoObj.name = item.id;
+                if (objData.prefab.name == item.nome)
+                {
+                    dadosOriginais = objData;
+                    break;
+                }
+            }
+
+            if (dadosOriginais != null)
+            {
+                // Instancia o objeto na posição e rotação salvas
+                GameObject novoObj = Instantiate(dadosOriginais.prefab, item.posicao, Quaternion.Euler(item.rotacao));
+                novoObj.name = item.id; // Restaura o ID original
+
+                // Readiciona à lista local para o jogo voltar a geri-lo
                 objetosPosicionados.Add(item);
+            }
+            else
+            {
+                Debug.LogWarning("Não foi possível encontrar o modelo 3D para: " + item.nome);
             }
         }
 
         Debug.Log("Praça carregada com sucesso!");
     }
+
 
 
 }
@@ -501,6 +535,7 @@ public class JsonPayloadData
     public string pracaId; // ID Único DESTA praça
     public string pracaPaiId; // ID da praça original (vazio se for uma criação do zero)
     public string nomeDoJogador; //nao é um nome nome mas um id unico por dispositivo
+    public string nomeDaCena; //nome da scene no unity pra quando for reabrir o arquivo salvo saber a scene pra abrir
     public string dataCriacao;
     public List<ObjetoPosicionadoData> layoutDaPraca;
 }
