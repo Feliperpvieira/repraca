@@ -4057,7 +4057,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefabBotaoArquivo: {fileID: 7925321493096676222, guid: a1771c7a4d9d440148c14fa5bd5a7d60, type: 3}
   conteudoScroll: {fileID: 500898930}
-  nomeDaCenaDoJogo: NomeDaSuaCenaAqui
 --- !u!114 &2124541455
 MonoBehaviour:
   m_ObjectHideFlags: 0

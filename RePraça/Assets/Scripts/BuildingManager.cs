@@ -16,6 +16,9 @@ public class BuildingManager : MonoBehaviour
     public GameObject painelObjetosConteudoAnimado;
     //[SerializeField] private Material[] materialPlacement; //materiais pra indicar por cor se pode ou não colocar um novo objeto ali - substituido por outline
 
+    [Header("Cameras para gerar imagens")] 
+    public RenderTexture rtVistaTopo; //mesma camera do camera capture
+
     private Vector3 pos; //posição do obj
     private RaycastHit hit;
 
@@ -31,6 +34,7 @@ public class BuildingManager : MonoBehaviour
 
     private SelectionManager selectionManager;
     private DiaNoite iluminacaoManager;
+
 
     [Header("o jogo gere")]
     //public List<string> objetosPosicionados = new List<string>(); //forma antiga de guardar o que estava adicionado na cena
@@ -425,8 +429,41 @@ public class BuildingManager : MonoBehaviour
         string caminhoFicheiro = Path.Combine(Application.persistentDataPath, idDaPracaAtual + ".json");
         System.IO.File.WriteAllText(caminhoFicheiro, jsonPronto);
 
+        // Captura a textura e salva um jpg com o mesmo nome do JSON
+        if (rtVistaTopo != null)
+        {
+            string caminhoImagem = Path.Combine(Application.persistentDataPath, idDaPracaAtual + ".jpg");
+
+            // 1. Criamos uma RenderTexture temporária pequenina (256x256 é super leve e perfeito para UI)
+            RenderTexture rtMiniatura = RenderTexture.GetTemporary(256, 256, 0);
+
+            // 2. O truque mágico: Copia a vista gigante para a pequenina. A Unity encolhe a imagem inteira automaticamente!
+            Graphics.Blit(rtVistaTopo, rtMiniatura);
+
+            // 3. Agora lemos os pixels dessa nova versão pequenina e convertemos para Texture2D
+            Texture2D tex = toTexture2D(rtMiniatura, 256, 256);
+            byte[] bytes = tex.EncodeToJPG();
+
+            // 4. Guardamos no telemóvel
+            System.IO.File.WriteAllBytes(caminhoImagem, bytes);
+
+            // 5. Limpeza de memória importantíssima
+            Destroy(tex);
+            RenderTexture.ReleaseTemporary(rtMiniatura); // Apaga a memória temporária que criámos
+        }
+
         // Escreve o ficheiro no telemóvel
         Debug.Log("Praça salva com sucesso em: " + caminhoFicheiro);
+    }
+
+    // função copiada do CameraCapture
+    Texture2D toTexture2D(RenderTexture rTex, int width, int height)
+    {
+        Texture2D tex = new Texture2D(width, height, TextureFormat.RGB24, false);
+        RenderTexture.active = rTex;
+        tex.ReadPixels(new Rect(0, 0, rTex.width, rTex.height), 0, 0);
+        tex.Apply();
+        return tex;
     }
 
 
@@ -512,6 +549,8 @@ public class BuildingManager : MonoBehaviour
 
         Debug.Log("Praça carregada com sucesso!");
     }
+
+
 
 
 

@@ -3939,6 +3939,7 @@ MonoBehaviour:
   interfaceTopoSistema: {fileID: 1465966867}
   botaoConcluir: {fileID: 1040632114}
   painelObjetosConteudoAnimado: {fileID: 266547599}
+  rtVistaTopo: {fileID: 8400000, guid: 466a8c9ea41e74e0184c2ce04a306394, type: 2}
   layerMask:
     serializedVersion: 2
     m_Bits: 8

@@ -46,6 +46,25 @@ public class ArquivoManager : MonoBehaviour
                 textoBotao.text = "Praça Desconhecida";
             }
 
+            //foto da praça:
+            string caminhoImagem = caminho.Replace(".json", ".jpg");
+
+            // Procura o componente RawImage no seu Prefab
+            RawImage miniaturaUI = novoBotao.GetComponentInChildren<RawImage>();
+
+            if (miniaturaUI != null && File.Exists(caminhoImagem))
+            {
+                // Lê os bytes da imagem
+                byte[] bytesImagem = File.ReadAllBytes(caminhoImagem);
+
+                // Cria a textura vazia (o LoadImage sobrepõe as medidas automaticamente)
+                Texture2D textura = new Texture2D(2, 2);
+                textura.LoadImage(bytesImagem);
+
+                // Aplica a textura carregada na UI
+                miniaturaUI.texture = textura;
+            }
+
             // Passamos o caminho e o NOME DA CENA diretamente para a função do botão
             novoBotao.GetComponent<Button>().onClick.AddListener(() => ClicouNumArquivo(caminho, dados.nomeDaCena));
         }
