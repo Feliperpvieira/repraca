@@ -1,8 +1,8 @@
 // ==========================================
 // 1. CONFIGURAÇÃO SUPABASE
 // ==========================================
-const supabaseUrl = 'SUA_URL_SUPABASE';
-const supabaseKey = 'SUA_CHAVE_ANON_SUPABASE';
+const supabaseUrl = 'https://ldynpvhqbmrcrlcabnuf.supabase.co';
+const supabaseKey = 'sb_publishable_qtshAGmadXj9SbNhrgJOXg_lFROY3Yb';
 const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
 // Variáveis de Estado
