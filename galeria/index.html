@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rePraça - Galeria</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"> 
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+    <link href="https://fonts.googleapis.com/css2?family=Cabin:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <img src="img/repraca-logo-horiz.png" width="400" alt="Logo rePraça" class="img-logo">
+    </header>
+
+    <main class="container">
+        <!-- BARRA DE FILTROS -->
+        <section class="filtros-container">
+            <div class="filtro-grupo">
+                <label for="filtroOrdem">Ordenar por:</label>
+                <select id="filtroOrdem">
+                    <option value="recentes">Mais Recentes</option>
+                    <option value="antigas">Mais Antigas</option>
+                    <option value="likes">Mais Likes</option>
+                </select>
+            </div>
+
+            <div class="filtro-grupo">
+                <label for="filtroItens">Mínimo de itens:</label>
+                <select id="filtroItens">
+                    <option value="3" selected>Pelo menos 3 (Ocultar vazias)</option>
+                    <option value="10">Mais de 10 itens</option>
+                    <option value="0">Mostrar Todas</option>
+                </select>
+            </div>
+
+            <div class="filtro-grupo">
+                <label for="filtroEspecifico">Contém o item:</label>
+                <select id="filtroEspecifico">
+                    <option value="todos">Qualquer item</option>
+                    <option value="Banco">Apenas com Bancos</option>
+                    <option value="Árvore">Apenas com Árvores</option>
+                </select>
+            </div>
+        </section>
+
+        <!-- A GRID ONDE OS CARDS VÃO APARECER -->
+        <section id="gallery" class="grid-galeria"></section>
+
+        <!-- OBSERVADOR PARA O SCROLL INFINITO -->
+        <div id="fim-da-pagina" class="loading-spinner">A carregar mais praças...</div>
+    </main>
+
+    <!-- O MODAL (POPUP) QUE ABRE VIA HASH NO URL -->
+    <div id="popup" class="escondido">
+        <div class="popup-content">
+            <button id="btnFecharModal" class="btn-fechar">X</button>
+            
+            <div class="popup-imagem-container">
+                <img src="" alt="Imagem da Praça" id="selectedImage">
+            </div>
+
+            <div class="popup-sidebar">
+                <h2 id="modalTitulo">Carregando...</h2>
+                <p id="modalData" class="texto-dica"></p>
+                
+                <div class="estatisticas">
+                    <div class="stat-box">
+                        <span id="modalTotalItens" class="stat-numero">-</span>
+                        <span class="stat-label">Itens</span>
+                    </div>
+                    <div class="stat-box">
+                        <span id="modalCategoria" class="stat-numero">-</span>
+                        <span class="stat-label">Foco</span>
+                    </div>
+                </div>
+
+                <div class="popup-acoes">
+                    <button id="btnLikeModal" class="btn-like">❤️ <span id="modalLikesCount">0</span></button>
+                    <a href="#" id="btnRemix" class="btn-remix">Reimaginar Praça</a>
+                </div>
+
+                <div id="modalListaItens" class="lista-itens">
+                    <!-- O JS vai injetar a lista detalhada de móveis aqui -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Import do Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
