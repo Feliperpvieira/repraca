@@ -160,7 +160,7 @@ function preencherModal(praca) {
     pracaAbertaId = praca.praca_id;
     document.getElementById("selectedImage").src = praca.image_url;
     
-    document.getElementById("btnRemix").href = `repraca://editar?id=${praca.praca_id}`;
+    document.getElementById("btnRemix").href = "[https://seusite.com/abrir-app/?id=](https://feliperpv.com/repraca/galeria/abrir-app/?id=)" + praca.praca_id;
     
     const jsonConvertido = JSON.parse(praca.layout_data);
     const itens = jsonConvertido.layoutDaPraca; 
