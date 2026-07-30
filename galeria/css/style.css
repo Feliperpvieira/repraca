@@ -1,0 +1,59 @@
+* { margin:0; padding:0; box-sizing: border-box; font-family: 'Cabin', sans-serif; }
+
+body { background-color: #f9efe7; color: #333; }
+
+header { background-color: #0A6EB6; border-radius: 0 0 30px 30px; text-align: center; padding: 20px; }
+.img-logo { max-width: 100%; height: auto; }
+
+.container { max-width: 1200px; padding: 40px 20px; margin: 0 auto; }
+
+/* FILTROS */
+.filtros-container { display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 30px; background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+.filtro-grupo { display: flex; flex-direction: column; gap: 5px; }
+.filtro-grupo select { padding: 8px; border-radius: 8px; border: 1px solid #ccc; font-size: 1rem; }
+
+/* GRID E CARDS */
+.grid-galeria { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
+
+.card-praca { background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.1); cursor: pointer; transition: transform 0.2s; }
+.card-praca:hover { transform: translateY(-5px); }
+.card-img { width: 100%; height: 200px; object-fit: cover; }
+.card-info { padding: 15px; display: flex; justify-content: space-between; align-items: center; }
+.card-data { font-size: 0.9rem; color: #666; }
+.card-likes { font-weight: bold; color: #e63946; }
+
+.loading-spinner { text-align: center; padding: 40px; color: #666; font-style: italic; }
+
+/* MODAL (POPUP) */
+#popup { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.85); display: flex; justify-content: center; align-items: center; z-index: 1000; transition: opacity 0.3s; }
+#popup.escondido { opacity: 0; pointer-events: none; }
+
+.popup-content { background: white; border-radius: 20px; width: 90%; max-width: 1000px; max-height: 90vh; display: flex; flex-direction: row; overflow: hidden; position: relative; }
+
+.btn-fechar { position: absolute; top: 15px; right: 15px; background: #eee; border: none; border-radius: 50%; width: 35px; height: 35px; font-weight: bold; cursor: pointer; z-index: 10; }
+.btn-fechar:hover { background: #ddd; }
+
+.popup-imagem-container { flex: 2; background: #000; display: flex; align-items: center; justify-content: center; }
+#selectedImage { width: 100%; height: 100%; object-fit: contain; }
+
+.popup-sidebar { flex: 1; padding: 30px; overflow-y: auto; display: flex; flex-direction: column; gap: 20px; background: #fdfdfd; }
+.texto-dica { color: #888; font-size: 0.9em; }
+
+.estatisticas { display: flex; gap: 15px; }
+.stat-box { background: #eef2f5; padding: 15px; border-radius: 12px; text-align: center; flex: 1; }
+.stat-numero { display: block; font-size: 1.5rem; font-weight: bold; color: #0A6EB6; }
+.stat-label { font-size: 0.85rem; color: #666; text-transform: uppercase; }
+
+.popup-acoes { display: flex; gap: 10px; }
+.btn-like { flex: 1; padding: 12px; border-radius: 10px; border: 2px solid #e63946; background: white; color: #e63946; font-weight: bold; cursor: pointer; transition: 0.2s; }
+.btn-like:hover, .btn-like.curtido { background: #e63946; color: white; }
+.btn-remix { flex: 2; padding: 12px; border-radius: 10px; background: #0A6EB6; color: white; text-align: center; font-weight: bold; transition: 0.2s; }
+.btn-remix:hover { background: #085a96; }
+
+.lista-itens { border-top: 1px solid #eee; padding-top: 15px; font-size: 0.9rem; line-height: 1.6; }
+
+/* Para telemóveis, o modal empilha a foto e os dados */
+@media (max-width: 768px) {
+    .popup-content { flex-direction: column; overflow-y: auto; }
+    .popup-imagem-container { height: 40vh; flex: none; }
+}
