@@ -11661,6 +11661,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29c12351f18f34ba7973bc0824d75144, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isReady: 0
 --- !u!4 &1268940821
 Transform:
   m_ObjectHideFlags: 0
@@ -16683,7 +16684,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43525b7d77d9c4f249c17b248eca4bb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  url: https://feliperpv.com/repraca/
+  url: https://feliperpv.com/repraca/galeria/
 --- !u!1 &1821786270
 GameObject:
   m_ObjectHideFlags: 0

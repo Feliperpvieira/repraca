@@ -50,17 +50,23 @@ public class BuildingManager : MonoBehaviour
 
     void Start()
     {
-        // Verifica se a tela inicial mandou abrir um ficheiro
+        // 1. Se vier do botão ARQUIVO (Saves Locais)
         if (PlayerPrefs.HasKey("PracaParaCarregar"))
         {
-            // Pega o caminho
             string caminho = PlayerPrefs.GetString("PracaParaCarregar");
-
-            // Chama a função principal de carregar praça
             CarregarPraca(caminho, "", false);
-
-            // Apaga a chave para que, se o utilizador reiniciar a cena depois, não carregue isto acidentalmente
             PlayerPrefs.DeleteKey("PracaParaCarregar");
+        }
+
+        // 2. Se vier do LINK DO SITE (Remix da Galeria)
+        else if (PlayerPrefs.HasKey("PracaRemixJSON"))
+        {
+            string jsonDaNuvem = PlayerPrefs.GetString("PracaRemixJSON");
+
+            // O seu CarregarPraca() original faz o resto! (O 'true' liga a lógica de trocar IDs)
+            CarregarPraca("", jsonDaNuvem, true);
+
+            PlayerPrefs.DeleteKey("PracaRemixJSON");
         }
     }
 

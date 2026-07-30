@@ -8,16 +8,30 @@ using System.Threading.Tasks;
 public class SupabaseManager : MonoBehaviour
 {
     private Client supabaseClient;
+    public bool isReady = false; //pra avisar pro sistema se o supabase ja ta pronto pra ser usado, pra abrir praça da galeria
 
     async void Start()
     {
         var options = new SupabaseOptions { AutoConnectRealtime = false };
 
-        // Puxa as chaves do arquivo secreto
+        // Puxa as chaves do arquivo secreto e prepara o cliente
         supabaseClient = new Client(Secrets.SUPABASE_URL, Secrets.SUPABASE_KEY, options);
-        await supabaseClient.InitializeAsync();
 
-        Debug.Log("Supabase Conectado!");
+        try
+        {
+            // Tenta inicializar (pode falhar se não houver internet)
+            await supabaseClient.InitializeAsync();
+            Debug.Log("Supabase Conectado!");
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogWarning("Iniciou offline, mas o cliente está pronto para quando a net voltar: " + e.Message);
+        }
+        finally
+        {
+            // O "finally" garante que, com ou sem internet, a bandeira é ligada
+            isReady = true;
+        }
     }
 
     public async Task<bool> UploadCreationData(string playerName, string pracaId, string pracaPaiId, string sceneName, string jsonLayoutData, byte[] imageAnguloBytes, byte[] imageTopoBytes, int totalObjects, Action<float> onProgress)
@@ -99,9 +113,27 @@ public class SupabaseManager : MonoBehaviour
         }
     }
 
+    public async Task<CityCreationModel> BaixarDadosDaPraca(string pracaIdBuscada)
+    {
+        try
+        {
+            // Vai à tabela procurar a linha onde o praca_id é igual ao ID do link
+            var resposta = await supabaseClient.From<CityCreationModel>()
+                                               .Where(x => x.PracaId == pracaIdBuscada)
+                                               .Single();
+
+            return resposta;
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError("Erro ao baixar praça: " + e.Message);
+            return null;
+        }
+    }
+
 
     [Postgrest.Attributes.Table("city_creations")]
-    class CityCreationModel : Postgrest.Models.BaseModel
+    public class CityCreationModel : Postgrest.Models.BaseModel
     {
         [Postgrest.Attributes.Column("praca_id")] 
         public string PracaId { get; set; }
