@@ -3,9 +3,8 @@
 // ==========================================
 const supabaseUrl = 'https://ldynpvhqbmrcrlcabnuf.supabase.co';
 const supabaseKey = 'sb_publishable_qtshAGmadXj9SbNhrgJOXg_lFROY3Yb';
-const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-// CORREÇÃO: Usamos window.supabase e guardamos na variável "db"
+// Usamos window.supabase e guardamos na variável "db"
 const db = window.supabase.createClient(supabaseUrl, supabaseKey);
 
 // Variáveis de Estado
