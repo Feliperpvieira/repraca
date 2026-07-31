@@ -34,7 +34,7 @@ async function carregarPracas() {
     const fim = inicio + itensPorPagina - 1;
 
     // Usamos "db" em vez de "supabase"
-    let query = db.from('city_creations').select('praca_id, image_url, created_at, likes, total_objects');
+    let query = db.from('city_creations').select('praca_id, image_topo_url, created_at, likes, total_objects');
 
     // Aplica o filtro de Mínimo de Itens
     query = query.gte('total_objects', minItens);
@@ -75,7 +75,7 @@ function desenharCards(pracas) {
         const card = document.createElement("div");
         card.className = "card-praca";
         card.innerHTML = `
-            <img src="${praca.image_url}" class="card-img" loading="lazy" alt="Praça">
+            <img src="${praca.image_topo_url}" class="card-img" loading="lazy" alt="Praça">
             <div class="card-info">
                 <span class="card-data">📅 ${dataFormatada}</span>
                 <span class="card-likes">❤️ ${praca.likes || 0}</span>
@@ -158,7 +158,7 @@ let pracaAbertaId = null;
 
 function preencherModal(praca) {
     pracaAbertaId = praca.praca_id;
-    document.getElementById("selectedImage").src = praca.image_url;
+    document.getElementById("selectedImage").src = praca.image_topo_url;
     
     document.getElementById("btnRemix").href = "https://feliperpv.com/repraca/galeria/abrir-app/?id=" + praca.praca_id;
     
