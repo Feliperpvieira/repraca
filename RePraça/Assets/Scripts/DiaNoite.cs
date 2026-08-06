@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using PostHogUnity;
 
 public class DiaNoite : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class DiaNoite : MonoBehaviour
     //funcao que é chamada ao apertar o toggle
     public void ToggleIluminacao()
     {
+        PostHog.Capture("day-night_toggled"); //posthog: mudou a luz entre dia e noite
         StartCoroutine(MudaNoiteDia());
     }
 

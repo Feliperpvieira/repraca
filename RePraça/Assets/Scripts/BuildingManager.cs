@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System.IO;
+using PostHogUnity;
 
 public class BuildingManager : MonoBehaviour
 {
@@ -83,7 +84,7 @@ public class BuildingManager : MonoBehaviour
     {
         if (Input.touchCount > 1) return; // Se o usuário estiver fazendo zoom com 2 dedos, não mexe o objeto
 
-        // NOVO: Verifica se estamos a clicar na tela real ou num botão da UI
+        // Verifica se estamos a clicar na tela real ou num botão da UI
         bool isPointerOverUI = false;
         bool isInputAtivo = false;
         Vector3 cursorPosition = Input.mousePosition;
@@ -131,7 +132,7 @@ public class BuildingManager : MonoBehaviour
 
             if (Input.touchSupported && Application.platform != RuntimePlatform.WebGLPlayer) //se for uma plataforma com touchscreen
             {
-                if (!EventSystem.current.IsPointerOverGameObject(Input.touches[0].fingerId) && Input.GetTouch(0).phase != TouchPhase.Ended) //checa se o toque esta batendo em um botao
+                if (Input.touchCount > 0 && !EventSystem.current.IsPointerOverGameObject(Input.touches[0].fingerId) && Input.GetTouch(0).phase != TouchPhase.Ended) //checa se o toque esta batendo em um botao
                 {
                     MoveObjectOnMap(); //se NAO estiver tocando num botao atualiza a posicao do objeto no mapa
                 }
@@ -191,11 +192,15 @@ public class BuildingManager : MonoBehaviour
             // Se ele já existir, o nome do GameObject vai ser igual ao ID dele salvo na lista
             ObjetoPosicionadoData objetoExistente = objetosPosicionados.Find(item => item.id == pendingObject.name);
 
+            string nomePosthog = ""; //salva o nome do objeto para o posthog
+
             if (objetoExistente != null)
             {
                 // SE ELE JÁ EXISTE (está sendo movido), apenas atualiza a posição e rotação
                 objetoExistente.posicao = pendingObject.transform.position;
                 objetoExistente.rotacao = pendingObject.transform.eulerAngles;
+
+                nomePosthog = objetoExistente.nome; 
             }
             else
             {
@@ -207,12 +212,20 @@ public class BuildingManager : MonoBehaviour
                 novoObjeto.posicao = pendingObject.transform.position;
                 novoObjeto.rotacao = pendingObject.transform.eulerAngles;
 
+                nomePosthog = novoObjeto.nome;
+
                 // Salva o ID no nome do GameObject para facilitar na hora de deletar e mover
                 pendingObject.name = novoObjeto.id;
 
                 // Adiciona na lista
                 objetosPosicionados.Add(novoObjeto);
             }
+
+            //posthog: salva que um objeto foi posicionado e qual era
+            PostHog.Capture("object_placed", new Dictionary<string, object>
+            {
+                { "item_name", nomePosthog }
+            });
 
             pendingObject = null; //o objeto que estava selecionado não tá selecionado mais
             selectionManager.Deselect();
@@ -232,6 +245,8 @@ public class BuildingManager : MonoBehaviour
     public void RotateObject()
     {
         pendingObject.transform.Rotate(Vector3.up, rotateAmount); //up -> gira no y, rotateAmount -> variavel definida lá em cima
+
+        PostHog.Capture("object_rotated"); //posthog rodar
     }
 
     private void FixedUpdate()
@@ -360,6 +375,7 @@ public class BuildingManager : MonoBehaviour
         }
         else if (painelObjetos.activeInHierarchy == false)
         {
+            PostHog.Capture("menu_items_opened");
             // ===== ABRINDO O PAINEL =====
             LeanTween.cancel(interfaceTopoSistema);
             LeanTween.cancel(botaoAddObjetos);

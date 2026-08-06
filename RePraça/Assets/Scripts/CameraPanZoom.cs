@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using PostHogUnity;
 
 public class CameraPanZoom : MonoBehaviour
 {
@@ -244,6 +245,8 @@ public class CameraPanZoom : MonoBehaviour
         {
             StartCoroutine(RotateCam(40f, -5, -12));
         }
+
+        PostHog.Capture("camera_toggled"); //posthog: marca que mudou a camera de angulo
     }
     //Coroutine que muda entre os ângulos de forma fluida - https://gamedevbeginner.com/how-to-rotate-in-unity-complete-beginners-guide/#rotate_over_time
     IEnumerator RotateCam(float angle, float deslocY, float deslocZ)

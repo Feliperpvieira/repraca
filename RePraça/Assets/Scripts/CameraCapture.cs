@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 using static NativeGallery;
+using PostHogUnity;
 
 public class CameraCapture : MonoBehaviour
 {
@@ -150,6 +151,12 @@ public class CameraCapture : MonoBehaviour
 
             string jsonPronto = buildingManager.GerarJsonDaPraca();
             int totalDeObjetos = buildingManager.objetosPosicionados.Count;
+
+            //posthog: exportou e quantos objetos na praça exportada
+            PostHog.Capture("export_completed", new Dictionary<string, object>
+            {
+                { "total_objects", buildingManager.objetosPosicionados.Count }
+            });
 
             estaAEnviar = true; // Liga a barra de progresso no Update
 

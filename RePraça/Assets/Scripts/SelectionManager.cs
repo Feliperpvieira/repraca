@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using PostHogUnity;
 
 public class SelectionManager : MonoBehaviour
 {
@@ -43,7 +44,7 @@ public class SelectionManager : MonoBehaviour
                 {
                     if (Input.touchSupported && Application.platform != RuntimePlatform.WebGLPlayer) //se for uma plataforma com touch
                     {
-                        if (!EventSystem.current.IsPointerOverGameObject(Input.touches[0].fingerId)) //se nao estiver touch em algo da UI sobre o objeto
+                        if (Input.touchCount > 0 && !EventSystem.current.IsPointerOverGameObject(Input.touches[0].fingerId)) //se nao estiver touch em algo da UI sobre o objeto
                         {
                             Select(hit.collider.gameObject); //seleciona o objeto
                         }
@@ -58,7 +59,7 @@ public class SelectionManager : MonoBehaviour
                 {             
                     if (Input.touchSupported && Application.platform != RuntimePlatform.WebGLPlayer) //se for uma plataforma com touch
                     {
-                        if (!EventSystem.current.IsPointerOverGameObject(Input.touches[0].fingerId) && Input.GetTouch(0).phase != TouchPhase.Ended) //se nao estiver touch em algo da UI sobre o objeto
+                        if (Input.touchCount > 0 && !EventSystem.current.IsPointerOverGameObject(Input.touches[0].fingerId) && Input.GetTouch(0).phase != TouchPhase.Ended) //se nao estiver touch em algo da UI sobre o objeto
                         {
                             if (selectedObject != null && buildingManager.pendingObject == null) //e se tiver um objeto selecionado e nao estiver movendo nenhum objeto
                             {
@@ -138,8 +139,8 @@ public class SelectionManager : MonoBehaviour
         }
         else
         {
+            outline.OutlineColor = Color.white; //define a cor antes de ativar para evitar dela piscar em verde ao selecionar
             outline.enabled = true;
-            outline.OutlineColor = Color.white;
         }
 
         // 3. ATUALIZA O NOME NO PAINEL
@@ -172,7 +173,7 @@ public class SelectionManager : MonoBehaviour
         }
         else
         {
-            // SITUAÇÃO C (A CORREÇÃO!): Estamos a adicionar um objeto novo da loja.
+            // SITUAÇÃO C: Estamos a adicionar um objeto novo da loja.
             // O menu do objeto anterior que estava selecionado tem de encolher e desaparecer!
             if (objSelectUI.activeInHierarchy)
             {
@@ -186,6 +187,8 @@ public class SelectionManager : MonoBehaviour
             }
         }
 
+        PostHog.Capture("object_selected"); //posthog: selecionou um objeto dentre os ja posicionados na cena
+
         selectedObject = obj; //iguala a variavel de objeto selecionado ao obj da função select        
     }
 
@@ -194,6 +197,8 @@ public class SelectionManager : MonoBehaviour
         if (selectedObject != null)
         {
             selectedObject.GetComponent<Outline>().enabled = false; //desativa o outline
+
+            PostHog.Capture("object_deselected"); //posthog: desselecionou o objeto selecionado
         }
 
         // LEANTWEEN: Animação de fechar o menu
@@ -214,6 +219,8 @@ public class SelectionManager : MonoBehaviour
     public void Move()
     {
         buildingManager.pendingObject = selectedObject;
+
+        PostHog.Capture("object_moved"); //posthog: mover objeto ja posicionado
 
         // LEANTWEEN: Animação de fechar o menu ao mover
         if (objSelectUI.activeInHierarchy)
@@ -246,6 +253,8 @@ public class SelectionManager : MonoBehaviour
             {
                 Destroy(objToDestroy);
             });
+
+        PostHog.Capture("object_deleted"); //posthog: deletou objeto
     }
 
     // Função para ser chamada quando o utilizador clica na tag com o nome do objeto
@@ -258,6 +267,9 @@ public class SelectionManager : MonoBehaviour
 
         if (dadosSalvos != null)
         {
+
+            PostHog.Capture("catalog_selectedObject_opened"); //posthog: abriu menu do catalogo pra ver um objeto selecionado
+
             // Guarda o nome do prefab antes que a seleção seja apagada
             string nomeDoPrefab = dadosSalvos.nome;
 

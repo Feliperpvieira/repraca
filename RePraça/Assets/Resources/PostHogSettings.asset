@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b67a5b0862dd54d198b6688b882e7b74, type: 3}
+  m_Name: PostHogSettings
+  m_EditorClassIdentifier: 
+  _apiKey: phc_kvomWbv9wtJM2RzCyZvzNYPQpHa4WMrHmEu3NS7V9BzN
+  _host: https://eu.i.posthog.com
+  _autoInitialize: 1
+  _flushAt: 20
+  _flushIntervalSeconds: 30
+  _maxQueueSize: 1000
+  _maxBatchSize: 50
+  _captureApplicationLifecycleEvents: 1
+  _personProfiles: 1
+  _logLevel: 2
+  _reuseAnonymousId: 1
+  _preloadFeatureFlags: 1
+  _featureFlagRequestMaxRetries: 1
+  _sendFeatureFlagEvent: 1
+  _sendDefaultPersonPropertiesForFlags: 1
+  _captureExceptions: 1
+  _exceptionDebounceIntervalMs: 1000
+  _captureExceptionsInEditor: 1
