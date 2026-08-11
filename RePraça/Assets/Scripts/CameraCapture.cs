@@ -7,19 +7,24 @@ using UnityEngine.SceneManagement;
 using TMPro;
 using static NativeGallery;
 using PostHogUnity;
+using UnityEngine.UI;
 
 public class CameraCapture : MonoBehaviour
 {
     [Header("Cameras para gerar imagens")]
-    public RenderTexture rtVistaTopo;
+    public RenderTexture rtVistaTopo; //render texture
     public RenderTexture rtVistaAngulo;
+    public GameObject cameraTopo; //cameras que geram a textura
+    public GameObject cameraAngulo;
 
     [Header("UI pre e pos exportar")]
     public GameObject telaExportar;
     public GameObject telaSiteGaleria;
     public GameObject painelAnimadoSucesso;
     public GameObject canvasPrincipal;
-    
+    public TMP_InputField tituloPraca;
+    public TMP_InputField comentarioPraca;
+
     string album = "rePraca";
     MediaSaveCallback callback = null;
 
@@ -52,6 +57,7 @@ public class CameraCapture : MonoBehaviour
         supabaseManager = GameObject.Find("SupabaseManager").GetComponent<SupabaseManager>();
 
         tamanhoOrgPainel = painelAnimadoSucesso.transform.localScale; //salva o tamanho do painel de conclusao na UI
+
     }
 
     public static string ScreenShotName(string nomeCena, string angulo) //define o nome do arquivo
@@ -233,6 +239,28 @@ public class CameraCapture : MonoBehaviour
         tex.Apply();
         Destroy(tex);//prevents memory leak
         return tex;
+    }
+
+    // Função para abrir a tela de exportar
+    public void SalvarExportar()
+    {
+        telaExportar.SetActive(true);
+        canvasPrincipal.SetActive(false);
+        cameraTopo.SetActive(true);
+        cameraAngulo.SetActive(true);
+
+
+    }
+
+    // Função para fechar a tela de exportar e voltar à edição
+    public void VoltarEdicao()
+    {
+        telaExportar.SetActive(false);
+        canvasPrincipal.SetActive(true);
+        cameraTopo.SetActive(false);
+        cameraAngulo.SetActive(false);
+
+
     }
 
     // Função para ser chamada pelo botão de fechar/OK da tela de sucesso
