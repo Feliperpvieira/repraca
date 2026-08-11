@@ -47,6 +47,9 @@ public class CameraCapture : MonoBehaviour
     private bool estaAEnviar = false;
 
     private Vector3 tamanhoOrgPainel;
+    private CanvasGroup grupoTelaExportar;
+    private RectTransform conteudoTelaExportar;
+    private Vector3 tamanhoOrgConteudoExportar;
 
 
     // Função Start para encontrar o BuildingManager quando a cena carrega
@@ -57,6 +60,7 @@ public class CameraCapture : MonoBehaviour
         supabaseManager = GameObject.Find("SupabaseManager").GetComponent<SupabaseManager>();
 
         tamanhoOrgPainel = painelAnimadoSucesso.transform.localScale; //salva o tamanho do painel de conclusao na UI
+        PrepararAnimacaoTelaExportar();
 
     }
 
@@ -91,6 +95,10 @@ public class CameraCapture : MonoBehaviour
     // ADICIONADO O 'async' AQUI!
     public async void SaveTexture()
     {
+        // Isto tem de ocorrer antes do primeiro await. O botão também chama
+        // SalvarPracaLocalmente logo a seguir, pela ordem configurada no Inspector.
+        GuardarMetadadosIntroduzidos();
+
         // 1. CHECAGEM DE INTERNET
         if (Application.internetReachability == NetworkReachability.NotReachable)
         {
@@ -185,6 +193,8 @@ public class CameraCapture : MonoBehaviour
                 imagemAngulo,
                 imagemTopo,
                 totalDeObjetos,
+                buildingManager.tituloDaPraca,
+                buildingManager.comentarioDaPraca,
                 (progresso) => { progressoAtual = progresso; }
             );
 
@@ -244,23 +254,78 @@ public class CameraCapture : MonoBehaviour
     // Função para abrir a tela de exportar
     public void SalvarExportar()
     {
+        if (buildingManager != null)
+        {
+            // Ao reabrir um arquivo, repõe os metadados já guardados.
+            if (tituloPraca != null)
+                tituloPraca.text = buildingManager.tituloDaPraca;
+            if (comentarioPraca != null)
+                comentarioPraca.text = buildingManager.comentarioDaPraca;
+        }
+
         telaExportar.SetActive(true);
         canvasPrincipal.SetActive(false);
         cameraTopo.SetActive(true);
         cameraAngulo.SetActive(true);
 
-
+        PrepararAnimacaoTelaExportar();
+        LeanTween.cancel(telaExportar);
+        LeanTween.cancel(conteudoTelaExportar.gameObject);
+        grupoTelaExportar.alpha = 0f;
+        conteudoTelaExportar.localScale = tamanhoOrgConteudoExportar * 0.92f;
+        LeanTween.alphaCanvas(grupoTelaExportar, 1f, 0.18f).setEaseOutQuad();
+        LeanTween.scale(conteudoTelaExportar, tamanhoOrgConteudoExportar, 0.36f).setEaseOutBack();
     }
 
     // Função para fechar a tela de exportar e voltar à edição
     public void VoltarEdicao()
     {
-        telaExportar.SetActive(false);
-        canvasPrincipal.SetActive(true);
-        cameraTopo.SetActive(false);
-        cameraAngulo.SetActive(false);
+        GuardarMetadadosIntroduzidos();
+        PrepararAnimacaoTelaExportar();
 
+        LeanTween.cancel(telaExportar);
+        LeanTween.cancel(conteudoTelaExportar.gameObject);
+        LeanTween.alphaCanvas(grupoTelaExportar, 0f, 0.14f).setEaseInQuad();
+        LeanTween.scale(conteudoTelaExportar, tamanhoOrgConteudoExportar * 0.96f, 0.14f).setEaseInQuad()
+            .setOnComplete(() =>
+            {
+                telaExportar.SetActive(false);
+                canvasPrincipal.SetActive(true);
+                cameraTopo.SetActive(false);
+                cameraAngulo.SetActive(false);
+            });
+    }
 
+    private void GuardarMetadadosIntroduzidos()
+    {
+        if (buildingManager == null)
+            return;
+
+        buildingManager.DefinirMetadadosDaPraca(
+            tituloPraca != null ? tituloPraca.text : "",
+            comentarioPraca != null ? comentarioPraca.text : ""
+        );
+    }
+
+    private void PrepararAnimacaoTelaExportar()
+    {
+        if (telaExportar == null)
+            return;
+
+        if (grupoTelaExportar == null)
+        {
+            grupoTelaExportar = telaExportar.GetComponent<CanvasGroup>();
+            if (grupoTelaExportar == null)
+                grupoTelaExportar = telaExportar.AddComponent<CanvasGroup>();
+        }
+
+        if (conteudoTelaExportar == null)
+        {
+            Transform conteudo = telaExportar.transform.Find("conteudo");
+            conteudoTelaExportar = conteudo as RectTransform;
+            if (conteudoTelaExportar != null)
+                tamanhoOrgConteudoExportar = conteudoTelaExportar.localScale;
+        }
     }
 
     // Função para ser chamada pelo botão de fechar/OK da tela de sucesso

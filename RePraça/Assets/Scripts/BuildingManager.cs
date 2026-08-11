@@ -48,6 +48,8 @@ public class BuildingManager : MonoBehaviour
  
     public string idDaPracaAtual = ""; //numero random pra identificar a praça criada localmente e no server
     public string idDaPracaPai = ""; //se for um fork de outra praça, salva a original
+    [HideInInspector] public string tituloDaPraca = "";
+    [HideInInspector] public string comentarioDaPraca = "";
 
     void Start()
     {
@@ -431,6 +433,8 @@ public class BuildingManager : MonoBehaviour
         payload.nomeDoJogador = idJogador;
         payload.dataCriacao = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm");
         payload.nomeDaCena = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name; // Pega o nome exato da cena atual em que o utilizador está a jogar
+        payload.tituloDaPraca = tituloDaPraca;
+        payload.comentarioDaPraca = comentarioDaPraca;
         payload.layoutDaPraca = objetosPosicionados;
 
         // Transforma a classe em uma string JSON formatada
@@ -438,6 +442,23 @@ public class BuildingManager : MonoBehaviour
 
         Debug.Log("JSON Gerado: \n" + jsonPronto);
         return jsonPronto;
+    }
+
+    // Chamado pelo CameraCapture antes de guardar localmente ou exportar.
+    // Campos apenas com espaços são tratados como opcionais vazios.
+    public void DefinirMetadadosDaPraca(string titulo, string comentario)
+    {
+        tituloDaPraca = NormalizarTextoOpcional(titulo, 50);
+        comentarioDaPraca = NormalizarTextoOpcional(comentario, 500);
+    }
+
+    private static string NormalizarTextoOpcional(string texto, int limite)
+    {
+        if (string.IsNullOrWhiteSpace(texto))
+            return "";
+
+        string textoLimpo = texto.Trim();
+        return textoLimpo.Length > limite ? textoLimpo.Substring(0, limite) : textoLimpo;
     }
 
 
@@ -529,6 +550,9 @@ public class BuildingManager : MonoBehaviour
             idDaPracaPai = pracaSalva.pracaPaiId; // Mantém o que já estava salvo
         }
 
+        // JSONs antigos não têm estes campos e continuam válidos.
+        DefinirMetadadosDaPraca(pracaSalva.tituloDaPraca, pracaSalva.comentarioDaPraca);
+
         // 4. LIMPAR A CENA ATUAL
         foreach (var objData in objetosPosicionados)
         {
@@ -598,6 +622,7 @@ public class JsonPayloadData
     public string nomeDoJogador; //nao é um nome nome mas um id unico por dispositivo
     public string nomeDaCena; //nome da scene no unity pra quando for reabrir o arquivo salvo saber a scene pra abrir
     public string dataCriacao;
+    public string tituloDaPraca;
+    public string comentarioDaPraca;
     public List<ObjetoPosicionadoData> layoutDaPraca;
 }
-

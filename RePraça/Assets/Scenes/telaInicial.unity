@@ -6757,6 +6757,9 @@ MonoBehaviour:
   txtData: {fileID: 1528455411}
   txtFoco: {fileID: 2124368044}
   txtItens: {fileID: 1297904580}
+  cartaoAnimado: {fileID: 606930576}
+  distanciaDeslizamento: 70
+  duracaoDeslizamento: 0.16
   btnFechar: {fileID: 1351290538}
   btnAnterior: {fileID: 855558542}
   btnSeguinte: {fileID: 888174073}

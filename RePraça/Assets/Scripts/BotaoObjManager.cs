@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -43,6 +44,7 @@ public class BotaoObjManager : MonoBehaviour
 
     private GameObject objetoToBeConstruido;
     private BuildingManager buildingManager;
+    private Coroutine rotinaFiltro;
 
     private void Start()
     {
@@ -56,14 +58,23 @@ public class BotaoObjManager : MonoBehaviour
         posicaoAbertaX = painelRect.anchoredPosition.x;
         posicaoEscondidaX = posicaoAbertaX + distanciaEsconder; // Adiciona 150 para animar
 
-        for (int i = 0; i < listaTodosDados.Length; i++) //loop for que passa pela lista de todos os dados. nela vão estar TODOS os arquivos de dado de objeto
+        // A lista no Inspector continua a ser a fonte de dados, mas os cartões são
+        // criados em ordem alfabética para a loja ser previsível para o utilizador.
+        List<ObjetosData> dadosOrdenados = new List<ObjetosData>(listaTodosDados);
+        CompareInfo comparador = CultureInfo.GetCultureInfo("pt-PT").CompareInfo;
+        dadosOrdenados.Sort((a, b) => comparador.Compare(a != null ? a.nome : "", b != null ? b.nome : "", CompareOptions.IgnoreCase));
+
+        for (int i = 0; i < dadosOrdenados.Count; i++) //loop que passa por todos os dados de objectos
         {
+            if (dadosOrdenados[i] == null)
+                continue;
+
             var botaoNovo = Instantiate(prefabBotaoAdd); //cria o botao
             botaoNovo.transform.SetParent(this.gameObject.transform, false); //coloca o botao como child desse objeto (a grid)
 
             BotaoObjSelect botaoCriado = botaoNovo.GetComponent<BotaoObjSelect>(); //pega o script do botao recém criado
 
-            botaoCriado.dadosObj = listaTodosDados[i]; //salva o arquivo de dados no botão recém criado
+            botaoCriado.dadosObj = dadosOrdenados[i]; //salva o arquivo de dados no botão recém criado
 
             botoesCriados.Add(botaoCriado); //Salva o botão criado na lista dos botões
         }
@@ -71,7 +82,78 @@ public class BotaoObjManager : MonoBehaviour
 
     public void FiltraBotoes(string filtro)
     {
+        // "Todos", vazio e null são equivalentes: mostram o catálogo completo.
+        bool mostrarTodos = string.IsNullOrWhiteSpace(filtro) || filtro == "Todos";
 
+        if (rotinaFiltro != null)
+            StopCoroutine(rotinaFiltro);
+
+        rotinaFiltro = StartCoroutine(AplicarFiltroComAnimacao(filtro, mostrarTodos));
+    }
+
+    // Devolve categorias únicas e alfabetizadas. O FiltroCategoriasObjetos usa
+    // este método para gerar os botões, por isso não existe uma lista duplicada.
+    public List<string> ObterCategoriasOrdenadas()
+    {
+        HashSet<string> categoriasUnicas = new HashSet<string>(System.StringComparer.OrdinalIgnoreCase);
+
+        foreach (ObjetosData objeto in listaTodosDados)
+        {
+            if (objeto != null && !string.IsNullOrWhiteSpace(objeto.categoria))
+                categoriasUnicas.Add(objeto.categoria.Trim());
+        }
+
+        List<string> categorias = new List<string>(categoriasUnicas);
+        CompareInfo comparador = CultureInfo.GetCultureInfo("pt-PT").CompareInfo;
+        categorias.Sort((a, b) => comparador.Compare(a, b, CompareOptions.IgnoreCase));
+        return categorias;
+    }
+
+    private IEnumerator AplicarFiltroComAnimacao(string categoria, bool mostrarTodos)
+    {
+        // Primeiro os cartões visíveis desaparecem discretamente. Esperar 0,10 s
+        // impede que a grelha salte para a nova disposição sem transição.
+        foreach (BotaoObjSelect botao in botoesCriados)
+        {
+            if (botao == null || !botao.gameObject.activeSelf)
+                continue;
+
+            CanvasGroup grupo = ObterCanvasGroup(botao.gameObject);
+            LeanTween.cancel(botao.gameObject);
+            LeanTween.alphaCanvas(grupo, 0f, 0.10f).setEaseInQuad();
+        }
+
+        yield return new WaitForSeconds(0.10f);
+
+        int indiceEntrada = 0;
+        foreach (BotaoObjSelect botao in botoesCriados)
+        {
+            if (botao == null || botao.dadosObj == null)
+                continue;
+
+            bool pertenceCategoria = mostrarTodos || string.Equals(botao.dadosObj.categoria, categoria, System.StringComparison.OrdinalIgnoreCase);
+            botao.gameObject.SetActive(pertenceCategoria);
+
+            if (!pertenceCategoria)
+                continue;
+
+            CanvasGroup grupo = ObterCanvasGroup(botao.gameObject);
+            grupo.alpha = 0f;
+            botao.transform.localScale = Vector3.one * 0.94f;
+
+            float atraso = Mathf.Min(indiceEntrada * 0.018f, 0.16f);
+            LeanTween.alphaCanvas(grupo, 1f, 0.14f).setDelay(atraso).setEaseOutQuad();
+            LeanTween.scale(botao.gameObject, Vector3.one, 0.14f).setDelay(atraso).setEaseOutBack();
+            indiceEntrada++;
+        }
+
+        rotinaFiltro = null;
+    }
+
+    private static CanvasGroup ObterCanvasGroup(GameObject objecto)
+    {
+        CanvasGroup grupo = objecto.GetComponent<CanvasGroup>();
+        return grupo != null ? grupo : objecto.AddComponent<CanvasGroup>();
     }
 
     public void BotaoObjClicado()

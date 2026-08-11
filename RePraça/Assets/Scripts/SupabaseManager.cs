@@ -34,7 +34,7 @@ public class SupabaseManager : MonoBehaviour
         }
     }
 
-    public async Task<bool> UploadCreationData(string playerName, string pracaId, string pracaPaiId, string sceneName, string jsonLayoutData, byte[] imageAnguloBytes, byte[] imageTopoBytes, int totalObjects, Action<float> onProgress)
+    public async Task<bool> UploadCreationData(string playerName, string pracaId, string pracaPaiId, string sceneName, string jsonLayoutData, byte[] imageAnguloBytes, byte[] imageTopoBytes, int totalObjects, string titulo, string comentario, Action<float> onProgress)
     {
         Debug.Log("Iniciando upload para a nuvem...");
 
@@ -68,7 +68,7 @@ public class SupabaseManager : MonoBehaviour
         string urlTopo = supabaseClient.Storage.From("praca_images").GetPublicUrl(fileTopo);
 
         // Enviar o JSON e as DUAS URLs para o Banco de Dados
-        return await SaveDataToDatabase(playerName, pracaId, pracaPaiId, sceneName, jsonLayoutData, urlAngulo, urlTopo, totalObjects);
+        return await SaveDataToDatabase(playerName, pracaId, pracaPaiId, sceneName, jsonLayoutData, urlAngulo, urlTopo, totalObjects, titulo, comentario);
     }
 
     private async Task<string> UploadImageToStorage(byte[] imageBytes, string fileName, EventHandler<float> onProgress)
@@ -86,7 +86,7 @@ public class SupabaseManager : MonoBehaviour
         }
     }
 
-    private async Task<bool> SaveDataToDatabase(string playerName, string pracaId, string pracaPaiId, string sceneName, string jsonPayload, string urlAngulo, string urlTopo, int totalObjects)
+    private async Task<bool> SaveDataToDatabase(string playerName, string pracaId, string pracaPaiId, string sceneName, string jsonPayload, string urlAngulo, string urlTopo, int totalObjects, string titulo, string comentario)
     {
         try
         {
@@ -99,7 +99,9 @@ public class SupabaseManager : MonoBehaviour
                 ImageUrl = urlAngulo,
                 ImageTopoUrl = urlTopo,
                 TotalObjects = totalObjects,
-                LayoutData = jsonPayload
+                LayoutData = jsonPayload,
+                Titulo = string.IsNullOrWhiteSpace(titulo) ? null : titulo,
+                Comentario = string.IsNullOrWhiteSpace(comentario) ? null : comentario
             };
 
             var result = await supabaseClient.From<CityCreationModel>().Insert(insertData);
@@ -158,5 +160,11 @@ public class SupabaseManager : MonoBehaviour
 
         [Postgrest.Attributes.Column("layout_data")]
         public string LayoutData { get; set; }
+
+        [Postgrest.Attributes.Column("titulo")]
+        public string Titulo { get; set; }
+
+        [Postgrest.Attributes.Column("comentario")]
+        public string Comentario { get; set; }
     }
 }

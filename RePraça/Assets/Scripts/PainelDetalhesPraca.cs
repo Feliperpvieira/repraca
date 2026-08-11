@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Text;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,6 +18,16 @@ public class PainelDetalhesPraca : MonoBehaviour
     public TextMeshProUGUI txtFoco;
     public TextMeshProUGUI txtItens;
 
+    [Header("Animação de navegação")]
+    [Tooltip("Arraste aqui o objecto 'pop-up azul'. Se ficar vazio, é procurado automaticamente.")]
+    public RectTransform cartaoAnimado;
+    [Min(1f)] public float distanciaDeslizamento = 70f;
+    [Min(0.05f)] public float duracaoDeslizamento = 0.16f;
+
+    [Header("Animação de abertura")]
+    [Min(0.05f)] public float duracaoFadeAbertura = 0.18f;
+    [Min(0.05f)] public float duracaoPopAbertura = 0.36f;
+
     [Header("Botões")]
     public Button btnFechar;
     public Button btnAnterior;
@@ -29,6 +38,12 @@ public class PainelDetalhesPraca : MonoBehaviour
     private ArquivoManager arquivoManager;
     private List<BtnArquivoItem> itens = new List<BtnArquivoItem>();
     private int indiceActual;
+    private CanvasGroup grupoCartao;
+    private CanvasGroup grupoRaiz;
+    private Vector2 posicaoOriginalCartao;
+    private Vector3 escalaOriginalCartao;
+    private bool escalaOriginalGuardada;
+    private bool estaANavegar;
 
     private void Awake()
     {
@@ -45,6 +60,8 @@ public class PainelDetalhesPraca : MonoBehaviour
             btnEditar.onClick.AddListener(AbrirPracaActual);
         if (btnEliminar != null)
             btnEliminar.onClick.AddListener(EliminarPracaActual);
+
+        PrepararAnimacaoCartao();
     }
 
     public void Abrir(ArquivoManager gestor, List<BtnArquivoItem> itensDoArquivo, int indiceInicial)
@@ -59,29 +76,30 @@ public class PainelDetalhesPraca : MonoBehaviour
 
         AtualizarConteudo();
         raizPopup.SetActive(true);
+        PrepararAnimacaoCartao();
+        ReporPosicaoCartao();
+        AnimarAbertura();
     }
 
     public void Fechar()
     {
+        estaANavegar = false;
+        if (cartaoAnimado != null)
+            LeanTween.cancel(cartaoAnimado.gameObject);
+        if (raizPopup != null)
+            LeanTween.cancel(raizPopup);
+
         raizPopup.SetActive(false);
     }
 
     private void MostrarAnterior()
     {
-        if (indiceActual > 0)
-        {
-            indiceActual--;
-            AtualizarConteudo();
-        }
+        NavegarPara(indiceActual - 1, -1);
     }
 
     private void MostrarSeguinte()
     {
-        if (indiceActual < itens.Count - 1)
-        {
-            indiceActual++;
-            AtualizarConteudo();
-        }
+        NavegarPara(indiceActual + 1, 1);
     }
 
     private void AbrirPracaActual()
@@ -121,16 +139,10 @@ public class PainelDetalhesPraca : MonoBehaviour
         if (rawImagePraca != null)
             rawImagePraca.texture = item != null ? item.miniatura : null;
 
-        if (txtFoco != null)
-            txtFoco.text = "Foco: " + ObterFoco(dados);
+        AtualizarTextoOpcional(txtFoco, dados != null ? dados.tituloDaPraca : "", "Título: ", "Sem título");
+        AtualizarTextoOpcional(txtItens, dados != null ? dados.comentarioDaPraca : "", "", "Nenhum comentário adicionado");
 
-        if (txtItens != null)
-            txtItens.text = "Itens: " + ResumirItens(dados);
-
-        if (btnAnterior != null)
-            btnAnterior.interactable = indiceActual > 0;
-        if (btnSeguinte != null)
-            btnSeguinte.interactable = indiceActual < itens.Count - 1;
+        DefinirBotoesNavegacao(!estaANavegar);
     }
 
     private BtnArquivoItem ObterItemActual()
@@ -141,64 +153,127 @@ public class PainelDetalhesPraca : MonoBehaviour
         return itens[indiceActual];
     }
 
-    private static string ObterFoco(JsonPayloadData dados)
+    private void NavegarPara(int novoIndice, int direccao)
     {
-        if (dados == null || dados.layoutDaPraca == null || dados.layoutDaPraca.Count == 0)
-            return "Ainda sem elementos";
+        if (estaANavegar || novoIndice < 0 || novoIndice >= itens.Count)
+            return;
 
-        Dictionary<string, int> totaisPorCategoria = new Dictionary<string, int>();
-        string categoriaPrincipal = "Elementos";
-        int maiorTotal = 0;
-
-        foreach (ObjetoPosicionadoData item in dados.layoutDaPraca)
+        PrepararAnimacaoCartao();
+        if (cartaoAnimado == null || grupoCartao == null)
         {
-            string categoria = string.IsNullOrEmpty(item.categoria) ? "Elementos" : item.categoria;
-            if (!totaisPorCategoria.ContainsKey(categoria))
-                totaisPorCategoria[categoria] = 0;
-
-            totaisPorCategoria[categoria]++;
-            if (totaisPorCategoria[categoria] > maiorTotal)
-            {
-                maiorTotal = totaisPorCategoria[categoria];
-                categoriaPrincipal = categoria;
-            }
+            indiceActual = novoIndice;
+            AtualizarConteudo();
+            return;
         }
 
-        return categoriaPrincipal;
+        estaANavegar = true;
+        DefinirBotoesNavegacao(false);
+
+        Vector2 destinoSaida = posicaoOriginalCartao + Vector2.left * direccao * distanciaDeslizamento;
+        LeanTween.alphaCanvas(grupoCartao, 0f, duracaoDeslizamento).setEaseInQuad();
+        AnimarPosicaoCartao(cartaoAnimado.anchoredPosition, destinoSaida, duracaoDeslizamento, LeanTweenType.easeInQuad, () =>
+        {
+            indiceActual = novoIndice;
+            AtualizarConteudo();
+
+            Vector2 origemEntrada = posicaoOriginalCartao + Vector2.right * direccao * distanciaDeslizamento;
+            cartaoAnimado.anchoredPosition = origemEntrada;
+            grupoCartao.alpha = 0f;
+
+            LeanTween.alphaCanvas(grupoCartao, 1f, duracaoDeslizamento).setEaseOutQuad();
+            AnimarPosicaoCartao(origemEntrada, posicaoOriginalCartao, duracaoDeslizamento, LeanTweenType.easeOutQuad, () =>
+            {
+                estaANavegar = false;
+                DefinirBotoesNavegacao(true);
+            });
+        });
     }
 
-    private static string ResumirItens(JsonPayloadData dados)
+    private void PrepararAnimacaoCartao()
     {
-        if (dados == null || dados.layoutDaPraca == null || dados.layoutDaPraca.Count == 0)
-            return "Ainda não foram adicionados elementos";
+        if (cartaoAnimado == null && rawImagePraca != null)
+            cartaoAnimado = rawImagePraca.transform.parent as RectTransform;
 
-        Dictionary<string, int> totaisPorNome = new Dictionary<string, int>();
-        List<string> ordemDosNomes = new List<string>();
+        if (cartaoAnimado == null)
+            return;
 
-        foreach (ObjetoPosicionadoData item in dados.layoutDaPraca)
+        if (grupoCartao == null)
         {
-            string nome = string.IsNullOrEmpty(item.nome) ? "Elemento sem nome" : item.nome;
-            if (!totaisPorNome.ContainsKey(nome))
-            {
-                totaisPorNome[nome] = 0;
-                ordemDosNomes.Add(nome);
-            }
-
-            totaisPorNome[nome]++;
+            grupoCartao = cartaoAnimado.GetComponent<CanvasGroup>();
+            if (grupoCartao == null)
+                grupoCartao = cartaoAnimado.gameObject.AddComponent<CanvasGroup>();
         }
 
-        StringBuilder resumo = new StringBuilder();
-        for (int i = 0; i < ordemDosNomes.Count; i++)
+        posicaoOriginalCartao = cartaoAnimado.anchoredPosition;
+        if (!escalaOriginalGuardada)
         {
-            if (i > 0)
-                resumo.Append(", ");
+            escalaOriginalCartao = cartaoAnimado.localScale;
+            escalaOriginalGuardada = true;
+        }
+    }
 
-            string nome = ordemDosNomes[i];
-            resumo.Append(totaisPorNome[nome]);
-            resumo.Append("× ");
-            resumo.Append(nome);
+    private void ReporPosicaoCartao()
+    {
+        if (cartaoAnimado == null)
+            return;
+
+        cartaoAnimado.anchoredPosition = posicaoOriginalCartao;
+        if (grupoCartao != null)
+            grupoCartao.alpha = 1f;
+        if (escalaOriginalGuardada)
+            cartaoAnimado.localScale = escalaOriginalCartao;
+    }
+
+    private void AnimarAbertura()
+    {
+        if (raizPopup == null || cartaoAnimado == null || !escalaOriginalGuardada)
+            return;
+
+        // A raiz contém o blur, os controlos e o cartão. O fade revela o conjunto;
+        // o pop é aplicado só ao cartão central para preservar a estabilidade das setas.
+        if (grupoRaiz == null)
+        {
+            grupoRaiz = raizPopup.GetComponent<CanvasGroup>();
+            if (grupoRaiz == null)
+                grupoRaiz = raizPopup.AddComponent<CanvasGroup>();
         }
 
-        return resumo.ToString();
+        LeanTween.cancel(raizPopup);
+        LeanTween.cancel(cartaoAnimado.gameObject);
+        grupoRaiz.alpha = 0f;
+        cartaoAnimado.localScale = escalaOriginalCartao * 0.92f;
+
+        LeanTween.alphaCanvas(grupoRaiz, 1f, duracaoFadeAbertura).setEaseOutQuad();
+        LeanTween.scale(cartaoAnimado, escalaOriginalCartao, duracaoPopAbertura).setEaseOutBack();
+    }
+
+    private void AnimarPosicaoCartao(Vector2 origem, Vector2 destino, float duracao, LeanTweenType curva, System.Action aoConcluir)
+    {
+        LeanTween.value(cartaoAnimado.gameObject, 0f, 1f, duracao)
+            .setEase(curva)
+            .setOnUpdate((float progresso) => cartaoAnimado.anchoredPosition = Vector2.LerpUnclamped(origem, destino, progresso))
+            .setOnComplete(aoConcluir);
+    }
+
+    private void DefinirBotoesNavegacao(bool activos)
+    {
+        if (btnAnterior != null)
+            btnAnterior.interactable = activos && indiceActual > 0;
+        if (btnSeguinte != null)
+            btnSeguinte.interactable = activos && indiceActual < itens.Count - 1;
+    }
+
+    private static void AtualizarTextoOpcional(TextMeshProUGUI texto, string conteudo, string prefixo, string textoVazio)
+    {
+        if (texto == null)
+            return;
+
+        bool temConteudo = !string.IsNullOrWhiteSpace(conteudo);
+        texto.gameObject.SetActive(true);
+        texto.text = temConteudo ? prefixo + conteudo : textoVazio;
+
+        Color cor = texto.color;
+        cor.a = temConteudo ? 1f : 0.8f;
+        texto.color = cor;
     }
 }
