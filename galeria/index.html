@@ -38,9 +38,12 @@
             <div class="filtro-grupo">
                 <label for="filtroEspecifico">Contém o item:</label>
                 <select id="filtroEspecifico">
+                    <button>
+                        <selectedcontent></selectedcontent>
+                    </button>
                     <option value="todos">Qualquer item</option>
-                    <option value="Banco de concreto">Com Banco de concreto</option>
-                    <option value="Banco de Madeira">Com Banco de Madeira</option>
+                    <!-- As demais opções são preenchidas pelo app.js, a partir
+                         do mesmo dicionário usado pros ícones (iconePorNome) -->
                 </select>
             </div>
         </section>
@@ -56,33 +59,61 @@
     <div id="popup" class="escondido">
         <div class="popup-content">
             <button id="btnFecharModal" class="btn-fechar">X</button>
-            
+
             <div class="popup-imagem-container">
-                <img src="" alt="Imagem da Praça" id="selectedImage">
+                <img src="" alt="Vista da praça" id="selectedImage">
+                <div class="toggle-vista">
+                    <button id="btnVistaTopo" class="btn-vista ativo" title="Vista de topo">Topo</button>
+                    <button id="btnVistaAngulo" class="btn-vista" title="Vista de ângulo">Ângulo</button>
+                </div>
             </div>
 
             <div class="popup-sidebar">
-                <h2 id="modalTitulo">Carregando...</h2>
-                <p id="modalData" class="texto-dica"></p>
-                
-                <div class="estatisticas">
-                    <div class="stat-box">
-                        <span id="modalTotalItens" class="stat-numero">-</span>
-                        <span class="stat-label">Itens</span>
-                    </div>
-                    <div class="stat-box">
-                        <span id="modalCategoria" class="stat-numero">-</span>
-                        <span class="stat-label">Foco</span>
+                <div class="sidebar-topo">
+                    <p class="praca-numero" id="modalNumero">rePraça</p>
+                    <h2 id="modalTitulo">Carregando...</h2>
+                    <p class="praca-base" id="modalBaseadoEm"></p>
+                    <p id="modalData" class="texto-dica"></p>
+
+                    <div class="popup-acoes">
+                        <button id="btnLikeModal" class="btn-like">❤️ <span id="modalLikesCount">0</span></button>
+                        <a href="#" id="btnRemix" class="btn-remix">✏️ reMixar praça</a>
                     </div>
                 </div>
 
-                <div class="popup-acoes">
-                    <button id="btnLikeModal" class="btn-like">❤️ <span id="modalLikesCount">0</span></button>
-                    <a href="#" id="btnRemix" class="btn-remix">Reimaginar Praça</a>
-                </div>
+                <div class="tabs-container">
+                    <div class="tabs-header">
+                        <button class="tab-btn tab-itens ativo" data-tab="itens">itens</button>
+                        <button class="tab-btn tab-remixes" data-tab="remixes">remixes</button>
+                        <button class="tab-btn tab-historico" data-tab="historico" id="btnTabHistorico">histórico</button>
+                    </div>
 
-                <div id="modalListaItens" class="lista-itens">
-                    <!-- O JS vai injetar a lista detalhada de móveis aqui -->
+                    <div class="tabs-conteudo tabs-conteudo--itens">
+                        <div class="tab-painel ativo" id="painelItens">
+                            <div class="estatisticas">
+                                <div class="stat-box">
+                                    <span id="modalTotalItens" class="stat-numero">-</span>
+                                    <span class="stat-label">Itens</span>
+                                </div>
+                                <div class="stat-box">
+                                    <span id="modalCategoria" class="stat-numero">-</span>
+                                    <span class="stat-label">Foco</span>
+                                </div>
+                            </div>
+                            <p id="modalComentario" class="comentario-praca"></p>
+                            <div id="modalListaItens" class="lista-categorias">
+                                <!-- O JS injeta aqui os grupos por categoria -->
+                            </div>
+                        </div>
+
+                        <div class="tab-painel" id="painelRemixes">
+                            <div id="listaRemixes" class="lista-remixes"></div>
+                        </div>
+
+                        <div class="tab-painel" id="painelHistorico">
+                            <div id="listaHistorico" class="lista-historico"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
