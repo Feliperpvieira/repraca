@@ -265,7 +265,7 @@ header {
     }
 
 .texto-dica { 
-    color: #888; 
+    color: #757575; 
     font-size: 0.9em; 
 }
 
@@ -275,17 +275,21 @@ header {
     flex-shrink: 0; 
 }
 
+.sidebar-topo h2{
+    margin: 0;
+    font-weight: normal;
+}
+
 .praca-numero { 
-    font-size: 0.8rem; 
-    color: #999; 
     font-weight: bold; 
     letter-spacing: 0.5px; 
-    margin-bottom: 4px; 
+    /* margin-bottom: 4px;  */
+    margin: 0;
 }
 
 .praca-base { 
     font-size: 0.85rem; 
-    color: #888; 
+    color: #757575; 
     margin-top: 2px; 
 }
 
@@ -293,7 +297,7 @@ header {
     display: flex; 
     gap: 10px; 
     align-items: stretch; 
-    margin-top: 16px; 
+    margin: 32px 0 12px 0; 
 }
 
 .btn-like { 
@@ -429,13 +433,13 @@ header {
         100% 100%
     );
 
-    font-weight: 600; 
+    font-weight: 700; 
     cursor: pointer; 
     color: white; 
     opacity: 0.7; 
     transition: all 0.2s ease-in-out; 
 
-    font-size: 1rem;
+    font-size: 0.875rem;
 }
 
 .tab-btn:not(.ativo) { 
