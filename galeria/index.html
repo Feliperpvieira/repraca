@@ -4,6 +4,7 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>rePraça - Galeria</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- pras tabelas no popup de cada praça -->
     <link rel="preconnect" href="https://fonts.googleapis.com"> 
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
     <link href="https://fonts.googleapis.com/css2?family=Cabin:wght@400;700&display=swap" rel="stylesheet">
@@ -92,7 +93,7 @@
 
                 <div class="tabs-container">
                     <div class="tabs-header">
-                        <button class="tab-btn tab-itens ativo" data-tab="itens">itens</button>
+                        <button class="tab-btn tab-itens ativo" data-tab="itens">info</button>
                         <button class="tab-btn tab-remixes" data-tab="remixes">remixes</button>
                         <button class="tab-btn tab-historico" data-tab="historico" id="btnTabHistorico">histórico</button>
                     </div>
@@ -110,6 +111,11 @@
                                 </div>
                             </div>
                             <p id="modalComentario" class="comentario-praca"></p>
+
+                            <div class="radar-container">
+                                <canvas id="radarPraca"></canvas>
+                            </div>
+
                             <div id="modalListaItens" class="lista-categorias">
                                 <!-- O JS injeta aqui os grupos por categoria -->
                             </div>

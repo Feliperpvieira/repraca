@@ -1,4 +1,4 @@
-/* * { margin:0; padding:0; box-sizing: border-box;  }*/
+* { margin:0; padding:0; box-sizing: border-box;  }
 
 /* Color variables */
 :root {
@@ -316,7 +316,7 @@ header {
 
 .btn-like span { 
     font-size: 1.2rem; 
-    min-width: 1.125rem;
+    min-width: 1.2rem;
     text-align: right;
 }
 
