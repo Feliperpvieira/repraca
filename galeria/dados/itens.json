@@ -1,0 +1,71 @@
+{
+    "Banco de concreto": {
+        "categoria": "Lazer",
+        "icone": "banco-concreto.png"
+    },
+
+    "Banco de madeira": {
+        "categoria": "Lazer",
+        "icone": "banco-madeira.png"
+    },
+
+    "Barra Fixa": {
+        "categoria": "Atividade física",
+        "icone": "barra-fixa.png"
+    },
+
+    "Bicicletário U": {
+        "categoria": "Transporte",
+        "icone": "bicicletario-u.png"
+    },
+
+    "Cereja-do-mato": {
+        "categoria": "Paisagem",
+        "icone": "cereja-do-mato.png"
+    },
+
+    "Cesta de Basquete": {
+        "categoria": "Atividade física",
+        "icone": "cesta-basquete.png"
+    },
+
+    "Escorrega": {
+        "categoria": "Infantil",
+        "icone": "escorrega.png"
+    },
+
+    "Estátua": {
+        "categoria": "Paisagem",
+        "icone": "estatua.png"
+    },
+
+    "Gangorra": {
+        "categoria": "Infantil",
+        "icone": "gangorra.png"
+    },
+
+    "Lixeira Comlurb": {
+        "categoria": "Infraestrutura",
+        "icone": "lixeira-comlurb.png"
+    },
+
+    "Mesa de xadrez": {
+        "categoria": "Lazer",
+        "icone": "mesa-xadrez.png"
+    },
+
+    "MUPI": {
+        "categoria": "Infraestrutura",
+        "icone": "mupi.png"
+    },
+
+    "Palmeira": {
+        "categoria": "Paisagem",
+        "icone": "palmeira.png"
+    },
+
+    "Poste duplo": {
+        "categoria": "Infraestrutura",
+        "icone": "poste-duplo.png"
+    }
+}
