@@ -540,29 +540,100 @@ header {
     margin-bottom: 8px; 
 }
 
-.grupo-categoria-itens { 
-    display: flex; 
-    flex-wrap: wrap; 
-    gap: 10px; 
-    background: var(--bege); 
-    border-radius: 14px; 
-    padding: 12px; 
+/* Gráfico radar (praça original vs. praça imaginada) */
+.radar-container {
+    position: relative;
+    width: 100%;
+    height: 260px;
+    margin-bottom: 16px;
 }
 
-.item-icone { 
-    display: flex; 
-    align-items: center; 
-    gap: 6px; 
-    color: #333; 
-    font-weight: bold; 
-    font-size: 0.9rem; 
+.radar-container canvas {
+    max-width: 100%;
 }
 
-.item-icone img { 
-    width: 20px; 
-    height: 20px; 
-    object-fit: contain; 
+/* Lista comparativa por item, dentro de cada categoria */
+.lista-comparativa {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
+
+.item-comparativo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    background: var(--bege);
+    border-radius: 14px;
+    padding: 10px 14px;
+    color: #333;
+}
+
+.item-comparativo-nome {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+    min-width: 0;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.item-comparativo-nome img {
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.item-comparativo-nome span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.item-comparativo-dados {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-shrink: 0;
+}
+
+.item-comparativo-dados > span {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1.2;
+}
+
+.item-comparativo-dados small {
+    font-size: 0.65rem;
+    color: #999;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.item-comparativo-dados strong {
+    font-size: 1rem;
+    color: var(--azul-marinho);
+}
+
+.item-comparativo-dados > span.badge-diferenca {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 34px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 0.85rem;
+    color: white;
+}
+
+.badge-diferenca.aumentou { background: var(--verde); }
+.badge-diferenca.diminuiu { background: var(--terracota); }
+.badge-diferenca.igual { background: #999; }
 
 /* Abas "remixes" e "histórico" */
 .lista-remixes, .lista-historico { 
