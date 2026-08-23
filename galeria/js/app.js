@@ -776,35 +776,6 @@ async function carregarHistorico(pracaId, idAtual) {
     });
 }
 
-// ==========================================
-// 5e. BOTÃO "COMPARTILHAR"
-// ==========================================
-// TROQUE <PROJECT_REF> pela referência do seu projeto Supabase depois de
-// fazer o deploy da function (supabase functions deploy praca-preview).
-const URL_BASE_PREVIEW = "https://ldynpvhqbmrcrlcabnuf.supabase.co/functions/v1/praca-preview";
-
-function configurarBotaoCompartilhar(pracaId) {
-    const btn = document.getElementById("btnCompartilhar");
-    const link = `${URL_BASE_PREVIEW}?id=${pracaId}`;
-
-    btn.classList.remove("copiado");
-    btn.innerText = "Compartilhar";
-
-    btn.onclick = async () => {
-        try {
-            await navigator.clipboard.writeText(link);
-            btn.innerText = "Link copiado!";
-            btn.classList.add("copiado");
-            setTimeout(() => {
-                btn.innerText = "Compartilhar";
-                btn.classList.remove("copiado");
-            }, 2000);
-        } catch (erro) {
-            console.error("Erro ao copiar link:", erro);
-            prompt("Copie o link manualmente:", link);
-        }
-    };
-}
 
 // ==========================================
 // 6. SISTEMA DE LIKES
