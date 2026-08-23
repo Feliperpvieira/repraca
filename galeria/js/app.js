@@ -612,11 +612,6 @@ async function preencherModal(praca) {
     document.getElementById("btnRemix").href =
         "https://feliperpv.com/repraca/galeria/abrir-app/?id=" + praca.praca_id;
 
-    // O link compartilhável passa pela Edge Function (não pelo #hash da
-    // galeria), porque só ela consegue servir uma meta tag de Open Graph
-    // diferente por praça — o #hash nunca chega ao servidor.
-    configurarBotaoCompartilhar(praca.praca_id);
-
     // --- Dados da praça imaginada ---
     const jsonConvertido = JSON.parse(praca.layout_data);
     const itens = jsonConvertido.layoutDaPraca || [];
