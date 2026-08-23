@@ -211,7 +211,72 @@ function desenharRadar(dadosOriginais, dadosImaginados) {
     const { verde: corVerde, terracota: corTerracota, bege: corBege } = coresGrafico;
     const fonteBase = { family: "Cabin" };
 
+    // Plugin próprio: desenha "original% / sua praça%" em cores separadas
+    // (terracota / verde) logo além do rótulo de cada categoria — o
+    // Chart.js não suporta cor por trecho dentro de um rótulo, então
+    // isto é desenhado manualmente por cima do gráfico já pronto.
+    //
+    // NOTA: 34 é uma distância estimada além do nome da categoria — não
+    // dá pra testar isto sem renderizar de verdade, então é bem provável
+    // que precise ajustar esse número depois de ver ao vivo no site.
+    const DISTANCIA_EXTRA_VALORES = 34;
+
+    const valoresColoridosPlugin = {
+        id: 'valoresColoridos',
+        afterDraw(chart) {
+            const escala = chart.scales.r;
+            if (!escala) return;
+
+            const { ctx } = chart;
+            const centroX = escala.xCenter;
+
+            ctx.save();
+            ctx.textBaseline = "middle";
+            ctx.font = "bold 12px Cabin";
+
+            categorias.forEach((_, index) => {
+                const distancia = escala.drawingArea + DISTANCIA_EXTRA_VALORES;
+                const { x, y } = escala.getPointPosition(index, distancia);
+
+                const original = Math.round(percentuaisOriginais[categorias[index]] || 0);
+                const imaginada = Math.round(percentuaisImaginados[categorias[index]] || 0);
+
+                const textoOriginal = `${original}%`;
+                const textoBarra = " / ";
+                const textoImaginada = `${imaginada}%`;
+
+                const larguraTotal = ctx.measureText(textoOriginal).width
+                    + ctx.measureText(textoBarra).width
+                    + ctx.measureText(textoImaginada).width;
+
+                // Mesma lógica de alinhamento que o Chart.js usa pros
+                // rótulos: centralizado no topo/base, alinhado à direita
+                // do lado esquerdo do círculo, à esquerda do lado direito.
+                let cursorX;
+                if (x < centroX - 1) cursorX = x - larguraTotal;
+                else if (x > centroX + 1) cursorX = x;
+                else cursorX = x - larguraTotal / 2;
+
+                ctx.textAlign = "left";
+
+                ctx.fillStyle = corTerracota;
+                ctx.fillText(textoOriginal, cursorX, y);
+                cursorX += ctx.measureText(textoOriginal).width;
+
+                ctx.fillStyle = corBege;
+                ctx.fillText(textoBarra, cursorX, y);
+                cursorX += ctx.measureText(textoBarra).width;
+
+                ctx.fillStyle = corVerde;
+                ctx.fillText(textoImaginada, cursorX, y);
+            });
+
+            ctx.restore();
+        },
+    };
+
     graficoRadar = new Chart(canvas, {
+        plugins: [valoresColoridosPlugin],
         type: "radar",
         data: {
             labels: categorias,
@@ -221,24 +286,22 @@ function desenharRadar(dadosOriginais, dadosImaginados) {
                     data: categorias.map(c => percentuaisOriginais[c] || 0),
                     borderColor: corTerracota,
                     backgroundColor: "rgba(183, 111, 81, 0.14)",
-                    borderWidth: 2,
-                    pointBackgroundColor: corTerracota,
-                    pointBorderColor: corBege,
-                    pointBorderWidth: 2,
-                    pointRadius: 4,
-                    pointHoverRadius: 6,
+                    borderWidth: 2.5,
+                    pointRadius: 0,
+                    pointHoverRadius: 5,
+                    pointHoverBackgroundColor: corTerracota,
+                    pointHoverBorderColor: corBege,
                 },
                 {
                     label: "Sua praça",
                     data: categorias.map(c => percentuaisImaginados[c] || 0),
                     borderColor: corVerde,
                     backgroundColor: "rgba(152, 171, 86, 0.18)",
-                    borderWidth: 2,
-                    pointBackgroundColor: corVerde,
-                    pointBorderColor: corBege,
-                    pointBorderWidth: 2,
-                    pointRadius: 4,
-                    pointHoverRadius: 6,
+                    borderWidth: 2.5,
+                    pointRadius: 0,
+                    pointHoverRadius: 5,
+                    pointHoverBackgroundColor: corVerde,
+                    pointHoverBorderColor: corBege,
                 },
             ],
         },
@@ -266,7 +329,7 @@ function desenharRadar(dadosOriginais, dadosImaginados) {
                     angleLines: { color: "rgba(249, 239, 231, 0.11)", lineWidth: 1 },
                     pointLabels: {
                         color: corBege,
-                        padding: 12,
+                        padding: 14,
                         font: { ...fonteBase, size: 12, weight: "600" },
                     },
                 },
@@ -277,12 +340,12 @@ function desenharRadar(dadosOriginais, dadosImaginados) {
                     position: "top",
                     labels: {
                         color: corBege,
-                        padding: 16,
+                        padding: 8,
                         usePointStyle: true,
                         pointStyle: "rectRounded",
-                        boxWidth: 24,
-                        boxHeight: 9,
-                        font: { ...fonteBase, size: 12, weight: "600" },
+                        boxWidth: 18,
+                        boxHeight: 7,
+                        font: { ...fonteBase, size: 11, weight: "600" },
                     },
                 },
                 tooltip: {
@@ -411,7 +474,7 @@ async function carregarPracas() {
 
     if (error) {
         console.error("Erro ao buscar:", error);
-        loader.innerText = "Erro ao carregar: " + (error.message || JSON.stringify(error));
+        loader.innerText = "Não foi possível carregar a galeria. Tente novamente mais tarde.";
         carregando = false;
         return;
     }
@@ -548,6 +611,11 @@ async function preencherModal(praca) {
 
     document.getElementById("btnRemix").href =
         "https://feliperpv.com/repraca/galeria/abrir-app/?id=" + praca.praca_id;
+
+    // O link compartilhável passa pela Edge Function (não pelo #hash da
+    // galeria), porque só ela consegue servir uma meta tag de Open Graph
+    // diferente por praça — o #hash nunca chega ao servidor.
+    configurarBotaoCompartilhar(praca.praca_id);
 
     // --- Dados da praça imaginada ---
     const jsonConvertido = JSON.parse(praca.layout_data);
@@ -706,6 +774,36 @@ async function carregarHistorico(pracaId, idAtual) {
         `;
         container.appendChild(linha);
     });
+}
+
+// ==========================================
+// 5e. BOTÃO "COMPARTILHAR"
+// ==========================================
+// TROQUE <PROJECT_REF> pela referência do seu projeto Supabase depois de
+// fazer o deploy da function (supabase functions deploy praca-preview).
+const URL_BASE_PREVIEW = "https://ldynpvhqbmrcrlcabnuf.supabase.co/functions/v1/praca-preview";
+
+function configurarBotaoCompartilhar(pracaId) {
+    const btn = document.getElementById("btnCompartilhar");
+    const link = `${URL_BASE_PREVIEW}?id=${pracaId}`;
+
+    btn.classList.remove("copiado");
+    btn.innerText = "Compartilhar";
+
+    btn.onclick = async () => {
+        try {
+            await navigator.clipboard.writeText(link);
+            btn.innerText = "Link copiado!";
+            btn.classList.add("copiado");
+            setTimeout(() => {
+                btn.innerText = "Compartilhar";
+                btn.classList.remove("copiado");
+            }, 2000);
+        } catch (erro) {
+            console.error("Erro ao copiar link:", erro);
+            prompt("Copie o link manualmente:", link);
+        }
+    };
 }
 
 // ==========================================
