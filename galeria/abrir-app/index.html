@@ -8,32 +8,35 @@
 </head>
 <body style="text-align: center; padding: 50px 20px;">
     
-    <img src="../../img/repraca-logo-horiz.png" width="200" alt="rePraça">
+    <img src="../../old/img/repraca-logo-horiz.png" width="200" alt="rePraça">
     
     <h1 id="titulo-aviso">Quase lá!</h1>
     <p id="texto-aviso">Para editar esta praça, precisa da aplicação rePraça instalada.</p>
     
     <!-- CONTEÚDO PADRÃO (Android / PC) -->
     <div id="botoes-download" style="margin-top: 30px; display: flex; flex-direction: column; gap: 15px; align-items: center;">
-        <a href="https://play.google.com/store/apps/details?id=com.frpv.rePraca" class="btn-remix" style="width: 250px;">Descarregar para Android</a>
+       <!--  <a href="https://play.google.com/store/apps/details?id=com.frpv.rePraca" class="btn-remix" style="width: 250px;">Descarregar para Android</a> -->
+        <a href='https://play.google.com/store/apps/details?id=com.frpv.rePraca'>
+            <img width="200" alt='Disponível no Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/pt-br_badge_web_generic.png'/>
+        </a>
         <a href="LINK_DO_TESTFLIGHT_OU_APP_STORE" class="btn-remix" style="width: 250px; background-color: #333;">Descarregar para iOS</a>
     </div>
 
     <!-- CONTEÚDO EXCLUSIVO PARA iPHONE (Escondido por defeito) -->
-    <div id="dica-ios" style="display: none; margin-top: 15px; text-align: center; animation: flutuar 1.5s infinite alternate;">
+    <!-- <div id="dica-ios" style="display: none; margin-top: 15px; text-align: center; animation: flutuar 1.5s infinite alternate;">
         <h2 style="color: #0A6EB6; font-size: 2rem; margin-bottom: 5px;">⬆️</h2>
         <h2 style="color: #0A6EB6; margin-bottom: 10px;">Olhe lá para cima!</h2>
         <p style="font-size: 1.1em; padding: 0 15px;">Se já instalou o <b>rePraça</b>, toque no botão azul <strong>ABRIR</strong> no topo do ecrã para carregar esta praça.</p>
         
         <p style="font-size: 0.9em; color: #666; margin-top: 25px;">Ainda não tem a aplicação?<br> 
         <a href="LINK_DO_TESTFLIGHT_OU_APP_STORE" style="color: #0A6EB6; font-weight: bold;">Descarregue a versão iOS aqui.</a></p>
-    </div>
+    </div> -->
     
     <br><br>
-    <a href="../" style="color: #0A6EB6; display: inline-block; margin-top: 20px;">Voltar à Galeria</a>
+    <a href="javascript:history.back()" style="color: #0A6EB6; display: inline-block; margin-top: 20px;">Voltar à Galeria</a>
 
     <!-- script que detecta ios -->
-    <script>
+    <!-- <script>
         // Verifica se o utilizador está num dispositivo Apple móvel
         var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
@@ -46,14 +49,14 @@
             document.getElementById('titulo-aviso').innerText = "Já tem o jogo?";
             document.getElementById('dica-ios').style.display = 'block';
         }
-    </script>
+    </script> -->
 
     <!-- CSS Rápido para a seta "flutuar" chamando a atenção -->
-    <style>
+    <!-- <style>
         @keyframes flutuar {
             0% { transform: translateY(0); }
             100% { transform: translateY(-10px); }
         }
-    </style>
+    </style> -->
 </body>
 </html>
