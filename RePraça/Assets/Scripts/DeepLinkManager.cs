@@ -22,6 +22,9 @@ public class DeepLinkManager : MonoBehaviour
     public GameObject painelAviso;
     public string nomeCenaMenu = "Menu";
 
+    [Header("Cena única do jogo")]
+    public string nomeCenaJogo = "Jogo"; // substitui o antigo dados.SceneName como destino de carregamento
+
     private string cenaParaCarregarPend;
 
     // Guarda o JSON baixado APENAS em memória. Só é gravado no PlayerPrefs
@@ -142,8 +145,9 @@ public class DeepLinkManager : MonoBehaviour
 
             layoutJsonPendente = dados.LayoutData;
 
-            cenaParaCarregarPend = dados.SceneName;
-            if (string.IsNullOrEmpty(cenaParaCarregarPend)) cenaParaCarregarPend = "Barão de Corumba";
+            //cenaParaCarregarPend = dados.SceneName;
+            //if (string.IsNullOrEmpty(cenaParaCarregarPend)) cenaParaCarregarPend = "Barão de Corumba";
+            cenaParaCarregarPend = nomeCenaJogo;
 
             AtualizarTextosLoading("<color=#98AB56>Praça transferida!</color>", "A preparar o ambiente...");
 

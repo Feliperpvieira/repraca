@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System.IO;
 using PostHogUnity;
+using UnityEngine.SceneManagement;
 
 public class BuildingManager : MonoBehaviour
 {
@@ -36,6 +37,12 @@ public class BuildingManager : MonoBehaviour
     private SelectionManager selectionManager;
     private DiaNoite iluminacaoManager;
 
+    [Header("Praças")]
+    public PracaCatalogo catalogo;        // arrastar o asset PracaCatalogo no Inspector
+    public CameraPanZoom cameraPanZoom;   // arrastar o script da câmera principal
+
+    [Header("Praças (gerida pelo jogo)")]
+    public PracaData pracaAtual;          // preenchido em runtime, nunca no Inspector
 
     [Header("o jogo gere")]
     //public List<string> objetosPosicionados = new List<string>(); //forma antiga de guardar o que estava adicionado na cena
@@ -53,25 +60,41 @@ public class BuildingManager : MonoBehaviour
 
     void Start()
     {
-        // 1. Se vier do botão ARQUIVO (Saves Locais)
+        // Resolve, nesta ordem de prioridade, o que carregar:
+        // 1) Arquivo local salvo (botão Arquivo)
+        // 2) JSON de remix vindo de um link (galeria/deep link)
+        // 3) Praça nova escolhida no Menu, ainda sem nenhum objeto posicionado
+        string jsonParaCarregar = null;
+        bool isRemix = false;
+
         if (PlayerPrefs.HasKey("PracaParaCarregar"))
         {
             string caminho = PlayerPrefs.GetString("PracaParaCarregar");
-            CarregarPraca(caminho, "", false);
+            if (File.Exists(caminho))
+                jsonParaCarregar = File.ReadAllText(caminho);
             PlayerPrefs.DeleteKey("PracaParaCarregar");
         }
-
-        // 2. Se vier do LINK DO SITE (Remix da Galeria)
         else if (PlayerPrefs.HasKey("PracaRemixJSON"))
         {
-            string jsonDaNuvem = PlayerPrefs.GetString("PracaRemixJSON");
-
-            // O seu CarregarPraca() original faz o resto! (O 'true' liga a lógica de trocar IDs)
-            CarregarPraca("", jsonDaNuvem, true);
-
+            jsonParaCarregar = PlayerPrefs.GetString("PracaRemixJSON");
+            isRemix = true;
             PlayerPrefs.DeleteKey("PracaRemixJSON");
         }
+
+        string mapaId = null;
+        if (jsonParaCarregar != null)
+        {
+            mapaId = ResolverMapaId(JsonUtility.FromJson<JsonPayloadData>(jsonParaCarregar));
+        }
+        else if (PlayerPrefs.HasKey("PracaIdNova"))
+        {
+            mapaId = PlayerPrefs.GetString("PracaIdNova");
+            PlayerPrefs.DeleteKey("PracaIdNova");
+        }
+
+        StartCoroutine(IniciarPraca(mapaId, jsonParaCarregar, isRemix));
     }
+
 
     void Awake()
     {
@@ -432,7 +455,10 @@ public class BuildingManager : MonoBehaviour
         payload.pracaPaiId = idDaPracaPai;
         payload.nomeDoJogador = idJogador;
         payload.dataCriacao = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm");
-        payload.nomeDaCena = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name; // Pega o nome exato da cena atual em que o utilizador está a jogar
+        //antes: payload.nomeDaCena = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name; // Pega o nome exato da cena atual em que o utilizador está a jogar
+        payload.mapaId = pracaAtual != null ? pracaAtual.id : "";
+        payload.nomeDaCena = pracaAtual != null ? pracaAtual.nomeExibicao : ""; // mantido pro site
+
         payload.tituloDaPraca = tituloDaPraca;
         payload.comentarioDaPraca = comentarioDaPraca;
         payload.layoutDaPraca = objetosPosicionados;
@@ -597,7 +623,100 @@ public class BuildingManager : MonoBehaviour
     }
 
 
+    // Carrega o terreno certo (cena aditiva) e só depois reconstrói os objetos
+    // salvos — precisa esperar o terreno pra ter colliders prontos pro raycast
+    // de posicionamento.
+    private IEnumerator IniciarPraca(string mapaId, string jsonParaCarregar, bool isRemix)
+    {
+        // Rede de segurança: se por algum motivo não achamos o id, usa a primeira
+        // praça do catálogo em vez de deixar a cena vazia sem chão.
+        if (string.IsNullOrEmpty(mapaId) && catalogo.pracas.Count > 0)
+            mapaId = catalogo.pracas[0].id;
 
+        pracaAtual = catalogo.ObterPorId(mapaId);
+        if (pracaAtual == null)
+        {
+            Debug.LogError($"[BuildingManager] Praça com id '{mapaId}' não encontrada no catálogo.");
+            yield break;
+        }
+
+        AsyncOperation carregamento = SceneManager.LoadSceneAsync(pracaAtual.cenaAditiva, LoadSceneMode.Additive);
+        yield return carregamento;
+
+        if (cameraPanZoom != null)
+            cameraPanZoom.AplicarConfiguracaoDaPraca(pracaAtual);
+
+        if (!string.IsNullOrEmpty(jsonParaCarregar))
+            CarregarPraca(jsonParaCarregar, isRemix);
+    }
+
+    // Tenta descobrir o id do mapa a partir de um JSON salvo. Cobre o caso de
+    // arquivos antigos, salvos antes desta migração, que não têm "mapaId".
+    private string ResolverMapaId(JsonPayloadData dados)
+    {
+        if (!string.IsNullOrEmpty(dados.mapaId))
+            return dados.mapaId;
+
+        // Fallback pra saves antigos: tenta casar pelo nome de exibição salvo.
+        // Se não achar, cai no catch-all do IniciarPraca (primeira praça do catálogo).
+        PracaData porNome = catalogo.pracas.Find(p => p != null && p.nomeExibicao == dados.nomeDaCena);
+        return porNome != null ? porNome.id : null;
+    }
+
+    // Reconstrói a praça a partir de um JSON já carregado em memória (não lê mais
+    // arquivo — isso já foi feito em Start()).
+    public void CarregarPraca(string jsonParaCarregar, bool isRemixDaGaleria)
+    {
+        JsonPayloadData pracaSalva = JsonUtility.FromJson<JsonPayloadData>(jsonParaCarregar);
+
+        if (isRemixDaGaleria)
+        {
+            idDaPracaPai = pracaSalva.pracaId;
+            idDaPracaAtual = System.Guid.NewGuid().ToString();
+        }
+        else
+        {
+            idDaPracaAtual = pracaSalva.pracaId;
+            idDaPracaPai = pracaSalva.pracaPaiId;
+        }
+
+        DefinirMetadadosDaPraca(pracaSalva.tituloDaPraca, pracaSalva.comentarioDaPraca);
+
+        foreach (var objData in objetosPosicionados)
+        {
+            GameObject objNaCena = GameObject.Find(objData.id);
+            if (objNaCena != null) Destroy(objNaCena);
+        }
+        objetosPosicionados.Clear();
+
+        BotaoObjManager lojaManager = FindObjectOfType<BotaoObjManager>(true);
+
+        foreach (ObjetoPosicionadoData item in pracaSalva.layoutDaPraca)
+        {
+            ObjetosData dadosOriginais = null;
+            foreach (ObjetosData objData in lojaManager.listaTodosDados)
+            {
+                if (objData.prefab.name == item.nome)
+                {
+                    dadosOriginais = objData;
+                    break;
+                }
+            }
+
+            if (dadosOriginais != null)
+            {
+                GameObject novoObj = Instantiate(dadosOriginais.prefab, item.posicao, Quaternion.Euler(item.rotacao));
+                novoObj.name = item.id;
+                objetosPosicionados.Add(item);
+            }
+            else
+            {
+                Debug.LogWarning("Não foi possível encontrar o modelo 3D para: " + item.nome);
+            }
+        }
+
+        Debug.Log("Praça carregada com sucesso!");
+    }
 
 
 }
@@ -617,10 +736,11 @@ public class ObjetoPosicionadoData
 [System.Serializable] //transforma em um json pro upload
 public class JsonPayloadData
 {
-    public string pracaId; // ID Único DESTA praça
+    public string pracaId; // ID Único DESTA criação do jogador
     public string pracaPaiId; // ID da praça original (vazio se for uma criação do zero)
     public string nomeDoJogador; //nao é um nome nome mas um id unico por dispositivo
-    public string nomeDaCena; //nome da scene no unity pra quando for reabrir o arquivo salvo saber a scene pra abrir
+    public string mapaId;        // NOVO: id estável da PracaData usada (ex: "barao-de-corumba")
+    public string nomeDaCena; //nome da scene no unity pra ter o nome bonito pra chamar
     public string dataCriacao;
     public string tituloDaPraca;
     public string comentarioDaPraca;

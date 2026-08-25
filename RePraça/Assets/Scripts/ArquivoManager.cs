@@ -20,6 +20,9 @@ public class ArquivoManager : MonoBehaviour
     public GameObject prefabBotaoArquivo;
     public Transform conteudoScroll;
 
+    [Header("Cena única do jogo")]
+    public string nomeCenaJogo = "Jogo";
+
     [Header("Popup de detalhes")]
     public PainelDetalhesPraca painelDetalhes;
 
@@ -206,19 +209,12 @@ public class ArquivoManager : MonoBehaviour
         painelDetalhes.Abrir(this, itensCarregados, indice < 0 ? 0 : indice);
     }
 
-    // Chamado pelo botão "Editar" do popup (e usado como fallback antes do popup existir)
-    public void AbrirPraca(string caminhoDoFicheiro, string cenaParaCarregar)
+    // Chamado pelo botão "Editar" do popup
+    public void AbrirPraca(string caminhoDoFicheiro, string nomeDaCenaSalvo)
     {
-        if (string.IsNullOrEmpty(cenaParaCarregar))
-        {
-            Debug.LogError("O ficheiro não tem nome de cena guardado. A usar cena de contingência.");
-            cenaParaCarregar = "NomeDaSuaCenaBase";
-        }
-
         PlayerPrefs.SetString("PracaParaCarregar", caminhoDoFicheiro);
         PlayerPrefs.Save();
-
-        SceneManager.LoadScene(cenaParaCarregar);
+        SceneManager.LoadScene(nomeCenaJogo);
     }
 
     // Chamado pelo botão de lixeira do popup
@@ -234,10 +230,14 @@ public class ArquivoManager : MonoBehaviour
         CarregarListaUI();
     }
 
-    public void CriarNovaPraca(string nomeDaCenaEscolhida)
+    // CriarNovaPraca agora recebe o ID da praça (do catálogo), não mais um nome
+    // de cena Unity — é chamado pelos botões do Menu, um por praça disponível.
+    public void CriarNovaPraca(string mapaId)
     {
         PlayerPrefs.DeleteKey("PracaParaCarregar");
         PlayerPrefs.DeleteKey("PracaRemixJSON");
-        SceneManager.LoadScene(nomeDaCenaEscolhida);
+        PlayerPrefs.SetString("PracaIdNova", mapaId);
+        PlayerPrefs.Save();
+        SceneManager.LoadScene(nomeCenaJogo);
     }
 }

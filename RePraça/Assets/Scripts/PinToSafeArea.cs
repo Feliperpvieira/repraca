@@ -23,7 +23,7 @@ public class PinToSafeArea : MonoBehaviour {
         {
             ApplySafeArea();
 
-            Debug.Log("Safe area mudou");
+            //Debug.Log("Safe area mudou");
         }
     }
 

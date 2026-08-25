@@ -9,6 +9,12 @@ EditorBuildSettings:
     path: Assets/Scenes/telaInicial.unity
     guid: 0565c4b7254ce4fe2bfe97595b4c0a47
   - enabled: 1
+    path: Assets/Scenes/Jogo.unity
+    guid: da68e987bc10640b78b3634d71bdea19
+  - enabled: 1
+    path: Assets/Scenes/Terreno_BaraoDeCorumba.unity
+    guid: e97f17e0b1dfd4524b1b5ca3663bdfe2
+  - enabled: 0
     path: "Assets/Scenes/Bar\xE3o de Corumb\xE1.unity"
     guid: 610e12f0a357948fcb6558754658edd4
   - enabled: 0

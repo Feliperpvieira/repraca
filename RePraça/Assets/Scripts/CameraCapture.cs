@@ -124,7 +124,7 @@ public class CameraCapture : MonoBehaviour
         textoPorcentagem.gameObject.SetActive(true);
         tituloLoading.text = "Gerando imagens...";
 
-        string sceneName = SceneManager.GetActiveScene().name;
+        string sceneName = buildingManager.pracaAtual.id;
 
         byte[] imagemTopo = toTexture2D(rtVistaTopo, 1200, 1200).EncodeToJPG(); //transforma a renderTexture em texture 2d
         string fileName = ScreenShotName(sceneName, "topo"); //define o nome do arquivo
@@ -182,13 +182,15 @@ public class CameraCapture : MonoBehaviour
             string idJogador = buildingManager.idJogador;
             string idDaPraca = buildingManager.idDaPracaAtual;
             string idDoPai = buildingManager.idDaPracaPai;
+            string mapaId = buildingManager.pracaAtual != null ? buildingManager.pracaAtual.id : "";
+
 
             // 2. Chama a função passando os argumentos
             bool uploadSucesso = await supabaseManager.UploadCreationData(
                 idJogador,
                 idDaPraca,
                 idDoPai,
-                sceneName,
+                mapaId,
                 jsonPronto,
                 imagemAngulo,
                 imagemTopo,

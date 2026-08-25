@@ -18,8 +18,13 @@ public class CameraPanZoom : MonoBehaviour
     private static readonly float ZoomSpeedTouch = 0.1f;
     private static readonly float ZoomSpeedMouse = 0.5f;
 
-    private static readonly float[] BoundsX = new float[] { -10f, 11f };
-    private static readonly float[] BoundsZ = new float[] { -23f, 9f };
+    // antes: consts fixas do mapa da Barão de Corumbá
+    // private static readonly float[] BoundsX = new float[] { -10f, 11f };
+    // private static readonly float[] BoundsZ = new float[] { -23f, 9f };
+
+    // agora: cada praça define os seus próprios limites
+    private float[] boundsX = new float[] { -10f, 11f }; // valor default até a praça carregar
+    private float[] boundsZ = new float[] { -23f, 9f };
     private static readonly float[] ZoomBounds = new float[] { 10f, 85f };
 
     private Camera cam;
@@ -157,8 +162,8 @@ public class CameraPanZoom : MonoBehaviour
 
         // Ensure the camera remains within bounds.
         Vector3 pos = transform.position;
-        pos.x = Mathf.Clamp(transform.position.x, BoundsX[0], BoundsX[1]);
-        pos.z = Mathf.Clamp(transform.position.z, BoundsZ[0], BoundsZ[1]);
+        pos.x = Mathf.Clamp(transform.position.x, boundsX[0], boundsX[1]);
+        pos.z = Mathf.Clamp(transform.position.z, boundsZ[0], boundsZ[1]);
         transform.position = pos;
 
         // Cache the position
@@ -226,8 +231,8 @@ public class CameraPanZoom : MonoBehaviour
 
         // Ensure the camera remains within bounds.
         Vector3 pos = transform.position;
-        pos.x = Mathf.Clamp(transform.position.x, BoundsX[0], BoundsX[1]);
-        pos.z = Mathf.Clamp(transform.position.z, BoundsZ[0], BoundsZ[1]);
+        pos.x = Mathf.Clamp(transform.position.x, boundsX[0], boundsX[1]);
+        pos.z = Mathf.Clamp(transform.position.z, boundsZ[0], boundsZ[1]);
         transform.position = pos;
 
         // Cache the position
@@ -272,5 +277,16 @@ public class CameraPanZoom : MonoBehaviour
         //transform.rotation = targetRotation;
 
         toogleAnguloCamera.interactable = true; //retoma o toggle
+    }
+
+    // Chamado pelo BuildingManager assim que a cena aditiva do terreno termina de
+    // carregar — aplica os limites de câmera e a posição inicial específicos
+    // dessa praça.
+    public void AplicarConfiguracaoDaPraca(PracaData praca)
+    {
+        boundsX = new float[] { praca.boundsX.x, praca.boundsX.y };
+        boundsZ = new float[] { praca.boundsZ.x, praca.boundsZ.y };
+        transform.position = praca.posicaoInicialCamera;
+        if (cam != null) cam.fieldOfView = praca.fovInicial;
     }
 }
