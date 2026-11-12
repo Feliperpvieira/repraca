@@ -203,3 +203,58 @@ h1 {
 }
 
 .ios-safari h1 { margin-top: 16px; }
+
+
+/* --- Android: botão "Abrir na app" dentro do cartão do telemóvel ---
+   A classe android é posta no <html> pelo js/abrir-android.js. */
+.android .texto-instalar { display: none; }   /* troca pelo "Já tens a app?" */
+.bloco-android[hidden] { display: none; }
+
+.bloco-android {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+}
+
+.btn-abrir {
+    min-height: 56px;
+    padding: 12px 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    color: var(--bege);
+    font-weight: 700;
+    font-size: 1.25rem;
+    text-decoration: none;
+    border-radius: 40px;
+    background: linear-gradient(170deg, rgba(10, 110, 182, 0.7) 31.41%, rgba(10, 110, 182, 0.7) 44.7%, rgba(19, 28, 59, 0.7) 102.06%),
+                linear-gradient(151.35deg, rgba(249, 239, 231, 0.7) 12.97%, rgba(183, 111, 81, 0.7) 100%),
+                #131C3B;
+}
+
+/* Linha "— AINDA NÃO —" entre o botão e os selos das lojas */
+.separador {
+    width: 100%;
+    margin: 8px 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--terracota);
+}
+
+.separador::before,
+.separador::after {
+    content: "";
+    flex: 1;
+    height: 2px;
+    background: rgba(183, 111, 81, .35);
+}
+

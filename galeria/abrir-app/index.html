@@ -34,7 +34,18 @@
         <div class="cartoes">
             <section class="cartao">
                 <p class="etiqueta">No telemóvel</p>
-                <p class="cartao-texto">Instala a app e volta a abrir este link.</p>
+                <p class="cartao-texto texto-instalar">Instala a app e volta a abrir este link.</p>
+
+                <!-- Só aparece no Android (ver js/abrir-android.js): abre a app se estiver
+                     instalada, senão o Android leva ao Google Play. -->
+                <div id="blocoAndroid" class="bloco-android" hidden>
+                    <p class="cartao-texto">Já tens a app?</p>
+                    <a id="abrirApp" class="btn-abrir" href="https://play.google.com/store/apps/details?id=com.frpv.rePraca">
+                        Abrir na app
+                        <svg width="12" height="20" viewBox="0 0 16 26" aria-hidden="true"><path d="M4.56611 0.771866C3.52155 -0.257289 1.82798 -0.257289 0.783421 0.771867C-0.261139 1.80102 -0.261141 3.46961 0.783419 4.49877L7.48702 11.1035C8.60153 12.2016 8.60153 13.9819 7.48702 15.08L1.02674 21.445C-0.030876 22.487 -0.0308762 24.1765 1.02674 25.2185C2.08436 26.2605 3.7991 26.2605 4.85672 25.2185L15.2068 15.0211C16.2644 13.979 16.2644 12.2896 15.2068 11.2476L13.2938 9.36283L4.56611 0.771866Z" fill="#F9EFE7"/></svg>
+                    </a>
+                    <p class="separador">Ainda não</p>
+                </div>
 
                 <a href="https://play.google.com/store/apps/details?id=com.frpv.rePraca" target="_blank">
                     <img src="https://repraca.feliperpv.com/img/badge-GooglePlay_Web_color_Portuguese-Portugal.svg" width="200" alt="Disponível no Google Play">
@@ -60,5 +71,6 @@
     <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
     <script src="../js/qrcode.js"></script>
     <script src="../js/dica-ios.js"></script>
+    <script src="../js/abrir-android.js"></script>
 </body>
 </html>
