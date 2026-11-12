@@ -1,0 +1,156 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* Color variables (iguais ao site principal) */
+:root {
+    --azul-marinho: #131C3B;
+    --azul: #0A6EB6;
+    --bege: #F9EFE7;
+    --verde: #98AB56;
+    --terracota: #B76F51;
+}
+
+body {
+    background-color: var(--bege);
+    color: var(--azul-marinho);
+    font-family: 'Cabin', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Foto de capa no topo, com a folha bege por cima (como no index do site).
+   Ícone, capa e selos vêm do repraca-website (repraca.feliperpv.com/img), para mudar num sítio só. */
+.capa {
+    height: 150px;
+    background:
+        linear-gradient(180deg, rgba(19, 28, 59, .15) 0%, rgba(19, 28, 59, .45) 100%),
+        url("https://repraca.feliperpv.com/img/capa-cover.jpg") center / cover;
+}
+
+main {
+    flex: 1;
+    position: relative;
+    margin-top: -42px;
+    padding: 0 20px 56px;
+    background: var(--bege);
+    border-radius: 42px 42px 0 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.icone-app {
+    margin-top: -56px;
+    /* O ícone é um squircle com fundo transparente, por isso usamos drop-shadow
+       (segue a forma do PNG) em vez de border/box-shadow (que seriam quadrados).
+       As 4 primeiras sombras, sem desfoque, desenham um contorno bege de 3px;
+       a última é a sombra suave por baixo. */
+    filter:
+        drop-shadow(3px 0 0 var(--bege))
+        drop-shadow(-3px 0 0 var(--bege))
+        drop-shadow(0 3px 0 var(--bege))
+        drop-shadow(0 -3px 0 var(--bege))
+        drop-shadow(0 8px 14px rgba(19, 28, 59, .30));
+}
+
+h1 {
+    margin: 24px 0 8px;
+    font-size: 54px;
+    line-height: 1.2;
+    font-weight: 700;
+}
+
+.subtitulo {
+    max-width: 540px;
+    margin-bottom: 40px;
+    font-size: 20px;
+    line-height: 1.4;
+}
+
+.subtitulo b { color: var(--azul); }
+
+/* Os dois cartões claros: telemóvel e computador */
+.cartoes {
+    width: 100%;
+    max-width: 760px;
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    gap: 24px;
+}
+
+.cartao {
+    flex: 1 1 300px;
+    max-width: 360px;
+    padding: 32px;
+    background: rgba(255, 255, 255, .65);
+    border-radius: 32px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+}
+
+.cartao img { display: block; }
+
+.etiqueta {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--terracota);
+}
+
+.cartao-texto {
+    max-width: 260px;
+    margin-bottom: 8px;
+    font-size: 18px;
+    line-height: 1.35;
+}
+
+/* Margem branca à volta do QR: os leitores precisam dela */
+.moldura-qr {
+    padding: 14px;
+    background: #fff;
+    border-radius: 24px;
+    box-shadow: 0 2px 0 rgba(19, 28, 59, .08);
+}
+
+.aviso-qr {
+    max-width: 200px;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+/* Mesmo gradiente do .btn-remix da galeria */
+.btn-galeria {
+    margin-top: 48px;
+    min-height: 52px;
+    padding: 12px 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    color: var(--bege);
+    font-weight: 700;
+    font-size: 1.2rem;
+    text-decoration: none;
+    border-radius: 40px;
+    background: linear-gradient(170deg, rgba(10, 110, 182, 0.7) 31.41%, rgba(10, 110, 182, 0.7) 44.7%, rgba(19, 28, 59, 0.7) 102.06%),
+                linear-gradient(151.35deg, rgba(249, 239, 231, 0.7) 12.97%, rgba(183, 111, 81, 0.7) 100%),
+                #131C3B;
+    transition: transform .2s ease-in-out;
+}
+
+.btn-galeria:hover { transform: translateY(-2px); }
+
+/* Telemóvel: os cartões ficam um por cima do outro (telemóvel primeiro) */
+@media (max-width: 720px) {
+    .capa { height: 180px; }
+    h1 { font-size: 40px; }
+    .cartoes { flex-direction: column; align-items: center; }
+    .cartao { width: 100%; flex-basis: auto; }
+}

@@ -1,62 +1,53 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt-PT">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Descarregue o rePraça</title>
-    <link rel="stylesheet" href="../css/style.css"> 
+    <title>Abrir no rePraça</title>
+    <meta name="description" content="Esta praça abre na app rePraça. Instala-a para a reimaginares à tua maneira.">
+    <link rel="icon" type="image/x-icon" href="https://repraca.feliperpv.com/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cabin:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/abrir-app.css">
 </head>
-<body style="text-align: center; padding: 50px 20px;">
-    
-    <img src="../../old/img/repraca-logo-horiz.png" width="200" alt="rePraça">
-    
-    <h1 id="titulo-aviso">Quase lá!</h1>
-    <p id="texto-aviso">Para editar esta praça, precisa da aplicação rePraça instalada.</p>
-    
-    <!-- CONTEÚDO PADRÃO (Android / PC) -->
-    <div id="botoes-download" style="margin-top: 30px; display: flex; flex-direction: column; gap: 15px; align-items: center;">
-       <!--  <a href="https://play.google.com/store/apps/details?id=com.frpv.rePraca" class="btn-remix" style="width: 250px;">Descarregar para Android</a> -->
-        <a href='https://play.google.com/store/apps/details?id=com.frpv.rePraca'>
-            <img width="200" alt='Disponível no Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/pt-br_badge_web_generic.png'/>
-        </a>
-        <a href="LINK_DO_TESTFLIGHT_OU_APP_STORE" class="btn-remix" style="width: 250px; background-color: #333;">Descarregar para iOS</a>
+<body>
 
-        <div id="qrcode"></div>
-    </div>
+    <div class="capa" aria-hidden="true"></div>
 
-      
+    <main>
+        <img class="icone-app" src="https://repraca.feliperpv.com/img/repraca-icone.png" width="112" height="112" alt="Ícone da app rePraça">
 
-    <!-- CONTEÚDO EXCLUSIVO PARA iPHONE (Escondido por defeito) -->
-    <!-- <div id="dica-ios" style="display: none; margin-top: 15px; text-align: center; animation: flutuar 1.5s infinite alternate;">
-        <h2 style="color: #0A6EB6; font-size: 2rem; margin-bottom: 5px;">⬆️</h2>
-        <h2 style="color: #0A6EB6; margin-bottom: 10px;">Olhe lá para cima!</h2>
-        <p style="font-size: 1.1em; padding: 0 15px;">Se já instalou o <b>rePraça</b>, toque no botão azul <strong>ABRIR</strong> no topo do ecrã para carregar esta praça.</p>
-        
-        <p style="font-size: 0.9em; color: #666; margin-top: 25px;">Ainda não tem a aplicação?<br> 
-        <a href="LINK_DO_TESTFLIGHT_OU_APP_STORE" style="color: #0A6EB6; font-weight: bold;">Descarregue a versão iOS aqui.</a></p>
-    </div> -->
-    
-    <br><br>
-    <a href="javascript:history.back()" style="color: #0A6EB6; display: inline-block; margin-top: 20px;">Voltar à Galeria</a>
+        <h1>Quase lá!</h1>
+        <p class="subtitulo">Esta praça abre na app <b>rePraça</b>. Instala-a para a reimaginares à tua maneira.</p>
 
-    <!-- script que detecta ios -->
-    <!-- <script>
-        // Verifica se o utilizador está num dispositivo Apple móvel
-        var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+        <div class="cartoes">
+            <section class="cartao">
+                <p class="etiqueta">No telemóvel</p>
+                <p class="cartao-texto">Instala a app e volta a abrir este link.</p>
 
-        if (isIOS) {
-            // Esconde os botões normais e o texto original
-            document.getElementById('botoes-download').style.display = 'none';
-            document.getElementById('texto-aviso').style.display = 'none';
-            
-            // Muda o título e mostra a dica da seta gigante
-            document.getElementById('titulo-aviso').innerText = "Já tem o jogo?";
-            document.getElementById('dica-ios').style.display = 'block';
-        }
-    </script> -->
+                <a href="https://play.google.com/store/apps/details?id=com.frpv.rePraca">
+                    <img src="https://repraca.feliperpv.com/img/badge-GooglePlay_Web_color_Portuguese-Portugal.svg" width="200" alt="Disponível no Google Play">
+                </a>
+                <!-- TODO: trocar pelo link da App Store quando a app iOS estiver publicada -->
+                <a href="LINK_DA_APP_STORE">
+                    <img src="https://repraca.feliperpv.com/img/bade-appstore-portugal.svg" width="200" alt="Descarregar na App Store">
+                </a>
+            </section>
 
-    <!-- QRCode.js CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
+            <section class="cartao">
+                <p class="etiqueta">No computador</p>
+                <p class="cartao-texto">Aponta a câmara do telemóvel ao código para continuares lá.</p>
+
+                <div id="qrcode" class="moldura-qr"></div>
+            </section>
+        </div>
+
+        <!-- O destino certo (página da praça ou galeria) é posto pelo js/qrcode.js -->
+        <a id="voltarGaleria" class="btn-galeria" href="https://repraca.feliperpv.com/galeria/">Voltar à galeria</a>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
     <script src="../js/qrcode.js"></script>
 </body>
 </html>
