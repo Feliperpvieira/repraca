@@ -22,7 +22,7 @@ public class BuildingManager : MonoBehaviour
     public RenderTexture rtVistaTopo; //mesma camera do camera capture
 
     private Vector3 pos; //posição do obj
-    private RaycastHit hit;
+    [SerializeField] private Camera cameraPrincipal;
 
     [SerializeField] private LayerMask layerMask;
 
@@ -58,6 +58,9 @@ public class BuildingManager : MonoBehaviour
     [HideInInspector] public string tituloDaPraca = "";
     [HideInInspector] public string comentarioDaPraca = "";
 
+    [Header("Cena do menu (para voltar se o JSON for inválido)")]
+    [SerializeField] private string nomeCenaMenu = "telaInicial";
+
     void Start()
     {
         // Resolve, nesta ordem de prioridade, o que carregar:
@@ -84,7 +87,26 @@ public class BuildingManager : MonoBehaviour
         string mapaId = null;
         if (jsonParaCarregar != null)
         {
-            mapaId = ResolverMapaId(JsonUtility.FromJson<JsonPayloadData>(jsonParaCarregar));
+            JsonPayloadData dadosLidos = null;
+            try
+            {
+                dadosLidos = JsonUtility.FromJson<JsonPayloadData>(jsonParaCarregar);
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogWarning("[BuildingManager] JSON da praça inválido: " + e.Message);
+            }
+
+            // Rede de segurança: o arquivo local e o remix já são validados antes
+            // de chegar aqui. Se mesmo assim vier algo ilegível, volta pro menu em
+            // vez de abrir uma praça qualquer.
+            if (dadosLidos == null)
+            {
+                SceneManager.LoadScene(nomeCenaMenu);
+                return;
+            }
+
+            mapaId = ResolverMapaId(dadosLidos);
         }
         else if (PlayerPrefs.HasKey("PracaIdNova"))
         {
@@ -98,6 +120,9 @@ public class BuildingManager : MonoBehaviour
 
     void Awake()
     {
+        if (cameraPrincipal == null)
+            cameraPrincipal = Camera.main;
+
         //coloca o objeto SelectManager da scene na variavel do codigo
         selectionManager = GameObject.Find("SelectManager").GetComponent<SelectionManager>();
         iluminacaoManager = GameObject.Find("IluminacaoManager").GetComponent<DiaNoite>(); //pega o script DiaNoite dentro do gameobject iluminacao manager
@@ -138,10 +163,11 @@ public class BuildingManager : MonoBehaviour
             }
         }
 
-        // ORIGINAL MELHORADO: Só atira o raycast e move o 'pos' se o utilizador não estiver a clicar na UI!
-        if (isInputAtivo && !isPointerOverUI)
+        // Só calcula o raycast enquanto há um objeto a posicionar. Isto evita
+        // trabalho contínuo quando a praça está apenas a ser navegada.
+        if (pendingObject != null && isInputAtivo && !isPointerOverUI && cameraPrincipal != null)
         {
-            Ray ray = Camera.main.ScreenPointToRay(cursorPosition);
+            Ray ray = cameraPrincipal.ScreenPointToRay(cursorPosition);
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit, 1000, layerMask))
             {
@@ -271,17 +297,10 @@ public class BuildingManager : MonoBehaviour
     {
         pendingObject.transform.Rotate(Vector3.up, rotateAmount); //up -> gira no y, rotateAmount -> variavel definida lá em cima
 
-        PostHog.Capture("object_rotated"); //posthog rodar
-    }
-
-    private void FixedUpdate()
-    {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition); //posição que vai colocar o objeto sendo segurado
-
-        if (Physics.Raycast(ray, out hit, 1000, layerMask)) //esse 1000 é a distância que ele vai, pode trocar por uma variavel se quiser //layermask vai ser pra impedir que construa coisa sobre coisa
+        PostHog.Capture("object_rotated", new Dictionary<string, object>
         {
-            pos = hit.point; //o point pega o impact point no worldspace, basicamente diz pro jogo onde colocar o objeto
-        }
+            { "item_name", NomeDoObjeto(pendingObject) }
+        }); //posthog rodar
     }
 
     void UpdateMaterials()
@@ -304,14 +323,20 @@ public class BuildingManager : MonoBehaviour
     public void SelectObject(GameObject objeto) //seleciona o objeto, é chamado pelo BotaoManager, o objeto é o prefab que ta no scriptable object dados
     {
         // Calcula o centro exato do que a câmera está a ver neste momento, para que os novos objetos apareçam no meio da tela
-        Ray raioCentro = Camera.main.ScreenPointToRay(new Vector3(Screen.width / 2f, Screen.height / 2f, 0f));
         RaycastHit hitCentro;
 
-        if (Physics.Raycast(raioCentro, out hitCentro, 1000f, layerMask))
+        if (cameraPrincipal != null)
         {
-            pos = hitCentro.point; // Define a posição de spawn para o meio da tela
+            Ray raioCentro = cameraPrincipal.ScreenPointToRay(new Vector3(Screen.width / 2f, Screen.height / 2f, 0f));
+            if (Physics.Raycast(raioCentro, out hitCentro, 1000f, layerMask))
+                pos = hitCentro.point; // Define a posição de spawn para o meio da tela
         }
 
+
+        // O Unity não chama OnTriggerExit quando um objeto é destruído. Se o último
+        // objeto foi apagado enquanto estava vermelho, o canPlace ficava preso em false.
+        // Se o novo nascer sobre algo bloqueado, o OnTriggerStay volta a pôr false.
+        canPlace = true;
 
         pendingObject = Instantiate(objeto, pos, transform.rotation);
         pendingObject.name = objeto.name;
@@ -355,16 +380,8 @@ public class BuildingManager : MonoBehaviour
 
     float RoundToNearestGrid(float pos) //era usado quando tinha um botao de grid no app
     {
-        float xDiff = pos % gridSize; //calcula o resto da posição pelo grid size
-
-        //aí subtrai ou soma a posição pela diferença pra colocar a posição no grid mais próximo
-        pos -= xDiff;
-
-        if (xDiff > (gridSize / 2))
-        {
-            pos += gridSize;
-        }
-        return pos;
+        // arredonda para o ponto da grid mais próximo, também em coordenadas negativas
+        return Mathf.Round(pos / gridSize) * gridSize;
     }
 
     public void PainelAddObjetos() //liga e desliga as coisas do painel de adicionar objetos
@@ -434,16 +451,8 @@ public class BuildingManager : MonoBehaviour
         // Prepara o pacote final com todas as informações
         JsonPayloadData payload = new JsonPayloadData();
 
-        // Tenta procurar um ID salvo. Se não existir, devolve uma string vazia.
-        idJogador = PlayerPrefs.GetString("PlayerUUID", "");
-
-        // Se a string estiver vazia, é a primeira vez que o utilizador abre o jogo
-        if (string.IsNullOrEmpty(idJogador))
-        {
-            idJogador = System.Guid.NewGuid().ToString(); // Gera um ID único (ex: 123e4567-e89b-12d3-a456-426614174000)
-            PlayerPrefs.SetString("PlayerUUID", idJogador);
-            PlayerPrefs.Save();
-        }
+        // ID anónimo do dispositivo (lê ou cria na primeira vez)
+        idJogador = IdJogador.Obter();
 
         // Se a praça ainda não tem ID (é uma praça nova), gera um novo UUID
         if (string.IsNullOrEmpty(idDaPracaAtual))
@@ -487,6 +496,26 @@ public class BuildingManager : MonoBehaviour
         return textoLimpo.Length > limite ? textoLimpo.Substring(0, limite) : textoLimpo;
     }
 
+    // "Salvar como cópia" só faz sentido se esta praça já tem um arquivo no
+    // dispositivo (foi aberta do Arquivo ou já foi salva nesta sessão).
+    // Praça nova ou remix ainda não salvo = não há original para manter.
+    public bool PodeSalvarComoCopia()
+    {
+        if (string.IsNullOrEmpty(idDaPracaAtual))
+            return false;
+
+        return File.Exists(Path.Combine(Application.persistentDataPath, idDaPracaAtual + ".json"));
+    }
+
+    // Passa a trabalhar numa cópia: id novo, e a original fica como "pai"
+    // (mesma lógica do remix). O arquivo original não é tocado.
+    // Tem de ser chamado ANTES de SalvarPracaLocalmente e do upload.
+    public void TransformarEmCopia()
+    {
+        idDaPracaPai = idDaPracaAtual;
+        idDaPracaAtual = System.Guid.NewGuid().ToString();
+    }
+
 
     //Salvar a praça no dispositivo, localmente
     public void SalvarPracaLocalmente()
@@ -523,6 +552,13 @@ public class BuildingManager : MonoBehaviour
 
         // Escreve o ficheiro no telemóvel
         Debug.Log("Praça salva com sucesso em: " + caminhoFicheiro);
+
+        //posthog: guardou a praça no dispositivo
+        PostHog.Capture("square_saved_locally", new Dictionary<string, object>
+        {
+            { "mapa_id", pracaAtual != null ? pracaAtual.id : "" },
+            { "total_objects", objetosPosicionados.Count }
+        });
     }
 
     // função copiada do CameraCapture
@@ -533,93 +569,6 @@ public class BuildingManager : MonoBehaviour
         tex.ReadPixels(new Rect(0, 0, rTex.width, rTex.height), 0, 0);
         tex.Apply();
         return tex;
-    }
-
-
-    // Carrega uma praça (seja da galeria ou local)
-    public void CarregarPraca(string caminhoDoFicheiroLocal, string jsonDaGaleria, bool isRemixDaGaleria)
-    {
-        string jsonParaCarregar = "";
-
-        // 1. DEFINIR DE ONDE VEM O JSON
-        if (isRemixDaGaleria)
-        {
-            // Se é um remix, usamos o JSON que baixamos da internet
-            jsonParaCarregar = jsonDaGaleria;
-        }
-        else
-        {
-            // Se é local, lemos o ficheiro do dispositivo
-            if (File.Exists(caminhoDoFicheiroLocal))
-            {
-                jsonParaCarregar = File.ReadAllText(caminhoDoFicheiroLocal);
-            }
-            else
-            {
-                Debug.LogWarning("Ficheiro local não encontrado!");
-                return; // Sai da função porque não há nada para carregar
-            }
-        }
-
-        // 2. LER OS DADOS (Declaramos a variável pracaSalva apenas UMA vez aqui)
-        JsonPayloadData pracaSalva = JsonUtility.FromJson<JsonPayloadData>(jsonParaCarregar);
-
-        // 3. ATUALIZAR OS IDs
-        if (isRemixDaGaleria)
-        {
-            idDaPracaPai = pracaSalva.pracaId;
-            idDaPracaAtual = System.Guid.NewGuid().ToString(); // Gera ID novo
-        }
-        else
-        {
-            idDaPracaAtual = pracaSalva.pracaId;
-            idDaPracaPai = pracaSalva.pracaPaiId; // Mantém o que já estava salvo
-        }
-
-        // JSONs antigos não têm estes campos e continuam válidos.
-        DefinirMetadadosDaPraca(pracaSalva.tituloDaPraca, pracaSalva.comentarioDaPraca);
-
-        // 4. LIMPAR A CENA ATUAL
-        foreach (var objData in objetosPosicionados)
-        {
-            GameObject objNaCena = GameObject.Find(objData.id);
-            if (objNaCena != null) Destroy(objNaCena);
-        }
-        objetosPosicionados.Clear();
-
-        // 5. RECONSTRUIR A PRAÇA
-        BotaoObjManager lojaManager = FindObjectOfType<BotaoObjManager>(true);
-
-        foreach (ObjetoPosicionadoData item in pracaSalva.layoutDaPraca)
-        {
-            ObjetosData dadosOriginais = null;
-
-            // Em vez de procurar nos botões, procura diretamente na lista de ScriptableObjects!
-            foreach (ObjetosData objData in lojaManager.listaTodosDados)
-            {
-                if (objData.prefab.name == item.nome)
-                {
-                    dadosOriginais = objData;
-                    break;
-                }
-            }
-
-            if (dadosOriginais != null)
-            {
-                // Instancia o objeto na posição e rotação salvas
-                GameObject novoObj = Instantiate(dadosOriginais.prefab, item.posicao, Quaternion.Euler(item.rotacao));
-                novoObj.name = item.id; // Restaura o ID original
-
-                // Readiciona à lista local para o jogo voltar a geri-lo
-                objetosPosicionados.Add(item);
-            }
-            else
-            {
-                Debug.LogWarning("Não foi possível encontrar o modelo 3D para: " + item.nome);
-            }
-        }
-
-        Debug.Log("Praça carregada com sucesso!");
     }
 
 
@@ -648,6 +597,24 @@ public class BuildingManager : MonoBehaviour
 
         if (!string.IsNullOrEmpty(jsonParaCarregar))
             CarregarPraca(jsonParaCarregar, isRemix);
+
+        //posthog: praça aberta no Jogo e de onde veio (praça nova do menu, arquivo local ou remix de link)
+        string origem = isRemix ? "remix" : (!string.IsNullOrEmpty(jsonParaCarregar) ? "arquivo" : "nova");
+        PostHog.Capture("square_loaded", new Dictionary<string, object>
+        {
+            { "mapa_id", pracaAtual.id },
+            { "origem", origem },
+            { "total_objects", objetosPosicionados.Count }
+        });
+    }
+
+    // Nome do objeto (ex: "Banco") pro PostHog. Objetos já posicionados têm o ID
+    // no nome do GameObject, então procura o nome real na lista.
+    public string NomeDoObjeto(GameObject objeto)
+    {
+        if (objeto == null) return "";
+        ObjetoPosicionadoData dados = objetosPosicionados.Find(item => item.id == objeto.name);
+        return dados != null ? dados.nome : objeto.name;
     }
 
     // Tenta descobrir o id do mapa a partir de um JSON salvo. Cobre o caso de
@@ -659,7 +626,7 @@ public class BuildingManager : MonoBehaviour
 
         // Fallback pra saves antigos: tenta casar pelo nome de exibição salvo.
         // Se não achar, cai no catch-all do IniciarPraca (primeira praça do catálogo).
-        PracaData porNome = catalogo.pracas.Find(p => p != null && p.nomeExibicao == dados.nomeDaCena);
+        PracaData porNome = catalogo.ObterPorIdentificador(dados.nomeDaCena);
         return porNome != null ? porNome.id : null;
     }
 
@@ -669,7 +636,14 @@ public class BuildingManager : MonoBehaviour
     {
         JsonPayloadData pracaSalva = JsonUtility.FromJson<JsonPayloadData>(jsonParaCarregar);
 
-        if (isRemixDaGaleria)
+        // Link da galeria para uma praça feita NESTE dispositivo: continua a mesma
+        // praça (mesmo praca_id), para a próxima exportação entrar como versão nova
+        // no Histórico e não como remix de si própria. Para ramificar, há "Guardar cópia".
+        bool ehPracaDesteDispositivo = isRemixDaGaleria
+            && !string.IsNullOrEmpty(pracaSalva.pracaId)
+            && pracaSalva.nomeDoJogador == IdJogador.Obter();
+
+        if (isRemixDaGaleria && !ehPracaDesteDispositivo)
         {
             idDaPracaPai = pracaSalva.pracaId;
             idDaPracaAtual = System.Guid.NewGuid().ToString();
@@ -689,14 +663,14 @@ public class BuildingManager : MonoBehaviour
         }
         objetosPosicionados.Clear();
 
-        BotaoObjManager lojaManager = FindObjectOfType<BotaoObjManager>(true);
+        BotaoObjManager lojaManager = FindFirstObjectByType<BotaoObjManager>(FindObjectsInactive.Include);
 
         foreach (ObjetoPosicionadoData item in pracaSalva.layoutDaPraca)
         {
             ObjetosData dadosOriginais = null;
             foreach (ObjetosData objData in lojaManager.listaTodosDados)
             {
-                if (objData.prefab.name == item.nome)
+                if (objData != null && objData.prefab != null && objData.prefab.name == item.nome)
                 {
                     dadosOriginais = objData;
                     break;

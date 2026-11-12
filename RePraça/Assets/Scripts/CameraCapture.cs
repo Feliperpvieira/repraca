@@ -32,6 +32,9 @@ public class CameraCapture : MonoBehaviour
     private BuildingManager buildingManager;
     // Referência para o SupabaseManager
     private SupabaseManager supabaseManager;
+    // Para desselecionar objetos e voltar a dia ao abrir a tela de guardar
+    private SelectionManager selectionManager;
+    private DiaNoite iluminacaoManager;
 
     [Header("Upload progress UI Feedback")]
     public GameObject painelLoading; //painel com o status de loading pro server
@@ -45,6 +48,27 @@ public class CameraCapture : MonoBehaviour
     public TextMeshProUGUI textoPorcentagem;
     private float progressoAtual = 0f;
     private bool estaAEnviar = false;
+    private bool estaASalvar = false; // evita salvar duas vezes com toque duplo
+
+    [Header("Painel de opções de salvar")]
+    public OpcoesSalvarPraca opcoesSalvar;
+
+    [Header("Botão 'Ver galeria' do ecrã de sucesso")]
+    public OpenURL linkVerGaleria;          // o OpenURL do botão "Ver galeria"
+    public string urlGaleria = "https://repraca.feliperpv.com/galeria/praca/"; // + {mapaId}/?id={pracaId}
+
+    [Header("Ecrã de sucesso: textos e ícones por modo")]
+    public TMP_Text tituloSucesso;
+    public TMP_Text textoSucesso;
+    public TMP_Text textoBotaoGaleria;
+    public GameObject iconePublicada;       // nuvem
+    public GameObject iconeGuardadaLocal;   // dispositivo / disquete
+    [TextArea] public string tituloPublicada = "Sucesso!";
+    [TextArea] public string textoPublicada = "A tua imaginação foi publicada na galeria de praças e já pode ser vista junto de todas as outras!";
+    public string botaoPublicada = "Ver a minha praça";
+    [TextArea] public string tituloLocal = "Praça guardada!";
+    [TextArea] public string textoLocal = "A tua imaginação ficou guardada neste dispositivo e podes voltar a ela no Arquivo. Entretanto, vê o que outras pessoas imaginaram para esta praça.";
+    public string botaoLocal = "Ver outras imaginações";
 
     private Vector3 tamanhoOrgPainel;
     private CanvasGroup grupoTelaExportar;
@@ -58,6 +82,11 @@ public class CameraCapture : MonoBehaviour
         buildingManager = GameObject.Find("BuildingManager").GetComponent<BuildingManager>();
         // Encontra o SupabaseManager na cena (GameObject chama "SupabaseManager")
         supabaseManager = GameObject.Find("SupabaseManager").GetComponent<SupabaseManager>();
+        // Mesmos nomes de GameObject que o BuildingManager usa
+        GameObject sm = GameObject.Find("SelectManager");
+        if (sm != null) selectionManager = sm.GetComponent<SelectionManager>();
+        GameObject im = GameObject.Find("IluminacaoManager");
+        if (im != null) iluminacaoManager = im.GetComponent<DiaNoite>();
 
         tamanhoOrgPainel = painelAnimadoSucesso.transform.localScale; //salva o tamanho do painel de conclusao na UI
         PrepararAnimacaoTelaExportar();
@@ -70,7 +99,7 @@ public class CameraCapture : MonoBehaviour
                                nomeCena, angulo,
                                System.DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss")); //data e hora atual*/
 
-        return string.Format("praca_{0}-{1}.png",
+        return string.Format("praca_{0}-{1}.jpg", // os bytes são JPG (EncodeToJPG)
                                nomeCena, angulo);
 
         //return string.Format("{0}/screenshots/screen_{1}x{2}_{3}.png",
@@ -92,155 +121,178 @@ public class CameraCapture : MonoBehaviour
         }
     }
 
-    // ADICIONADO O 'async' AQUI!
-    public async void SaveTexture()
+    // Chamado pelos botões de salvar/exportar (substitui o par
+    // SaveTexture + SalvarPracaLocalmente que estava no Inspector).
+    // Faz tudo por esta ordem: cópia -> salvar no dispositivo -> galeria de fotos -> upload.
+    public async void ConfirmarSalvar()
     {
-        // Isto tem de ocorrer antes do primeiro await. O botão também chama
-        // SalvarPracaLocalmente logo a seguir, pela ordem configurada no Inspector.
-        GuardarMetadadosIntroduzidos();
+        if (estaASalvar || buildingManager == null)
+            return;
+        estaASalvar = true;
 
-        // 1. CHECAGEM DE INTERNET
-        if (Application.internetReachability == NetworkReachability.NotReachable)
+        try
         {
-            painelLoading.SetActive(true);
-            iconeLoading.SetActive(false);
-            iconeErro.SetActive(true);
-            barraProgresso.gameObject.SetActive(false);
-            textoPorcentagem.gameObject.SetActive(false);
-            tituloLoading.text = "Sem conexão com a internet!";
-            textoLoading.text = "Verifique seu Wi-Fi ou Dados.";
-            //await Task.Delay(3000); // Espera 3 segundos para o jogador ler
-            //painelLoading.SetActive(false);
-            return; // PARA A EXECUÇÃO AQUI (não tenta fazer upload sem internet)
-        }
+            GuardarMetadadosIntroduzidos();
 
-        // 2. ATIVA A UI DE LOADING
-        //botaoSalvar.SetActive(false);
+            // 1. SALVAR COMO CÓPIA: troca o id antes de qualquer gravação,
+            // para o arquivo local e o upload já usarem o id novo.
+            if (opcoesSalvar != null && opcoesSalvar.SalvarComoCopia && buildingManager.PodeSalvarComoCopia())
+                buildingManager.TransformarEmCopia();
 
-        painelLoading.SetActive(true);
-        iconeLoading.SetActive(true);
-        iconeErro.SetActive(false);
-        barraProgresso.gameObject.SetActive(true);
-        textoPorcentagem.gameObject.SetActive(true);
-        tituloLoading.text = "Gerando imagens...";
+            // 2. SALVAR NO DISPOSITIVO (sempre)
+            buildingManager.SalvarPracaLocalmente();
 
-        string sceneName = buildingManager.pracaAtual.id;
+            // A cópia já está gravada: a partir daqui o jogador está a editá-la,
+            // por isso o toggle volta a desligado (e fica disponível).
+            if (opcoesSalvar != null)
+                opcoesSalvar.AtualizarOpcaoCopia();
 
-        byte[] imagemTopo = toTexture2D(rtVistaTopo, 1200, 1200).EncodeToJPG(); //transforma a renderTexture em texture 2d
-        string fileName = ScreenShotName(sceneName, "topo"); //define o nome do arquivo
-        //System.IO.File.WriteAllBytes(fileName, bytes);
+            bool exportarOnline = OpcoesSalvarPraca.ExportarOnline;
+            bool salvarGaleria = OpcoesSalvarPraca.SalvarGaleria;
 
-        //Debug.Log(string.Format("Took screenshot to: {0}", fileName));
-
-        byte[] imagemAngulo = toTexture2D(rtVistaAngulo, 1920, 1200).EncodeToJPG(); //transforma a renderTexture em texture 2d
-        string fileNameAng = ScreenShotName(sceneName, "angulo"); //define o nome do arquivo
-
-        if (PlayerPrefs.GetInt("SalvarGaleria") == 1) // config de salvar na galeria do dispositivo
-        {
-            //metodo antigo falhava no iOS, substituido pelo abaixo com espera
-            //NativeGallery.SaveImageToGallery(imagemTopo, album, fileName, callback); //plugin native gallery https://github.com/yasirkula/UnityNativeGallery
-            //NativeGallery.SaveImageToGallery(imagemAngulo, album, fileNameAng, callback);
-
-            //  fazer o código esperar
-            TaskCompletionSource<bool> esperaPrimeiraImagem = new TaskCompletionSource<bool>();
-
-            // salvar a imagem de Topo
-            NativeGallery.SaveImageToGallery(imagemTopo, album, fileName, (sucesso, caminho) =>
+            // 3. CHECAGEM DE INTERNET (só se for enviar para a galeria online)
+            if (exportarOnline && Application.internetReachability == NetworkReachability.NotReachable)
             {
-                esperaPrimeiraImagem.SetResult(sucesso);
-            });
+                painelLoading.SetActive(true);
+                iconeLoading.SetActive(false);
+                iconeErro.SetActive(true);
+                barraProgresso.gameObject.SetActive(false);
+                textoPorcentagem.gameObject.SetActive(false);
+                tituloLoading.text = "Sem conexão com a internet!";
+                textoLoading.text = "Verifique seu Wi-Fi ou Dados.";
 
-            // pausa aqui em background (sem travar o jogo) até o iOS terminar
-            await esperaPrimeiraImagem.Task;
-
-            // a imagem de Ângulo
-            NativeGallery.SaveImageToGallery(imagemAngulo, album, fileNameAng, callback);
-        }
-
-        // 3. LÓGICA DE UPLOAD COM FEEDBACK
-        if (buildingManager != null && supabaseManager != null)
-        {
-            tituloLoading.text = "Enviando para a nuvem...";
-            textoLoading.text = "Isto pode levar alguns segundos, aguarde.";
-
-            string jsonPronto = buildingManager.GerarJsonDaPraca();
-            int totalDeObjetos = buildingManager.objetosPosicionados.Count;
-
-            //posthog: exportou e quantos objetos na praça exportada
-            PostHog.Capture("export_completed", new Dictionary<string, object>
-            {
-                { "total_objects", buildingManager.objetosPosicionados.Count }
-            });
-
-            estaAEnviar = true; // Liga a barra de progresso no Update
-
-            // ESPERA O UPLOAD TERMINAR E GUARDA O RESULTADO (true/false)
-
-            // ADICIONADO A FUNÇÃO DE PROGRESSO NO FINAL PARA A BARRA FUNCIONAR
-
-            // 1. Obtém todos os IDs necessários do BuildingManager
-            string idJogador = buildingManager.idJogador;
-            string idDaPraca = buildingManager.idDaPracaAtual;
-            string idDoPai = buildingManager.idDaPracaPai;
-            string mapaId = buildingManager.pracaAtual != null ? buildingManager.pracaAtual.id : "";
-
-
-            // 2. Chama a função passando os argumentos
-            bool uploadSucesso = await supabaseManager.UploadCreationData(
-                idJogador,
-                idDaPraca,
-                idDoPai,
-                mapaId,
-                jsonPronto,
-                imagemAngulo,
-                imagemTopo,
-                totalDeObjetos,
-                buildingManager.tituloDaPraca,
-                buildingManager.comentarioDaPraca,
-                (progresso) => { progressoAtual = progresso; }
-            );
-
-            estaAEnviar = false; // Desliga a barra de progresso no Update
-
-            // 4. FEEDBACK FINAL
-            if (uploadSucesso)
-            {
-                tituloLoading.text = "<color=#98AB56>Praça exportada com sucesso!</color>";
-                textoLoading.text = ":)";
-
-                //botaoSalvar.SetActive(false);
-                telaExportar.SetActive(false);
-
-                // ativa tudo, com o blur de fundo
-                telaSiteGaleria.SetActive(true);
-
-                // ANIMA APENAS O PAINEL DO MEIO
-                if (painelAnimadoSucesso != null)
+                PostHog.Capture("export_failed", new Dictionary<string, object>
                 {
-                    
-                    painelAnimadoSucesso.transform.localScale = Vector3.zero; 
-                    LeanTween.cancel(painelAnimadoSucesso);
-                    LeanTween.scale(painelAnimadoSucesso, tamanhoOrgPainel, 0.4f).setEaseOutBack();
+                    { "reason", "no_internet" }
+                });
+                return; // PARA A EXECUÇÃO AQUI (não tenta fazer upload sem internet)
+            }
+
+            // 4. ATIVA A UI DE LOADING
+            painelLoading.SetActive(true);
+            iconeLoading.SetActive(true);
+            iconeErro.SetActive(false);
+            barraProgresso.gameObject.SetActive(exportarOnline);
+            textoPorcentagem.gameObject.SetActive(exportarOnline);
+            tituloLoading.text = "Gerando imagens...";
+            textoLoading.text = "";
+
+            // As imagens grandes só são precisas para a galeria de fotos e para o upload
+            byte[] imagemTopo = null;
+            byte[] imagemAngulo = null;
+            if (salvarGaleria || exportarOnline)
+            {
+                imagemTopo = toTexture2D(rtVistaTopo, 1200, 1200).EncodeToJPG(50); //transforma a renderTexture em texture 2d
+                imagemAngulo = toTexture2D(rtVistaAngulo, 1440, 900).EncodeToJPG(50);
+            }
+
+            // 5. GALERIA DE FOTOS DO DISPOSITIVO
+            if (salvarGaleria)
+            {
+                string sceneName = buildingManager.pracaAtual.id;
+                string fileName = ScreenShotName(sceneName, "topo"); //define o nome do arquivo
+                string fileNameAng = ScreenShotName(sceneName, "angulo");
+
+                //metodo antigo falhava no iOS, substituido pelo abaixo com espera
+                TaskCompletionSource<bool> esperaPrimeiraImagem = new TaskCompletionSource<bool>();
+
+                // salvar a imagem de Topo
+                NativeGallery.SaveImageToGallery(imagemTopo, album, fileName, (sucesso, caminho) =>
+                {
+                    esperaPrimeiraImagem.SetResult(sucesso);
+                });
+
+                // pausa aqui em background (sem travar o jogo) até o iOS terminar
+                await esperaPrimeiraImagem.Task;
+
+                // a imagem de Ângulo
+                NativeGallery.SaveImageToGallery(imagemAngulo, album, fileNameAng, callback);
+            }
+
+            // 6a. SÓ LOCAL: mesmo ecrã de sucesso, com textos de "guardada" e link para a galeria da praça
+            if (!exportarOnline)
+            {
+                painelLoading.SetActive(false);
+                MostrarTelaSucesso(false, buildingManager.pracaAtual != null ? buildingManager.pracaAtual.id : "", "");
+                return;
+            }
+
+            // 6b. LÓGICA DE UPLOAD COM FEEDBACK
+            if (supabaseManager != null)
+            {
+                tituloLoading.text = "Enviando para a nuvem...";
+                textoLoading.text = "Isto pode levar alguns segundos, aguarde.";
+
+                string jsonPronto = buildingManager.GerarJsonDaPraca();
+                int totalDeObjetos = buildingManager.objetosPosicionados.Count;
+
+                progressoAtual = 0f;
+                estaAEnviar = true; // Liga a barra de progresso no Update
+
+                // Obtém todos os IDs necessários do BuildingManager
+                string idJogador = buildingManager.idJogador;
+                string idDaPraca = buildingManager.idDaPracaAtual;
+                string idDoPai = buildingManager.idDaPracaPai;
+                string mapaId = buildingManager.pracaAtual != null ? buildingManager.pracaAtual.id : "";
+
+                // ESPERA O UPLOAD TERMINAR E GUARDA O RESULTADO (true/false)
+                bool uploadSucesso = await supabaseManager.UploadCreationData(
+                    idJogador,
+                    idDaPraca,
+                    idDoPai,
+                    mapaId,
+                    jsonPronto,
+                    imagemAngulo,
+                    imagemTopo,
+                    totalDeObjetos,
+                    buildingManager.tituloDaPraca,
+                    buildingManager.comentarioDaPraca,
+                    (progresso) => { progressoAtual = progresso; }
+                );
+
+                estaAEnviar = false; // Desliga a barra de progresso no Update
+
+                // 7. FEEDBACK FINAL
+                if (uploadSucesso)
+                {
+                    //posthog: exportou e quantos objetos na praça exportada (só quando o upload deu certo)
+                    PostHog.Capture("export_completed", new Dictionary<string, object>
+                    {
+                        { "total_objects", totalDeObjetos }
+                    });
+
+                    tituloLoading.text = "<color=#98AB56>Praça exportada com sucesso!</color>";
+                    textoLoading.text = ":)";
+
+                    MostrarTelaSucesso(true, mapaId, idDaPraca);
                 }
-                
+                else
+                {
+                    PostHog.Capture("export_failed", new Dictionary<string, object>
+                    {
+                        { "reason", "server_error" },
+                        { "total_objects", totalDeObjetos }
+                    });
+
+                    tituloLoading.text = "<color=#B76F51>Erro no servidor.</color>";
+                    textoLoading.text = "Confira sua conexão e tente novamente.";
+                    // Espera para o usuário ler a mensagem de erro
+                    await Task.Delay(2500);
+                }
+
+                painelLoading.SetActive(false);
             }
             else
             {
-                tituloLoading.text = "<color=#B76F51>Erro no servidor.</color>";
-                textoLoading.text = "Confira sua conexão e tente novamente.";
-                // Espera 2 segundos para o usuário ler a mensagem de sucesso/erro (DESCOMENTADO PARA A UI FUNCIONAR BEM)
-                await Task.Delay(2500);
-                //botaoSalvar.SetActive(true); // Reativa o botão se quiserem tentar de novo
+                Debug.LogError("SupabaseManager não encontrado no CameraCapture!");
+                painelLoading.SetActive(false);
             }
-
-            painelLoading.SetActive(false);
         }
-        else
+        finally
         {
-            Debug.LogError("BuildingManager ou SupabaseManager não encontrados no CameraCapture!");
+            estaAEnviar = false;
+            estaASalvar = false;
         }
-
-        
     }
 
     Texture2D toTexture2D(RenderTexture rTex, int width, int height)
@@ -265,6 +317,18 @@ public class CameraCapture : MonoBehaviour
                 comentarioPraca.text = buildingManager.comentarioDaPraca;
         }
 
+        PostHog.Capture("export_screen_opened"); //posthog: abriu a tela de exportar
+
+        // Imagem limpa: sem objeto selecionado (outline) e sempre de dia
+        if (selectionManager != null && selectionManager.selectedObject != null)
+            selectionManager.Deselect();
+        if (iluminacaoManager != null)
+            iluminacaoManager.ForcarDia();
+
+        // Painel de opções fechado e opções atualizadas (a cópia mantém-se até guardar)
+        if (opcoesSalvar != null)
+            opcoesSalvar.PrepararParaNovaExportacao();
+
         telaExportar.SetActive(true);
         canvasPrincipal.SetActive(false);
         cameraTopo.SetActive(true);
@@ -282,7 +346,15 @@ public class CameraCapture : MonoBehaviour
     // Função para fechar a tela de exportar e voltar à edição
     public void VoltarEdicao()
     {
+        PostHog.Capture("export_screen_closed"); //posthog: voltou pra edição sem exportar
         GuardarMetadadosIntroduzidos();
+        FecharTelaExportar();
+    }
+
+    // Animação de saída da tela de exportar. Usada pelo "voltar" e depois de
+    // salvar só no dispositivo (aí sem o evento export_screen_closed).
+    private void FecharTelaExportar()
+    {
         PrepararAnimacaoTelaExportar();
 
         LeanTween.cancel(telaExportar);
@@ -330,6 +402,37 @@ public class CameraCapture : MonoBehaviour
         }
     }
 
+    // Ecrã de sucesso partilhado: publicada (link para a praça) ou só guardada (link para a galeria da praça)
+    private void MostrarTelaSucesso(bool publicada, string mapaId, string idDaPraca)
+    {
+        if (tituloSucesso != null) tituloSucesso.text = publicada ? tituloPublicada : tituloLocal;
+        if (textoSucesso != null) textoSucesso.text = publicada ? textoPublicada : textoLocal;
+        if (textoBotaoGaleria != null) textoBotaoGaleria.text = publicada ? botaoPublicada : botaoLocal;
+        if (iconePublicada != null) iconePublicada.SetActive(publicada);
+        if (iconeGuardadaLocal != null) iconeGuardadaLocal.SetActive(!publicada);
+
+        if (linkVerGaleria != null)
+        {
+            string url = urlGaleria + System.Uri.EscapeDataString(mapaId) + "/";
+            if (publicada && !string.IsNullOrEmpty(idDaPraca))
+                url += "?id=" + System.Uri.EscapeDataString(idDaPraca);
+            linkVerGaleria.url = url;
+        }
+
+        telaExportar.SetActive(false);
+
+        // ativa tudo, com o blur de fundo
+        telaSiteGaleria.SetActive(true);
+
+        // ANIMA APENAS O PAINEL DO MEIO
+        if (painelAnimadoSucesso != null)
+        {
+            painelAnimadoSucesso.transform.localScale = Vector3.zero;
+            LeanTween.cancel(painelAnimadoSucesso);
+            LeanTween.scale(painelAnimadoSucesso, tamanhoOrgPainel, 0.4f).setEaseOutBack();
+        }
+    }
+
     // Função para ser chamada pelo botão de fechar/OK da tela de sucesso
     public void FecharTelaSucesso()
     {
@@ -346,6 +449,10 @@ public class CameraCapture : MonoBehaviour
                     {
                         // Quando terminar de encolher, desliga a tela toda (tirando o blur da frente)
                         telaSiteGaleria.SetActive(false);
+
+                        // As câmaras das imagens já não são precisas (o "voltar" da tela de exportar também as desliga)
+                        cameraTopo.SetActive(false);
+                        cameraAngulo.SetActive(false);
 
                         // ...e regressa a UI principal
                         if (canvasPrincipal != null)

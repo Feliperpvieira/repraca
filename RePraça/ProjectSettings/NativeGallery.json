@@ -1,6 +1,6 @@
 {
     "AutomatedSetup": true,
-    "PhotoLibraryUsageDescription": "Precisamos de autorização para adicionar fotos na sua galeria para salvar as imagens da praça no seu dispositivo.",
-    "PhotoLibraryAdditionsUsageDescription": "Precisamos de autorização para adicionar fotos na sua galeria para salvar as imagens da praça no seu dispositivo.",
+    "PhotoLibraryUsageDescription": "Para guardar e aceder às imagens das praças que criar na sua galeria.",
+    "PhotoLibraryAdditionsUsageDescription": "Para guardar na tua galeria as imagens das praças que criares.",
     "DontAskLimitedPhotosPermissionAutomaticallyOnIos14": true
 }

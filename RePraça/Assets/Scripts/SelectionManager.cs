@@ -220,7 +220,10 @@ public class SelectionManager : MonoBehaviour
     {
         buildingManager.pendingObject = selectedObject;
 
-        PostHog.Capture("object_moved"); //posthog: mover objeto ja posicionado
+        PostHog.Capture("object_moved", new Dictionary<string, object>
+        {
+            { "item_name", buildingManager.NomeDoObjeto(selectedObject) }
+        }); //posthog: mover objeto ja posicionado
 
         // LEANTWEEN: Animação de fechar o menu ao mover
         if (objSelectUI.activeInHierarchy)
@@ -237,7 +240,19 @@ public class SelectionManager : MonoBehaviour
 
     public void Delete()
     {
+        if (selectedObject == null) return;
+
         GameObject objToDestroy = selectedObject;
+        string nomePosthog = buildingManager.NomeDoObjeto(objToDestroy); // antes de remover da lista
+
+        // Se o objeto apagado é o que está a ser movido/adicionado, larga-o já,
+        // para o BuildingManager não continuar a movê-lo durante a animação.
+        if (buildingManager.pendingObject == objToDestroy)
+            buildingManager.pendingObject = null;
+
+        // O Unity não chama OnTriggerExit ao destruir um objeto: se ele estava
+        // vermelho, o canPlace ficaria preso em false para o próximo objeto.
+        buildingManager.canPlace = true;
 
         // Procura na lista o objeto que tem o mesmo ID (salvo no nome do GameObject) e remove
         buildingManager.objetosPosicionados.RemoveAll(item => item.id == objToDestroy.name);
@@ -254,7 +269,10 @@ public class SelectionManager : MonoBehaviour
                 Destroy(objToDestroy);
             });
 
-        PostHog.Capture("object_deleted"); //posthog: deletou objeto
+        PostHog.Capture("object_deleted", new Dictionary<string, object>
+        {
+            { "item_name", nomePosthog }
+        }); //posthog: deletou objeto
     }
 
     // Função para ser chamada quando o utilizador clica na tag com o nome do objeto
@@ -280,7 +298,7 @@ public class SelectionManager : MonoBehaviour
             }
 
             // 3. Procura o BotaoObjManager (usamos 'true' para ele o encontrar mesmo que o painel estivesse escondido)
-            BotaoObjManager lojaManager = FindObjectOfType<BotaoObjManager>(true);
+            BotaoObjManager lojaManager = FindFirstObjectByType<BotaoObjManager>(FindObjectsInactive.Include);
             if (lojaManager != null)
             {
                 // 4. Manda a loja selecionar automaticamente o botão desse objeto

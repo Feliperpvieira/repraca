@@ -7,6 +7,7 @@ using System.IO;
 using TMPro;
 using System;
 using System.Globalization;
+using PostHogUnity;
 
 public class ArquivoManager : MonoBehaviour
 {
@@ -42,6 +43,14 @@ public class ArquivoManager : MonoBehaviour
 
     public void CarregarListaUI()
     {
+        // As miniaturas são Texture2D criadas em runtime: destruir o cartão não as
+        // apaga da memória, por isso são destruídas aqui antes de recriar a lista.
+        foreach (BtnArquivoItem item in itensCarregados)
+        {
+            if (item != null && item.miniatura != null)
+                Destroy(item.miniatura);
+        }
+
         foreach (Transform filho in conteudoScroll)
         {
             Destroy(filho.gameObject);
@@ -212,6 +221,8 @@ public class ArquivoManager : MonoBehaviour
     // Chamado pelo botão "Editar" do popup
     public void AbrirPraca(string caminhoDoFicheiro, string nomeDaCenaSalvo)
     {
+        PostHog.Capture("saved_square_opened"); //posthog: abriu uma praça do arquivo local
+
         PlayerPrefs.SetString("PracaParaCarregar", caminhoDoFicheiro);
         PlayerPrefs.Save();
         SceneManager.LoadScene(nomeCenaJogo);
@@ -222,6 +233,8 @@ public class ArquivoManager : MonoBehaviour
     {
         if (File.Exists(caminhoDoFicheiro))
             File.Delete(caminhoDoFicheiro);
+
+        PostHog.Capture("saved_square_deleted"); //posthog: apagou uma praça do arquivo local
 
         string caminhoImagem = caminhoDoFicheiro.Replace(".json", ".jpg");
         if (File.Exists(caminhoImagem))

@@ -74,12 +74,14 @@ public class CameraPanZoom : MonoBehaviour
         {
 
             case 1: // Panning
-                wasZoomingLastFrame = false;
-
                 // If the touch began, capture its position and its finger ID.
                 // Otherwise, if the finger ID of the touch doesn't match, skip it.
+                // Ao soltar um dedo do pinch, o dedo que fica não passa por Began:
+                // trata esse frame como início, senão o lastPanPosition antigo faz a câmera saltar.
                 Touch touch = Input.GetTouch(0);
-                if (touch.phase == TouchPhase.Began)
+                bool acabouDeSairDoZoom = wasZoomingLastFrame;
+                wasZoomingLastFrame = false;
+                if (touch.phase == TouchPhase.Began || acabouDeSairDoZoom)
                 {
                     lastPanPosition = touch.position; 
                     panFingerId = touch.fingerId;
@@ -264,6 +266,9 @@ public class CameraPanZoom : MonoBehaviour
 
         Vector3 startPosition = transform.position;
         Vector3 targetPosition = transform.position + new Vector3(0, deslocY, deslocZ);
+        // mantém o destino dentro dos limites da praça, como no pan
+        targetPosition.x = Mathf.Clamp(targetPosition.x, boundsX[0], boundsX[1]);
+        targetPosition.z = Mathf.Clamp(targetPosition.z, boundsZ[0], boundsZ[1]);
 
         while (timeElapsed < lerpDuration)
         {
@@ -274,7 +279,9 @@ public class CameraPanZoom : MonoBehaviour
             timeElapsed += Time.deltaTime;
             yield return null;
         }
-        //transform.rotation = targetRotation;
+        // o último frame do loop para pouco antes do fim: fixa o destino exato
+        transform.rotation = targetRotation;
+        transform.position = targetPosition;
 
         toogleAnguloCamera.interactable = true; //retoma o toggle
     }

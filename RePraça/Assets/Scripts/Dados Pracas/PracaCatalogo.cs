@@ -15,4 +15,14 @@ public class PracaCatalogo : ScriptableObject
     {
         return pracas.Find(p => p != null && p.id == id);
     }
+
+    // Aceita o slug estável e também o nome usado por saves antigos.
+    public PracaData ObterPorIdentificador(string identificador)
+    {
+        if (string.IsNullOrWhiteSpace(identificador))
+            return null;
+
+        PracaData porId = ObterPorId(identificador);
+        return porId ?? pracas.Find(p => p != null && p.nomeExibicao == identificador);
+    }
 }

@@ -18,10 +18,9 @@ public class AnalyticsManager : MonoBehaviour
     public string apiKey;
     public string host = "https://eu.i.posthog.com";
 
+    public bool JaRespondeu => PlayerPrefs.GetInt(CHAVE_JA_PERGUNTADO, 0) == 1;
     private const string CHAVE_JA_PERGUNTADO = "AnalyticsJaPerguntado";
     private const string CHAVE_CONSENTIU = "AnalyticsConsentiu";
-
-    private const string CHAVE_PLAYER_UUID = "PlayerUUID";
 
     private void Awake()
     {
@@ -123,16 +122,22 @@ public class AnalyticsManager : MonoBehaviour
         PlayerPrefs.SetInt(CHAVE_CONSENTIU, consentiu ? 1 : 0);
         PlayerPrefs.Save();
 
-        AplicarConsentimento(consentiu);
+        AplicarConsentimento(consentiu, true);
     }
 
-    private async void AplicarConsentimento(bool consentiu)
+    private async void AplicarConsentimento(bool consentiu, bool respostaAgora = false)
     {
         if (consentiu)
         {
             // liga o tracking primeiro, para o IdentifyAsync já ir associado ao utilizador
             PostHog.OptIn();
             await IdentificarUtilizadorAsync();
+
+            // posthog: só quando a pessoa responde agora (painel ou toggle), não ao reaplicar
+            // a escolha guardada. Na 1ª abertura o "Application Opened" automático é descartado
+            // (estava em OptOut), então este evento cobre esse buraco.
+            if (respostaAgora)
+                PostHog.Capture("analytics_consent_accepted");
         }
         else
         {
@@ -147,9 +152,7 @@ public class AnalyticsManager : MonoBehaviour
     // só é chamado depois de haver consentimento — nunca antes.
     private async System.Threading.Tasks.Task IdentificarUtilizadorAsync()
     {
-        string userIdAnonimo = PlayerPrefs.GetString(CHAVE_PLAYER_UUID, System.Guid.NewGuid().ToString());
-        PlayerPrefs.SetString(CHAVE_PLAYER_UUID, userIdAnonimo);
-        PlayerPrefs.Save();
+        string userIdAnonimo = IdJogador.Obter();
 
         await PostHog.IdentifyAsync(userIdAnonimo);
     }

@@ -94,7 +94,7 @@ public class FiltroCategoriasObjetos : MonoBehaviour
     private void ResolverReferenciasEmFalta()
     {
         if (gestorObjetos == null)
-            gestorObjetos = FindObjectOfType<BotaoObjManager>();
+            gestorObjetos = FindFirstObjectByType<BotaoObjManager>();
         if (gestorVisual == null)
             gestorVisual = GetComponent<FiltroManager>();
         if (contentorBotoes == null)

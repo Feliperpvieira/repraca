@@ -119,12 +119,16 @@ public class SupabaseManager : MonoBehaviour
     {
         try
         {
-            // Vai à tabela procurar a linha onde o praca_id é igual ao ID do link
+            // Cada exportação da mesma praça cria uma linha nova com o mesmo praca_id
+            // (histórico). O link abre sempre a versão mais recente.
+            // (.Single() falhava quando havia mais de uma linha com o mesmo id.)
             var resposta = await supabaseClient.From<CityCreationModel>()
                                                .Where(x => x.PracaId == pracaIdBuscada)
-                                               .Single();
+                                               .Order("created_at", Postgrest.Constants.Ordering.Descending, Postgrest.Constants.NullPosition.Last)
+                                               .Limit(1)
+                                               .Get();
 
-            return resposta;
+            return resposta.Models.Count > 0 ? resposta.Models[0] : null;
         }
         catch (System.Exception e)
         {
